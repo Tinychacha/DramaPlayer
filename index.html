@@ -2,10 +2,16 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
   <title>DramaPlayer</title>
   <meta name="description" content="Drama CD Player - あなたの大切な作品を美しく再生">
-  <meta name="theme-color" content="#1c1915">
+  <meta name="theme-color" content="#c9bfb2">
+
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DramaPlayer">
+  <meta name="format-detection" content="telephone=no">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23d4a056'/><circle cx='50' cy='50' r='18' fill='%231c1915'/><circle cx='50' cy='50' r='6' fill='%23d4a056'/></svg>">
@@ -24,7 +30,7 @@
       <div class="header-content">
         <a href="/" class="logo">
           <div class="logo-icon"></div>
-          <div class="logo-text">Drama<span>Player</span></div>
+          <div class="logo-text"><span class="letter l1">D</span><span class="letter l2">r</span><span class="letter l3">a</span><span class="letter l4">m</span><span class="letter l5">a</span><span class="letter l6">P</span><span class="letter l7">l</span><span class="letter l8">a</span><span class="letter l9">y</span><span class="letter l10">e</span><span class="letter l11">r</span></div>
         </a>
 
         <div class="search-container">
@@ -44,6 +50,13 @@
 
         <nav class="nav-links">
           <button class="nav-link active">すべて</button>
+          <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切替">
+            <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+            <span class="theme-icon sakura">🌸</span>
+          </button>
         </nav>
       </div>
     </header>

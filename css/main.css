@@ -4,44 +4,95 @@
    ============================================ */
 
 /* Google Fonts - 使用优雅的衬线字体 */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;600&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&family=Dela+Gothic+One&family=Hachi+Maru+Pop&display=swap');
 
 :root {
-  /* 温暖复古色系 - Warm Vintage Palette */
-  --bg-primary: #1c1915;
-  --bg-secondary: #252119;
-  --bg-card: #2d2820;
-  --bg-card-hover: #3a332a;
-  --bg-overlay: rgba(28, 25, 21, 0.95);
+  /* 浅色主题 - Light Theme (Default) */
+  --bg-primary: #c9bfb2;
+  --bg-secondary: #bbb0a2;
+  --bg-card: #ddd5c9;
+  --bg-card-hover: #e5ddd2;
+  --bg-overlay: rgba(201, 191, 178, 0.97);
 
-  /* 主色调 - 温暖琥珀金 */
-  --accent-primary: #d4a056;
-  --accent-secondary: #c48a3f;
-  --accent-glow: rgba(212, 160, 86, 0.3);
-  --accent-soft: rgba(212, 160, 86, 0.15);
+  /* 主色调 - 琥珀棕 */
+  --accent-primary: #b07040;
+  --accent-secondary: #9a6035;
+  --accent-glow: rgba(176, 112, 64, 0.3);
+  --accent-soft: rgba(176, 112, 64, 0.15);
 
   /* 辅助色 */
-  --wine-red: #8b4d5c;
-  --dusty-rose: #b07d7d;
-  --sage-green: #6b7c5e;
-  --slate-blue: #5a6a7a;
+  --wine-red: #8b5a5a;
+  --dusty-rose: #b89080;
+  --sage-green: #6e7a5e;
+  --slate-blue: #5e6e7a;
 
   /* 文字 */
-  --text-primary: #f5efe6;
-  --text-secondary: #b8a894;
+  --text-primary: #2a2420;
+  --text-secondary: #4d443b;
   --text-muted: #7a6f62;
   --text-accent: var(--accent-primary);
 
   /* 边框和分隔 */
-  --border-subtle: rgba(212, 160, 86, 0.12);
-  --border-medium: rgba(212, 160, 86, 0.25);
+  --border-subtle: rgba(120, 90, 60, 0.15);
+  --border-medium: rgba(120, 90, 60, 0.3);
 
-  /* 阴影 */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+  /* 阴影 - 温暖色调 */
+  --shadow-sm: 0 2px 8px rgba(80, 60, 40, 0.12);
+  --shadow-md: 0 4px 20px rgba(80, 60, 40, 0.18);
+  --shadow-lg: 0 8px 40px rgba(80, 60, 40, 0.25);
   --shadow-glow: 0 0 30px var(--accent-glow);
 
+  /* iOS 安全区域 */
+  --safe-area-top: env(safe-area-inset-top);
+  --safe-area-bottom: env(safe-area-inset-bottom);
+  --safe-area-left: env(safe-area-inset-left);
+  --safe-area-right: env(safe-area-inset-right);
+}
+
+/* 日式可爱主题 - Kawaii Mode (萌萌樱花) */
+[data-theme="kawaii"] {
+  --bg-primary: #fff5f8;
+  --bg-secondary: #ffe8ef;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fff0f5;
+  --bg-overlay: rgba(255, 245, 248, 0.97);
+
+  /* 主色调 - 樱花粉 */
+  --accent-primary: #ff6b9d;
+  --accent-secondary: #ff4785;
+  --accent-glow: rgba(255, 107, 157, 0.4);
+  --accent-soft: rgba(255, 107, 157, 0.15);
+
+  /* 辅助色 - 马卡龙色系 */
+  --kawaii-purple: #b794f6;
+  --kawaii-blue: #7dd3fc;
+  --kawaii-mint: #86efac;
+  --kawaii-yellow: #fde047;
+  --kawaii-peach: #fdb8a8;
+
+  /* 文字 */
+  --text-primary: #5c4356;
+  --text-secondary: #8b7086;
+  --text-muted: #b8a4b2;
+  --text-accent: var(--accent-primary);
+
+  /* 边框和分隔 - 梦幻感 */
+  --border-subtle: rgba(255, 107, 157, 0.2);
+  --border-medium: rgba(255, 107, 157, 0.4);
+
+  /* 阴影 - 粉色光晕 */
+  --shadow-sm: 0 2px 10px rgba(255, 107, 157, 0.15);
+  --shadow-md: 0 4px 20px rgba(255, 107, 157, 0.2);
+  --shadow-lg: 0 8px 40px rgba(255, 107, 157, 0.25);
+  --shadow-glow: 0 0 30px rgba(255, 107, 157, 0.4);
+
+  /* 字体 - 圆润可爱 */
+  --font-display: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
+  --font-body: 'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif;
+  --font-jp: 'Zen Maru Gothic', sans-serif;
+}
+
+:root {
   /* 字体 */
   --font-display: 'Cormorant Garamond', 'Noto Serif JP', serif;
   --font-body: 'Zen Kaku Gothic New', sans-serif;
@@ -71,6 +122,9 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  /* iOS 滚动优化 */
+  -webkit-text-size-adjust: 100%;
+  height: -webkit-fill-available;
 }
 
 body {
@@ -78,13 +132,18 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  /* iOS 触摸优化 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  overscroll-behavior: none;
 }
 
-/* 背景纹理 */
+/* 背景纹理 - 柔和暖光 (浅色主题) */
 body::before {
   content: '';
   position: fixed;
@@ -93,12 +152,191 @@ body::before {
   width: 100%;
   height: 100%;
   background-image:
-    radial-gradient(ellipse at 20% 30%, rgba(212, 160, 86, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 70%, rgba(139, 77, 92, 0.06) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.4;
+    radial-gradient(ellipse at 20% 20%, rgba(199, 123, 74, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(224, 149, 101, 0.06) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* 萌萌主题背景 - 可爱波点爱心图案 */
+[data-theme="kawaii"] body {
+  background:
+    /* 粉色小爱心图案 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 18 C30 18 24 12 18 12 C12 12 8 17 8 22 C8 32 30 42 30 42 C30 42 52 32 52 22 C52 17 48 12 42 12 C36 12 30 18 30 18 Z' fill='%23ffb6c1' opacity='0.12'/%3E%3C/svg%3E"),
+    /* 小波点 */
+    radial-gradient(circle at 20px 20px, rgba(255, 182, 193, 0.15) 3px, transparent 3px),
+    radial-gradient(circle at 50px 50px, rgba(183, 148, 246, 0.12) 2px, transparent 2px),
+    /* 梦幻渐变底色 */
+    linear-gradient(135deg,
+      #fff5f8 0%,
+      #fff0f5 20%,
+      #fef0ff 40%,
+      #f5f0ff 60%,
+      #f0f8ff 80%,
+      #fff5f8 100%);
+  background-size: 60px 60px, 40px 40px, 60px 60px, 400% 400%;
+  animation: gradientBreath 8s ease-in-out infinite;
+}
+
+@keyframes gradientBreath {
+  0%, 100% {
+    background-position: 0 0, 0 0, 0 0, 0% 0%;
+  }
+  25% {
+    background-position: 0 0, 0 0, 0 0, 100% 0%;
+  }
+  50% {
+    background-position: 0 0, 0 0, 0 0, 100% 100%;
+  }
+  75% {
+    background-position: 0 0, 0 0, 0 0, 0% 100%;
+  }
+}
+
+/* 萌萌主题 - 覆盖层梦幻光晕 */
+[data-theme="kawaii"] body::before {
+  background-image:
+    /* 角落光晕 */
+    radial-gradient(ellipse at 0% 0%, rgba(255, 182, 193, 0.4) 0%, transparent 40%),
+    radial-gradient(ellipse at 100% 0%, rgba(183, 148, 246, 0.35) 0%, transparent 40%),
+    radial-gradient(ellipse at 100% 100%, rgba(125, 211, 252, 0.3) 0%, transparent 40%),
+    radial-gradient(ellipse at 0% 100%, rgba(255, 218, 233, 0.4) 0%, transparent 40%),
+    /* 中间柔光 */
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 50%);
+  animation: glowBreath 6s ease-in-out infinite;
+}
+
+@keyframes glowBreath {
+  0%, 100% {
+    opacity: 0.7;
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(5px);
+  }
+}
+
+/* 萌萌主题 - 猫猫头装饰层 */
+[data-theme="kawaii"] .app-container::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    /* 大猫猫 - 左上粉色 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 45 Q20 20 35 25 L40 35 Q50 30 60 35 L65 25 Q80 20 80 45 Q85 70 50 80 Q15 70 20 45' fill='%23ff8fab' opacity='0.25'/%3E%3Ccircle cx='35' cy='50' r='5' fill='%23ff6b8a' opacity='0.35'/%3E%3Ccircle cx='65' cy='50' r='5' fill='%23ff6b8a' opacity='0.35'/%3E%3Cellipse cx='50' cy='60' rx='4' ry='2.5' fill='%23ff6b8a' opacity='0.4'/%3E%3Cpath d='M43 66 Q50 72 57 66' stroke='%23ff6b8a' stroke-width='2' fill='none' opacity='0.35'/%3E%3C/svg%3E"),
+    /* 中猫猫 - 右上紫色 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 45 Q20 20 35 25 L40 35 Q50 30 60 35 L65 25 Q80 20 80 45 Q85 70 50 80 Q15 70 20 45' fill='%23b794f6' opacity='0.22'/%3E%3Ccircle cx='35' cy='50' r='5' fill='%23a78bfa' opacity='0.3'/%3E%3Ccircle cx='65' cy='50' r='5' fill='%23a78bfa' opacity='0.3'/%3E%3Cellipse cx='50' cy='60' rx='4' ry='2.5' fill='%23a78bfa' opacity='0.35'/%3E%3Cpath d='M43 66 Q50 72 57 66' stroke='%23a78bfa' stroke-width='2' fill='none' opacity='0.3'/%3E%3C/svg%3E"),
+    /* 小猫猫 - 左下蓝色 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 45 Q20 20 35 25 L40 35 Q50 30 60 35 L65 25 Q80 20 80 45 Q85 70 50 80 Q15 70 20 45' fill='%237dd3fc' opacity='0.2'/%3E%3Ccircle cx='35' cy='50' r='5' fill='%2338bdf8' opacity='0.28'/%3E%3Ccircle cx='65' cy='50' r='5' fill='%2338bdf8' opacity='0.28'/%3E%3Cellipse cx='50' cy='60' rx='4' ry='2.5' fill='%2338bdf8' opacity='0.32'/%3E%3Cpath d='M43 66 Q50 72 57 66' stroke='%2338bdf8' stroke-width='2' fill='none' opacity='0.28'/%3E%3C/svg%3E"),
+    /* 小猫猫 - 右下粉色 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 45 Q20 20 35 25 L40 35 Q50 30 60 35 L65 25 Q80 20 80 45 Q85 70 50 80 Q15 70 20 45' fill='%23fda4af' opacity='0.2'/%3E%3Ccircle cx='35' cy='50' r='5' fill='%23fb7185' opacity='0.28'/%3E%3Ccircle cx='65' cy='50' r='5' fill='%23fb7185' opacity='0.28'/%3E%3Cellipse cx='50' cy='60' rx='4' ry='2.5' fill='%23fb7185' opacity='0.32'/%3E%3Cpath d='M43 66 Q50 72 57 66' stroke='%23fb7185' stroke-width='2' fill='none' opacity='0.28'/%3E%3C/svg%3E");
+  background-size: 220px 220px, 180px 180px, 140px 140px, 160px 160px;
+  background-position: 3% 8%, 85% 5%, 8% 75%, 80% 70%;
+  background-repeat: no-repeat;
+  animation: catFloat 10s ease-in-out infinite;
+}
+
+@keyframes catFloat {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+/* 萌萌主题 - 樱花和蝴蝶结装饰 */
+[data-theme="kawaii"] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    /* 樱花 🌸 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext x='4' y='18' font-size='16' opacity='0.4'%3E🌸%3C/text%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='2' y='15' font-size='13' opacity='0.3'%3E🌸%3C/text%3E%3C/svg%3E"),
+    /* 蝴蝶结 🎀 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ctext x='4' y='20' font-size='18' opacity='0.35'%3E🎀%3C/text%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Ctext x='3' y='16' font-size='14' opacity='0.25'%3E🎀%3C/text%3E%3C/svg%3E"),
+    /* 爱心 💕 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Ctext x='2' y='14' font-size='12' opacity='0.3'%3E💕%3C/text%3E%3C/svg%3E"),
+    /* 星星闪光 ✨ */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ctext x='2' y='12' font-size='10' opacity='0.4'%3E✨%3C/text%3E%3C/svg%3E");
+  background-position:
+    5% 8%, 85% 75%,
+    92% 12%, 8% 85%,
+    50% 45%,
+    30% 25%;
+  background-size:
+    24px 24px, 20px 20px,
+    28px 28px, 22px 22px,
+    18px 18px,
+    16px 16px;
+  background-repeat: no-repeat;
+  animation: floatDecorations 6s ease-in-out infinite;
+}
+
+@keyframes floatDecorations {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+/* 额外的漂浮樱花层 */
+[data-theme="kawaii"] .app-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext x='2' y='15' font-size='14' opacity='0.5'%3E🌸%3C/text%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ctext x='2' y='12' font-size='11' opacity='0.4'%3E🌸%3C/text%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext x='3' y='18' font-size='15' opacity='0.35'%3E✿%3C/text%3E%3C/svg%3E");
+  background-position:
+    15% 20%, 75% 60%, 45% 90%;
+  background-size:
+    20px 20px, 16px 16px, 24px 24px;
+  background-repeat: no-repeat;
+  animation: floatPetals2 8s ease-in-out infinite;
+}
+
+@keyframes floatPetals2 {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-5px) rotate(3deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0deg);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-5px) rotate(-3deg);
+  }
 }
 
 /* ============================================
@@ -118,8 +356,8 @@ body::before {
   top: 0;
   z-index: 100;
   padding: 1.5rem 2rem;
-  background: linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(to bottom, var(--bg-primary) 60%, transparent 100%);
+  backdrop-filter: blur(8px);
 }
 
 .header-content {
@@ -142,12 +380,12 @@ body::before {
 .logo-icon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--wine-red));
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
   position: relative;
 }
 
@@ -156,7 +394,7 @@ body::before {
   position: absolute;
   width: 20px;
   height: 20px;
-  background: var(--bg-primary);
+  background: #ffffff;
   border-radius: 50%;
 }
 
@@ -165,7 +403,7 @@ body::before {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: var(--accent-primary);
+  background: var(--accent-secondary);
   border-radius: 50%;
 }
 
@@ -288,6 +526,66 @@ body::before {
   background: var(--accent-soft);
 }
 
+/* Theme Toggle */
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent-primary);
+  background: var(--accent-soft);
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary);
+  transition: var(--transition-normal);
+}
+
+.theme-toggle:hover .theme-icon {
+  color: var(--accent-primary);
+}
+
+/* 主题图标显示逻辑 */
+.theme-icon.sun {
+  display: block;
+}
+.theme-icon.moon,
+.theme-icon.sakura {
+  display: none;
+}
+
+/* 萌萌模式显示樱花 */
+[data-theme="kawaii"] .theme-icon.sun {
+  display: none;
+}
+[data-theme="kawaii"] .theme-icon.sakura {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  width: 20px;
+  height: 20px;
+  animation: sakuraBounce 2s ease-in-out infinite;
+}
+
+@keyframes sakuraBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
 /* ============================================
    Main Content
    ============================================ */
@@ -324,6 +622,11 @@ body::before {
 /* Filter Tags */
 .filter-section {
   margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
 }
 
 .filter-group {
@@ -387,12 +690,13 @@ body::before {
   transition: var(--transition-normal);
   position: relative;
   border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
 }
 
 .drama-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-medium);
+  box-shadow: var(--shadow-lg), 0 0 20px var(--accent-glow);
+  border-color: var(--accent-primary);
 }
 
 .drama-card:hover .drama-cover img {
@@ -812,7 +1116,7 @@ body::before {
    ============================================ */
 .audio-controls {
   padding: 1.5rem 2rem;
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -1089,12 +1393,13 @@ body::before {
    ============================================ */
 .mini-player {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: calc(1.5rem + var(--safe-area-bottom, 0px));
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  width: calc(100% - 3rem);
+  width: calc(100% - 3rem - var(--safe-area-left, 0px) - var(--safe-area-right, 0px));
   max-width: 500px;
   padding: 0.75rem 1rem;
+  padding-bottom: calc(0.75rem + var(--safe-area-bottom, 0px));
   background: var(--bg-card);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-lg);
@@ -1262,6 +1567,9 @@ body::before {
 @media (max-width: 768px) {
   .app-header {
     padding: 1rem;
+    padding-top: calc(1rem + var(--safe-area-top, 0px));
+    padding-left: calc(1rem + var(--safe-area-left, 0px));
+    padding-right: calc(1rem + var(--safe-area-right, 0px));
   }
 
   .header-content {
@@ -1280,23 +1588,37 @@ body::before {
 
   .main-content {
     padding: 1rem;
+    padding-left: calc(1rem + var(--safe-area-left, 0px));
+    padding-right: calc(1rem + var(--safe-area-right, 0px));
+    padding-bottom: calc(3rem + var(--safe-area-bottom, 0px));
   }
 
   .drama-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
   }
 
   .drama-info {
-    padding: 1rem;
+    padding: 0.875rem;
   }
 
   .drama-title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+  }
+
+  .drama-meta {
+    gap: 0.375rem;
+  }
+
+  .drama-cv {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
   }
 
   .player-content {
     padding: 1rem;
+    padding-left: calc(1rem + var(--safe-area-left, 0px));
+    padding-right: calc(1rem + var(--safe-area-right, 0px));
     gap: 1.5rem;
   }
 
@@ -1306,6 +1628,30 @@ body::before {
 
   .audio-controls {
     padding: 1rem;
+    padding-bottom: calc(1rem + var(--safe-area-bottom, 0px));
+    padding-left: calc(1rem + var(--safe-area-left, 0px));
+    padding-right: calc(1rem + var(--safe-area-right, 0px));
+  }
+
+  .audio-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .audio-btn.play-btn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .filter-section {
+    padding: 1rem;
+  }
+
+  .filter-tag {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -1347,4 +1693,380 @@ body::before {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ============================================
+   Kawaii Mode - 萌萌特殊样式
+   ============================================ */
+
+/* 萌萌卡片 - 超圆角，梦幻边框 */
+[data-theme="kawaii"] .drama-card {
+  border-radius: 24px;
+  border: 3px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #ffb6c1, #ff6b9d, #b794f6, #7dd3fc) border-box;
+  box-shadow:
+    0 4px 20px rgba(255, 107, 157, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+[data-theme="kawaii"] .drama-card:hover {
+  border: 3px solid transparent;
+  background:
+    linear-gradient(#fff5f8, #fff5f8) padding-box,
+    linear-gradient(135deg, #ff6b9d, #ff4785, #b794f6) border-box;
+  box-shadow:
+    0 8px 30px rgba(255, 107, 157, 0.35),
+    0 0 20px rgba(183, 148, 246, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  transform: translateY(-8px) scale(1.02) rotate(-1deg);
+}
+
+/* 萌萌卡片文字 */
+[data-theme="kawaii"] .drama-title {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 700;
+  color: #ff6b8a;
+  letter-spacing: 0.02em;
+}
+
+[data-theme="kawaii"] .drama-circle {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  color: #a78bfa;
+}
+
+[data-theme="kawaii"] .drama-circle::before {
+  content: '♡ ';
+  font-size: 0.8em;
+}
+
+[data-theme="kawaii"] .drama-cv {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background: linear-gradient(135deg, #fff0f5, #faf5ff);
+  border: 1.5px solid #f0abfc;
+  color: #a78bfa;
+  font-weight: 500;
+  border-radius: 20px;
+}
+
+[data-theme="kawaii"] .drama-cv:hover {
+  background: linear-gradient(135deg, #ffe4ec, #f3e8ff);
+  border-color: #a78bfa;
+  color: #ff6b8a;
+  transform: scale(1.05);
+}
+
+[data-theme="kawaii"] .drama-tracks-count {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: #7dd3fc;
+  font-weight: 500;
+}
+
+[data-theme="kawaii"] .drama-tracks-count::before {
+  content: '♪ ';
+  font-size: 0.9em;
+}
+
+/* 萌萌播放按钮 - 爱心造型 */
+[data-theme="kawaii"] .drama-play-btn {
+  background: linear-gradient(145deg, #ff8fab, #ff6b9d, #ff4785);
+  border-radius: 50%;
+  box-shadow:
+    0 4px 15px rgba(255, 107, 157, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="kawaii"] .drama-play-btn::before {
+  content: '♥';
+  position: absolute;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  top: 4px;
+  right: 8px;
+}
+
+[data-theme="kawaii"] .drama-play-btn:hover {
+  animation: heartBeat 0.6s ease-in-out;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  25% { transform: translate(-50%, -50%) scale(1.2); }
+  50% { transform: translate(-50%, -50%) scale(1.05); }
+  75% { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* 萌萌标签 - 胶囊形状 + 渐变 */
+[data-theme="kawaii"] .filter-tag {
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+              linear-gradient(135deg, #ffb6c1, #b794f6, #7dd3fc) border-box;
+  font-weight: 500;
+}
+
+[data-theme="kawaii"] .filter-tag.active {
+  background: linear-gradient(135deg, #ff6b9d, #ff4785);
+  border: 2px solid transparent;
+  color: white;
+  box-shadow: 0 2px 10px rgba(255, 107, 157, 0.4);
+}
+
+[data-theme="kawaii"] .filter-tag:hover:not(.active) {
+  background: linear-gradient(var(--bg-card-hover), var(--bg-card-hover)) padding-box,
+              linear-gradient(135deg, #ff6b9d, #b794f6) border-box;
+  transform: scale(1.05);
+}
+
+/* 萌萌筛选区 */
+[data-theme="kawaii"] .filter-section {
+  border-radius: 24px;
+  border: 2px dashed rgba(255, 107, 157, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.9));
+}
+
+/* 萌萌搜索框 */
+[data-theme="kawaii"] .search-input {
+  border-radius: 25px;
+  border: 2px solid rgba(255, 107, 157, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="kawaii"] .search-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.2), 0 0 20px rgba(255, 107, 157, 0.15);
+}
+
+[data-theme="kawaii"] .search-input::placeholder {
+  color: #d4a0b8;
+}
+
+/* 萌萌Logo - 立体爱心 */
+[data-theme="kawaii"] .logo-icon {
+  background: linear-gradient(145deg, #ff8fab 0%, #ff6b9d 30%, #ff4785 70%, #e8457a 100%);
+  box-shadow:
+    0 4px 15px rgba(255, 107, 157, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 4px rgba(200, 50, 100, 0.3);
+  animation: heartPulse 1.5s ease-in-out infinite;
+  border-radius: 0;
+  width: 44px;
+  height: 40px;
+  clip-path: path('M22 38 C22 38 4 26 4 14 C4 6 10 2 17 2 C20 2 22 4 22 7 C22 4 24 2 27 2 C34 2 40 6 40 14 C40 26 22 38 22 38 Z');
+}
+
+[data-theme="kawaii"] .logo-icon::before {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  top: 8px;
+  left: 8px;
+  transform: rotate(-30deg);
+}
+
+[data-theme="kawaii"] .logo-icon::after {
+  display: none;
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.12); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+  60% { transform: scale(1); }
+}
+
+[data-theme="kawaii"] .logo-text {
+  font-family: 'Hachi Maru Pop', 'M PLUS Rounded 1c', cursive;
+  font-weight: 700;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  position: relative;
+  filter:
+    drop-shadow(0 0 8px rgba(255, 107, 157, 0.6))
+    drop-shadow(0 0 16px rgba(183, 148, 246, 0.4))
+    drop-shadow(3px 3px 0px rgba(255, 182, 193, 0.8));
+  -webkit-text-stroke: 1px rgba(255, 100, 150, 0.3);
+}
+
+[data-theme="kawaii"] .logo-text::before {
+  content: '♪♫';
+  position: absolute;
+  left: -32px;
+  top: -12px;
+  font-size: 0.8em;
+  color: #ffb347;
+  animation: noteFloat 2s ease-in-out infinite;
+  filter: drop-shadow(2px 2px 0px #ff9a9e) drop-shadow(0 0 6px rgba(255, 179, 71, 0.5));
+}
+
+[data-theme="kawaii"] .logo-text::after {
+  content: '♡✧';
+  position: absolute;
+  right: -36px;
+  top: -10px;
+  font-size: 0.85em;
+  color: #ff6b9d;
+  animation: heartBounce 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.6));
+}
+
+/* 每个字母跳舞 */
+[data-theme="kawaii"] .logo-text .letter {
+  display: inline-block;
+  animation: letterDance 2s ease-in-out infinite;
+  -webkit-text-fill-color: initial;
+  background: none;
+}
+
+/* 彩虹糖果色 - 每个字母不同颜色 */
+[data-theme="kawaii"] .logo-text .l1 { color: #ff6b8a; animation-delay: 0s; }      /* D - 草莓粉 */
+[data-theme="kawaii"] .logo-text .l2 { color: #ff8fab; animation-delay: 0.1s; }    /* r - 桃粉 */
+[data-theme="kawaii"] .logo-text .l3 { color: #ffb347; animation-delay: 0.2s; }    /* a - 橙子橙 */
+[data-theme="kawaii"] .logo-text .l4 { color: #ffd700; animation-delay: 0.3s; }    /* m - 柠檬黄 */
+[data-theme="kawaii"] .logo-text .l5 { color: #98d8aa; animation-delay: 0.4s; }    /* a - 薄荷绿 */
+[data-theme="kawaii"] .logo-text .l6 { color: #7dd3fc; animation-delay: 0.5s; margin-left: 4px; } /* P - 天空蓝 */
+[data-theme="kawaii"] .logo-text .l7 { color: #a78bfa; animation-delay: 0.6s; }    /* l - 薰衣草紫 */
+[data-theme="kawaii"] .logo-text .l8 { color: #f0abfc; animation-delay: 0.7s; }    /* a - 浅紫粉 */
+[data-theme="kawaii"] .logo-text .l9 { color: #ff6b8a; animation-delay: 0.8s; }    /* y - 草莓粉 */
+[data-theme="kawaii"] .logo-text .l10 { color: #ffb347; animation-delay: 0.9s; }   /* e - 橙子橙 */
+[data-theme="kawaii"] .logo-text .l11 { color: #7dd3fc; animation-delay: 1s; }     /* r - 天空蓝 */
+
+@keyframes letterDance {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-8px) rotate(-12deg) scale(1.1);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  75% {
+    transform: translateY(-5px) rotate(10deg) scale(1.05);
+  }
+}
+
+@keyframes noteFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-15deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(15deg);
+  }
+}
+
+@keyframes heartBounce {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.3) rotate(10deg);
+  }
+}
+
+/* 萌萌音频控制 */
+[data-theme="kawaii"] .audio-btn.play-btn {
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff4785 100%);
+  box-shadow: 0 4px 20px rgba(255, 107, 157, 0.5);
+}
+
+[data-theme="kawaii"] .audio-btn.play-btn:hover {
+  background: linear-gradient(135deg, #ff4785 0%, #b794f6 100%);
+  transform: scale(1.1);
+}
+
+[data-theme="kawaii"] .progress-fill {
+  background: linear-gradient(90deg, #ff6b9d, #b794f6, #7dd3fc);
+  border-radius: 10px;
+}
+
+[data-theme="kawaii"] .progress-bar {
+  background: rgba(255, 107, 157, 0.2);
+  border-radius: 10px;
+  height: 8px;
+}
+
+/* 萌萌迷你播放器 */
+[data-theme="kawaii"] .mini-player {
+  border-radius: 24px;
+  border: 2px solid rgba(255, 107, 157, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 245, 0.95));
+  box-shadow: 0 8px 32px rgba(255, 107, 157, 0.25);
+}
+
+[data-theme="kawaii"] .mini-player-btn {
+  background: linear-gradient(135deg, #ff6b9d, #ff4785);
+}
+
+/* 萌萌滚动条 */
+[data-theme="kawaii"]::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ffb6c1, #ff6b9d);
+  border-radius: 10px;
+}
+
+[data-theme="kawaii"]::-webkit-scrollbar-track {
+  background: rgba(255, 182, 193, 0.2);
+}
+
+/* 萌萌曲目列表 */
+[data-theme="kawaii"] .track-item {
+  border-radius: 16px;
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, rgba(255, 182, 193, 0.5), rgba(183, 148, 246, 0.5)) border-box;
+}
+
+[data-theme="kawaii"] .track-item:hover {
+  background: linear-gradient(var(--bg-card-hover), var(--bg-card-hover)) padding-box,
+              linear-gradient(135deg, #ff6b9d, #b794f6) border-box;
+}
+
+[data-theme="kawaii"] .track-item.active {
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(183, 148, 246, 0.15));
+  border: 2px solid var(--accent-primary);
+}
+
+[data-theme="kawaii"] .track-item.active .track-number {
+  background: linear-gradient(135deg, #ff6b9d, #ff4785);
+}
+
+/* 萌萌密码弹窗 */
+[data-theme="kawaii"] .password-dialog {
+  border-radius: 28px;
+  border: 3px solid rgba(255, 107, 157, 0.3);
+  background: linear-gradient(135deg, #fff 0%, #fff5f8 100%);
+}
+
+[data-theme="kawaii"] .password-icon {
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(183, 148, 246, 0.2));
+}
+
+[data-theme="kawaii"] .password-submit {
+  background: linear-gradient(135deg, #ff6b9d, #ff4785);
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+[data-theme="kawaii"] .password-submit:hover {
+  background: linear-gradient(135deg, #ff4785, #b794f6);
+  transform: scale(1.02);
+}
+
+/* 萌萌主题切换按钮 */
+[data-theme="kawaii"] .theme-toggle {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.9));
+  border: 2px solid rgba(255, 107, 157, 0.3);
+}
+
+[data-theme="kawaii"] .theme-toggle:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
 }

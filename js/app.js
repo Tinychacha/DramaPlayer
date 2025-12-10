@@ -782,6 +782,49 @@ function showError(message) {
 }
 
 // ============================================
+// Theme Toggle
+// ============================================
+const THEMES = ['light', 'kawaii'];
+const THEME_COLORS = {
+  light: '#c9bfb2',
+  kawaii: '#fff5f8'
+};
+
+function initTheme() {
+  const toggle = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('dp_theme') || 'light';
+
+  // 应用保存的主题
+  applyTheme(savedTheme);
+
+  // 切换按钮事件 - 循环切换：light → dark → kawaii → light
+  toggle?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const currentIndex = THEMES.indexOf(current);
+    const nextIndex = (currentIndex + 1) % THEMES.length;
+    const newTheme = THEMES[nextIndex];
+
+    applyTheme(newTheme);
+    localStorage.setItem('dp_theme', newTheme);
+  });
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme === 'light' ? '' : theme);
+  updateThemeColor(theme);
+}
+
+function updateThemeColor(theme) {
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  if (metaTheme) {
+    metaTheme.setAttribute('content', THEME_COLORS[theme] || THEME_COLORS.light);
+  }
+}
+
+// ============================================
 // Start App
 // ============================================
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  init();
+});
