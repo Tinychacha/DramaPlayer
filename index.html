@@ -7,6 +7,9 @@
   <meta name="description" content="Drama CD Player - あなたの大切な作品を美しく再生">
   <meta name="theme-color" content="#c9bfb2">
 
+  <!-- 防止搜索引擎索引 -->
+  <meta name="robots" content="noindex, nofollow">
+
   <!-- iOS Safari -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -186,32 +189,7 @@
     <!-- Content rendered by JS -->
   </div>
 
-  <!-- Site Lock Modal (全站密码保护) -->
-  <div class="password-modal" id="site-lock-modal">
-    <div class="password-dialog">
-      <div class="password-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
-      </div>
-      <h3 class="password-title">Private Library</h3>
-      <p class="password-subtitle">このサイトはプライベート使用専用です</p>
-      <div class="password-input-group">
-        <input
-          type="password"
-          id="site-password-input"
-          class="password-input"
-          placeholder="サイトパスワードを入力"
-          autocomplete="off"
-        >
-      </div>
-      <p class="password-error" id="site-password-error">パスワードが正しくありません</p>
-      <button class="password-submit" id="site-password-submit">入る</button>
-    </div>
-  </div>
-
-  <!-- Password Modal -->
+  <!-- Password Modal (单作品密码保护) -->
   <div class="password-modal" id="password-modal">
     <div class="password-dialog">
       <div class="password-icon">

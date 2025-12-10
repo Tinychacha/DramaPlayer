@@ -937,77 +937,10 @@ function updateThemeColor(theme) {
 }
 
 // ============================================
-// Site Lock (全站密码保护)
-// ============================================
-const SITE_PASSWORD = 'your-secret-password'; // 在这里设置你的全站密码
-const SITE_LOCK_KEY = 'dp_site_unlocked';
-const SITE_LOCK_EXPIRY = 7 * 24 * 60 * 60 * 1000; // 7天后需要重新输入
-
-function checkSiteLock() {
-  const unlockData = localStorage.getItem(SITE_LOCK_KEY);
-  if (unlockData) {
-    try {
-      const { timestamp } = JSON.parse(unlockData);
-      if (Date.now() - timestamp < SITE_LOCK_EXPIRY) {
-        return true; // 已解锁且未过期
-      }
-    } catch (e) {
-      // 数据损坏，需要重新验证
-    }
-  }
-  return false;
-}
-
-function showSiteLock() {
-  const modal = document.getElementById('site-lock-modal');
-  const appContainer = document.querySelector('.app-container');
-
-  if (modal && appContainer) {
-    modal.classList.add('active');
-    appContainer.style.display = 'none';
-
-    const input = document.getElementById('site-password-input');
-    const submitBtn = document.getElementById('site-password-submit');
-    const errorEl = document.getElementById('site-password-error');
-
-    const handleSubmit = () => {
-      const password = input?.value || '';
-      if (password === SITE_PASSWORD) {
-        localStorage.setItem(SITE_LOCK_KEY, JSON.stringify({ timestamp: Date.now() }));
-        modal.classList.remove('active');
-        appContainer.style.display = '';
-        init(); // 解锁后初始化应用
-      } else {
-        errorEl?.classList.add('visible');
-        input?.classList.add('error');
-        setTimeout(() => {
-          input?.classList.remove('error');
-        }, 500);
-      }
-    };
-
-    submitBtn?.addEventListener('click', handleSubmit);
-    input?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleSubmit();
-    });
-
-    setTimeout(() => input?.focus(), 100);
-  }
-}
-
-function initSiteLock() {
-  if (checkSiteLock()) {
-    init(); // 已解锁，直接初始化
-  } else {
-    showSiteLock(); // 显示密码框
-  }
-}
-
-// ============================================
 // Start App
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initViewToggle();
-  initSiteLock(); // 先检查全站密码
+  init(); // 直接初始化（Cloudflare Access 负责访问控制）
 });
