@@ -1,46 +1,64 @@
 /* ============================================
-   DramaPlayer - 温暖复古唱片店风格
-   Warm Vintage Record Shop Aesthetic
+   DramaPlayer - 昭和喫茶店風格
+   Shōwa Kissaten Aesthetic (1960-70s Japanese Coffee House)
    ============================================ */
 
-/* Google Fonts - 使用优雅的衬线字体 */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;600&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&family=Dela+Gothic+One&family=Hachi+Maru+Pop&display=swap');
+/* Google Fonts - 昭和レトロな書体 */
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;600&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&family=Dela+Gothic+One&family=Hachi+Maru+Pop&family=Kaisei+Decol:wght@400;500;700&family=Klee+One:wght@400;600&display=swap');
 
 :root {
-  /* 浅色主题 - Light Theme (Default) */
-  --bg-primary: #c9bfb2;
-  --bg-secondary: #bbb0a2;
-  --bg-card: #ddd5c9;
-  --bg-card-hover: #e5ddd2;
-  --bg-overlay: rgba(201, 191, 178, 0.97);
+  /* ===== 昭和喫茶店 - Shōwa Kissaten Theme ===== */
 
-  /* 主色调 - 琥珀棕 */
-  --accent-primary: #b07040;
-  --accent-secondary: #9a6035;
-  --accent-glow: rgba(176, 112, 64, 0.3);
-  --accent-soft: rgba(176, 112, 64, 0.15);
+  /* 背景色 - 温かみのある木と紙 */
+  --bg-primary: #F5EEE6;           /* 古い紙のような温かいベージュ */
+  --bg-secondary: #EBE3D9;         /* 少し濃いめのクリーム */
+  --bg-card: #FFFBF7;              /* カードは明るいアイボリー */
+  --bg-card-hover: #FFF8F0;        /* ホバー時は柔らかいクリーム */
+  --bg-overlay: rgba(245, 238, 230, 0.97);
 
-  /* 辅助色 */
-  --wine-red: #8b5a5a;
-  --dusty-rose: #b89080;
-  --sage-green: #6e7a5e;
-  --slate-blue: #5e6e7a;
+  /* 主色調 - 昭和の赤と緑 */
+  --accent-primary: #B54434;       /* 朱赤 - 昭和喫茶店の定番 */
+  --accent-secondary: #943628;     /* 深い朱色 */
+  --accent-glow: rgba(181, 68, 52, 0.25);
+  --accent-soft: rgba(181, 68, 52, 0.1);
 
-  /* 文字 */
-  --text-primary: #2a2420;
-  --text-secondary: #4d443b;
-  --text-muted: #7a6f62;
+  /* 昭和カラーパレット */
+  --showa-green: #3D5A45;          /* 深緑 - 革ソファの色 */
+  --showa-green-light: #5A7A62;    /* 明るい緑 */
+  --showa-brown: #6B4423;          /* 木の色 */
+  --showa-cream: #F2E8DC;          /* クリーム */
+  --showa-gold: #C9A962;           /* 真鍮の金色 */
+  --showa-copper: #A67B5B;         /* 銅色 */
+
+  /* 文字 - 墨色階調 */
+  --text-primary: #1A1512;         /* 濃い墨色 */
+  --text-secondary: #3D352E;       /* 中間の墨色 */
+  --text-muted: #7A6E64;           /* 薄墨 */
   --text-accent: var(--accent-primary);
 
-  /* 边框和分隔 */
-  --border-subtle: rgba(120, 90, 60, 0.15);
-  --border-medium: rgba(120, 90, 60, 0.3);
+  /* 縁取り - 木目調 */
+  --border-subtle: rgba(107, 68, 35, 0.12);
+  --border-medium: rgba(107, 68, 35, 0.25);
+  --border-strong: rgba(107, 68, 35, 0.4);
 
-  /* 阴影 - 温暖色调 */
-  --shadow-sm: 0 2px 8px rgba(80, 60, 40, 0.12);
-  --shadow-md: 0 4px 20px rgba(80, 60, 40, 0.18);
-  --shadow-lg: 0 8px 40px rgba(80, 60, 40, 0.25);
-  --shadow-glow: 0 0 30px var(--accent-glow);
+  /* 影 - 暖かい木漏れ日 */
+  --shadow-sm:
+    0 1px 2px rgba(107, 68, 35, 0.08),
+    0 2px 4px rgba(107, 68, 35, 0.06);
+  --shadow-md:
+    0 2px 4px rgba(107, 68, 35, 0.08),
+    0 4px 12px rgba(107, 68, 35, 0.12);
+  --shadow-lg:
+    0 4px 8px rgba(107, 68, 35, 0.1),
+    0 8px 24px rgba(107, 68, 35, 0.15);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+
+  /* 特別な影 - ヴィンテージ感 */
+  --shadow-inset: inset 0 1px 3px rgba(107, 68, 35, 0.1);
+  --shadow-card:
+    0 1px 1px rgba(107, 68, 35, 0.06),
+    0 2px 6px rgba(107, 68, 35, 0.08),
+    0 0 0 1px rgba(107, 68, 35, 0.04);
 
   /* iOS 安全区域 */
   --safe-area-top: env(safe-area-inset-top);
@@ -93,21 +111,22 @@
 }
 
 :root {
-  /* 字体 */
-  --font-display: 'Cormorant Garamond', 'Noto Serif JP', serif;
+  /* 字体 - 昭和レトロ */
+  --font-display: 'Shippori Mincho', 'Noto Serif JP', serif;
   --font-body: 'Zen Kaku Gothic New', sans-serif;
-  --font-jp: 'Noto Serif JP', serif;
+  --font-jp: 'Shippori Mincho', 'Noto Serif JP', serif;
+  --font-accent: 'Kaisei Decol', 'Shippori Mincho', serif;
 
   /* 动画 */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* 圆角 */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* 圆角 - 昭和風は角丸小さめ */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
 }
 
 /* ============================================
@@ -143,7 +162,7 @@ body {
   overscroll-behavior: none;
 }
 
-/* 背景纹理 - 柔和暖光 (浅色主题) */
+/* 背景纹理 - 昭和喫茶店の紙とテクスチャ */
 body::before {
   content: '';
   position: fixed;
@@ -152,11 +171,38 @@ body::before {
   width: 100%;
   height: 100%;
   background-image:
-    radial-gradient(ellipse at 20% 20%, rgba(199, 123, 74, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(224, 149, 101, 0.06) 0%, transparent 50%);
+    /* 細かいノイズテクスチャ - 古い紙の質感 */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+    /* 木漏れ日の光 */
+    radial-gradient(ellipse at 15% 15%, rgba(201, 169, 98, 0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 20%, rgba(166, 123, 91, 0.08) 0%, transparent 40%),
+    radial-gradient(ellipse at 75% 85%, rgba(201, 169, 98, 0.1) 0%, transparent 45%);
   pointer-events: none;
   z-index: 0;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
   transition: opacity 0.5s ease;
+}
+
+/* 昭和喫茶店の上品な装飾ライン */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    /* 四隅の装飾 - 控えめな角飾り */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M0 0 L30 0 L30 2 L2 2 L2 30 L0 30 Z' fill='%236B4423' opacity='0.08'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M80 0 L50 0 L50 2 L78 2 L78 30 L80 30 Z' fill='%236B4423' opacity='0.08'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M0 80 L30 80 L30 78 L2 78 L2 50 L0 50 Z' fill='%236B4423' opacity='0.08'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M80 80 L50 80 L50 78 L78 78 L78 50 L80 50 Z' fill='%236B4423' opacity='0.08'/%3E%3C/svg%3E");
+  background-position: top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+  background-size: 80px 80px;
 }
 
 /* 萌萌主题背景 - 可爱波点爱心图案 */
@@ -350,18 +396,24 @@ body::before {
   flex-direction: column;
 }
 
-/* Header */
+/* Header - 昭和喫茶店スタイル */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  padding: 1.5rem 2rem;
-  background: linear-gradient(to bottom, var(--bg-primary) 60%, transparent 100%);
-  backdrop-filter: blur(8px);
+  padding: 1.25rem 2rem;
+  background: linear-gradient(
+    to bottom,
+    var(--bg-primary) 0%,
+    var(--bg-primary) 70%,
+    transparent 100%
+  );
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .header-content {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -379,90 +431,112 @@ body::before {
 .logo {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.875rem;
   text-decoration: none;
   color: var(--text-primary);
+  transition: var(--transition-normal);
 }
 
+.logo:hover {
+  opacity: 0.85;
+}
+
+/* Logo Icon - 昭和風コーヒーカップ */
 .logo-icon {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(145deg, #4a4540, #3a3530);
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(145deg, var(--showa-brown) 0%, #4A2F14 100%);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 2px 8px rgba(0,0,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.1);
+    0 2px 6px rgba(107, 68, 35, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   position: relative;
+  overflow: hidden;
 }
 
-/* 唱片纹路 */
+/* 木目調のアクセント */
 .logo-icon::before {
   content: '';
   position: absolute;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: repeating-radial-gradient(
-    circle at center,
-    transparent 0px,
-    transparent 2px,
-    rgba(255,255,255,0.03) 2px,
-    rgba(255,255,255,0.03) 3px
-  );
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 3px,
+      rgba(255, 255, 255, 0.03) 3px,
+      rgba(255, 255, 255, 0.03) 4px
+    );
+  border-radius: inherit;
 }
 
-/* 中心标签 - 奶油色 */
+/* コーヒーカップのシルエット */
 .logo-icon::after {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background: linear-gradient(145deg, #f5ebe0, #e6ddd1);
-  border-radius: 50%;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,0.5);
+  content: '☕';
+  font-size: 20px;
+  filter: grayscale(100%) brightness(2);
+  opacity: 0.9;
 }
 
 .logo-text {
-  font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-family: var(--font-accent);
+  font-size: 1.5rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
 }
 
-.logo-text span {
+/* Logo文字に昭和風の装飾 */
+.logo-text .letter {
+  display: inline-block;
+  transition: var(--transition-fast);
+}
+
+.logo-text .letter.l1,
+.logo-text .letter.l6 {
   color: var(--accent-primary);
+  font-weight: 600;
 }
 
-/* Search Bar */
+/* Search Bar - 昭和喫茶店スタイル */
 .search-container {
   flex: 1;
-  max-width: 500px;
+  max-width: 460px;
   position: relative;
 }
 
 .search-input {
   width: 100%;
-  padding: 0.875rem 1.25rem 0.875rem 3rem;
+  padding: 0.75rem 1.25rem 0.75rem 2.75rem;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 100px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
   transition: var(--transition-normal);
+  box-shadow: var(--shadow-inset);
 }
 
 .search-input::placeholder {
   color: var(--text-muted);
+  font-size: 0.85rem;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+  border-color: var(--showa-brown);
+  box-shadow:
+    var(--shadow-inset),
+    0 0 0 3px rgba(107, 68, 35, 0.1);
+  background: #FFFDF9;
 }
 
 .search-icon {
@@ -591,29 +665,36 @@ body::before {
   background: var(--accent-soft);
 }
 
-/* View Toggle */
+/* View Toggle - 昭和風ボタン */
 .view-toggle {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: var(--transition-normal);
   flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
 }
 
 .view-toggle:hover {
-  border-color: var(--accent-primary);
-  background: var(--accent-soft);
+  border-color: var(--showa-brown);
+  background: var(--showa-cream);
+  box-shadow: var(--shadow-md);
+}
+
+.view-toggle:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .view-icon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   color: var(--text-secondary);
   transition: var(--transition-normal);
   display: flex;
@@ -627,8 +708,7 @@ body::before {
 }
 
 .view-toggle:hover .view-icon {
-  color: var(--accent-primary);
-  transform: scale(1.1);
+  color: var(--showa-brown);
 }
 
 .view-toggle:active .view-icon {
@@ -651,24 +731,31 @@ body::before {
   display: flex;
 }
 
-/* Theme Toggle */
+/* Theme Toggle - 昭和風テーマ切替 */
 .theme-toggle {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: var(--transition-normal);
   flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
 }
 
 .theme-toggle:hover {
-  border-color: var(--accent-primary);
-  background: var(--accent-soft);
+  border-color: var(--showa-brown);
+  background: var(--showa-cream);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .theme-icon {
@@ -679,7 +766,7 @@ body::before {
 }
 
 .theme-toggle:hover .theme-icon {
-  color: var(--accent-primary);
+  color: var(--showa-brown);
 }
 
 /* 主题图标显示逻辑 */
@@ -687,20 +774,14 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
   width: 20px;
   height: 20px;
-  animation: coffeeSteam 3s ease-in-out infinite;
 }
 
 .theme-icon.sakura {
   display: none;
-}
-
-@keyframes coffeeSteam {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
 }
 
 /* 萌萌模式显示樱花 */
@@ -724,31 +805,44 @@ body::before {
 }
 
 /* ============================================
-   Main Content
+   Main Content - 昭和喫茶店
    ============================================ */
 .main-content {
   flex: 1;
-  padding: 1rem 2rem 3rem;
-  max-width: 1400px;
+  padding: 0.5rem 2rem 3rem;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Section Headers */
+/* Section Headers - 昭和風セクション */
 .section-header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 1.75rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 2px solid var(--showa-brown);
+  position: relative;
+}
+
+/* 昭和風の装飾ライン */
+.section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--border-subtle);
 }
 
 .section-title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-family: var(--font-jp);
+  font-size: 1.25rem;
+  font-weight: 600;
   color: var(--text-primary);
+  letter-spacing: 0.08em;
 }
 
 .section-count {
@@ -954,26 +1048,26 @@ body::before {
 }
 
 /* ============================================
-   Drama Grid
+   Drama Grid - 昭和喫茶店のメニュー風
    ============================================ */
 .drama-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.75rem;
 }
 
 /* 封面模式 - 只显示封面图 */
 [data-view="cover"] .drama-grid {
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 1rem;
 }
 
 [data-view="cover"] .drama-card {
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
 [data-view="cover"] .drama-cover {
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
 [data-view="cover"] .drama-info {
@@ -981,13 +1075,13 @@ body::before {
 }
 
 [data-view="cover"] .drama-play-btn {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
 }
 
 [data-view="cover"] .drama-play-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 /* 封面模式响应式 */
@@ -1008,26 +1102,40 @@ body::before {
   }
 }
 
-/* Drama Card */
+/* Drama Card - 昭和風カード */
 .drama-card {
   background: var(--bg-card);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   overflow: hidden;
   cursor: pointer;
   transition: var(--transition-normal);
   position: relative;
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-card);
+}
+
+/* 昭和風カードの内側ボーダー */
+.drama-card::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  border: 1px solid rgba(107, 68, 35, 0.06);
+  border-radius: calc(var(--radius-md) - 2px);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .drama-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), 0 0 20px var(--accent-glow);
-  border-color: var(--accent-primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--showa-brown);
 }
 
 .drama-card:hover .drama-cover img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .drama-card:hover .drama-play-btn {
@@ -1035,12 +1143,13 @@ body::before {
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* Cover */
+/* Cover - 昭和風写真フレーム */
 .drama-cover {
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
   background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .drama-cover img {
@@ -1048,6 +1157,12 @@ body::before {
   height: 100%;
   object-fit: cover;
   transition: var(--transition-slow);
+  /* 昭和風の少しセピアがかった写真 */
+  filter: saturate(0.95) contrast(1.02);
+}
+
+.drama-card:hover .drama-cover img {
+  filter: saturate(1) contrast(1);
 }
 
 .drama-cover-placeholder {
@@ -1056,124 +1171,140 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+  background:
+    linear-gradient(135deg, var(--showa-cream) 0%, var(--bg-secondary) 100%);
 }
 
 .drama-cover-placeholder svg {
-  width: 64px;
-  height: 64px;
-  color: var(--text-muted);
-  opacity: 0.5;
+  width: 56px;
+  height: 56px;
+  color: var(--showa-copper);
+  opacity: 0.4;
 }
 
-/* Play Button Overlay */
+/* Play Button Overlay - 昭和風ボタン */
 .drama-play-btn {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  width: 64px;
-  height: 64px;
-  background: var(--accent-primary);
+  transform: translate(-50%, -50%) scale(0.85);
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(145deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: var(--transition-normal);
-  box-shadow: var(--shadow-md);
+  box-shadow:
+    0 2px 8px rgba(181, 68, 52, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 .drama-play-btn svg {
-  width: 28px;
-  height: 28px;
-  color: var(--bg-primary);
-  margin-left: 3px;
+  width: 24px;
+  height: 24px;
+  color: #FFF8F0;
+  margin-left: 2px;
 }
 
-/* Lock Badge */
+/* Lock Badge - 昭和風鍵マーク */
 .drama-lock-badge {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  width: 32px;
-  height: 32px;
-  background: rgba(0, 0, 0, 0.6);
+  top: 0.625rem;
+  right: 0.625rem;
+  width: 28px;
+  height: 28px;
+  background: rgba(26, 21, 18, 0.7);
   backdrop-filter: blur(4px);
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .drama-lock-badge svg {
-  width: 16px;
-  height: 16px;
-  color: var(--accent-primary);
+  width: 14px;
+  height: 14px;
+  color: var(--showa-gold);
 }
 
-/* Card Info */
+/* Card Info - 昭和風情報エリア */
 .drama-info {
-  padding: 1.25rem;
+  padding: 1rem 1.125rem 1.125rem;
+  background: var(--bg-card);
 }
 
 .drama-title {
   font-family: var(--font-jp);
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.375rem;
-  line-height: 1.4;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  letter-spacing: 0.02em;
 }
 
 .drama-circle {
-  font-size: 0.875rem;
-  color: var(--text-accent);
-  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--accent-primary);
+  margin-bottom: 0.625rem;
   cursor: pointer;
   transition: var(--transition-fast);
+  font-weight: 500;
 }
 
 .drama-circle:hover {
+  color: var(--accent-secondary);
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .drama-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.375rem;
+  align-items: center;
 }
 
 .drama-cv {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.25rem 0.625rem;
-  background: var(--bg-secondary);
-  border-radius: 100px;
-  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--showa-cream);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
   color: var(--text-secondary);
   transition: var(--transition-fast);
 }
 
 .drama-cv:hover {
   background: var(--accent-soft);
+  border-color: var(--accent-primary);
   color: var(--accent-primary);
 }
 
 .drama-cv svg {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
 }
 
 .drama-tracks-count {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
   margin-left: auto;
+  padding: 0.15rem 0.4rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
 }
 
 /* ============================================
@@ -2908,4 +3039,219 @@ body::before {
 
 [data-theme="kawaii"][data-view="cover"] .drama-cover {
   border-radius: 16px;
+}
+
+/* ============================================
+   昭和喫茶店テーマ - 追加装飾
+   Shōwa Kissaten Additional Styling
+   ============================================ */
+
+/* 昭和風 - セクションタイトル装飾 */
+:root:not([data-theme="kawaii"]) .section-title::before {
+  content: '◆';
+  margin-right: 0.5rem;
+  color: var(--accent-primary);
+  font-size: 0.7em;
+  vertical-align: middle;
+}
+
+/* 昭和風 - フィルターセクション */
+:root:not([data-theme="kawaii"]) .filter-section {
+  background:
+    linear-gradient(to bottom, var(--bg-card) 0%, var(--showa-cream) 100%);
+  border: 1px solid var(--border-medium);
+}
+
+/* 昭和風 - フィルタータグ */
+:root:not([data-theme="kawaii"]) .filter-tag {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-card);
+}
+
+:root:not([data-theme="kawaii"]) .filter-tag:hover {
+  background: var(--showa-cream);
+  border-color: var(--showa-brown);
+}
+
+:root:not([data-theme="kawaii"]) .filter-tag.active {
+  background: var(--showa-brown);
+  border-color: var(--showa-brown);
+  color: var(--showa-cream);
+}
+
+/* 昭和風 - ブレッドクラム */
+:root:not([data-theme="kawaii"]) .filter-breadcrumb {
+  background: var(--showa-cream);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+}
+
+:root:not([data-theme="kawaii"]) .breadcrumb-tag {
+  background: var(--bg-card);
+  border: 1px solid var(--showa-brown);
+  border-radius: var(--radius-sm);
+  color: var(--showa-brown);
+}
+
+/* 昭和風 - スクロールバー */
+:root:not([data-theme="kawaii"]) ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+:root:not([data-theme="kawaii"]) ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+:root:not([data-theme="kawaii"]) ::-webkit-scrollbar-thumb {
+  background: var(--showa-copper);
+  border-radius: 2px;
+}
+
+:root:not([data-theme="kawaii"]) ::-webkit-scrollbar-thumb:hover {
+  background: var(--showa-brown);
+}
+
+/* 昭和風 - 選択テキスト */
+:root:not([data-theme="kawaii"]) ::selection {
+  background: rgba(181, 68, 52, 0.2);
+  color: var(--text-primary);
+}
+
+/* 昭和風 - リンクホバー */
+:root:not([data-theme="kawaii"]) a:not(.logo):hover {
+  color: var(--accent-primary);
+}
+
+/* 昭和風 - ローディングスピナー */
+:root:not([data-theme="kawaii"]) .loading-spinner {
+  border-color: var(--showa-cream);
+  border-top-color: var(--accent-primary);
+}
+
+/* 昭和風 - パスワードモーダル */
+:root:not([data-theme="kawaii"]) .password-dialog {
+  background: var(--bg-card);
+  border: 2px solid var(--showa-brown);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+:root:not([data-theme="kawaii"]) .password-submit {
+  background: linear-gradient(145deg, var(--accent-primary), var(--accent-secondary));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--showa-cream);
+}
+
+:root:not([data-theme="kawaii"]) .password-submit:hover {
+  filter: brightness(1.1);
+}
+
+:root:not([data-theme="kawaii"]) .password-cancel {
+  background: transparent;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+:root:not([data-theme="kawaii"]) .password-cancel:hover {
+  background: var(--showa-cream);
+  border-color: var(--showa-brown);
+}
+
+/* 昭和風 - ミニプレイヤー */
+:root:not([data-theme="kawaii"]) .mini-player {
+  background: linear-gradient(to top, var(--bg-card) 0%, var(--showa-cream) 100%);
+  border-top: 2px solid var(--showa-brown);
+  box-shadow:
+    0 -2px 10px rgba(107, 68, 35, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* 昭和風 - オーディオコントロール */
+:root:not([data-theme="kawaii"]) .audio-controls {
+  background: linear-gradient(to top, var(--bg-card) 0%, var(--showa-cream) 100%);
+  border-top: 2px solid var(--showa-brown);
+}
+
+:root:not([data-theme="kawaii"]) .audio-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+}
+
+:root:not([data-theme="kawaii"]) .audio-btn:hover {
+  background: var(--showa-cream);
+  border-color: var(--showa-brown);
+  color: var(--showa-brown);
+}
+
+:root:not([data-theme="kawaii"]) .audio-btn.play-btn {
+  background: linear-gradient(145deg, var(--accent-primary), var(--accent-secondary));
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  color: var(--showa-cream);
+}
+
+:root:not([data-theme="kawaii"]) .audio-btn.play-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+/* 昭和風 - プログレスバー */
+:root:not([data-theme="kawaii"]) .progress-bar {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 2px;
+  height: 6px;
+}
+
+:root:not([data-theme="kawaii"]) .progress-fill {
+  background: linear-gradient(90deg, var(--accent-primary), var(--showa-gold));
+  border-radius: 2px;
+}
+
+/* 昭和風 - プレイヤービュー */
+:root:not([data-theme="kawaii"]) .player-view {
+  background: rgba(245, 238, 230, 0.98);
+}
+
+:root:not([data-theme="kawaii"]) .player-back-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+:root:not([data-theme="kawaii"]) .player-back-btn:hover {
+  background: var(--showa-cream);
+  border-color: var(--showa-brown);
+  color: var(--showa-brown);
+}
+
+/* 昭和風 - トラックリスト */
+:root:not([data-theme="kawaii"]) .player-track-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+}
+
+:root:not([data-theme="kawaii"]) .player-track-item:hover {
+  background: var(--showa-cream);
+  border-color: var(--border-medium);
+}
+
+:root:not([data-theme="kawaii"]) .player-track-item.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-primary);
+  box-shadow: inset 3px 0 0 var(--accent-primary);
+}
+
+/* 昭和風 - カード内側ボーダーの調整 (封面模式) */
+:root:not([data-theme="kawaii"])[data-view="cover"] .drama-card::before {
+  display: none;
 }
