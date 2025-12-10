@@ -19,7 +19,11 @@ const AppState = {
     circle: null,
     cv: null
   },
-  unlockedDramas: new Set(JSON.parse(localStorage.getItem('dp_unlocked') || '[]'))
+  unlockedDramas: new Set(JSON.parse(localStorage.getItem('dp_unlocked') || '[]')),
+  // Subtitle System
+  subtitles: [],
+  currentSubtitle: null,
+  subtitleEnabled: JSON.parse(localStorage.getItem('dp_subtitle_enabled') ?? 'true')
 };
 
 // ============================================
@@ -27,7 +31,9 @@ const AppState = {
 // ============================================
 const DOM = {
   get dramaGrid() { return document.getElementById('drama-grid'); },
+  get detailView() { return document.getElementById('detail-view'); },
   get playerView() { return document.getElementById('player-view'); },
+  get tracklistPanel() { return document.getElementById('tracklist-panel'); },
   get miniPlayer() { return document.getElementById('mini-player'); },
   get passwordModal() { return document.getElementById('password-modal'); },
   get searchInput() { return document.getElementById('search-input'); },
@@ -67,9 +73,20 @@ async function init() {
     renderDramas();
     setupEventListeners();
     setupAudioEvents();
+    initSubtitleToggle();
   } catch (error) {
     console.error('Failed to initialize:', error);
     showError('データの読み込みに失敗しました');
+  }
+}
+
+/**
+ * Initialize subtitle toggle button state
+ */
+function initSubtitleToggle() {
+  const toggleBtn = document.getElementById('subtitle-toggle');
+  if (toggleBtn && AppState.subtitleEnabled) {
+    toggleBtn.classList.add('active');
   }
 }
 
@@ -218,46 +235,95 @@ function filterDramas() {
   });
 }
 
-function renderPlayerView(drama) {
-  const playerContent = DOM.playerView.querySelector('.player-content');
+/**
+ * Render Detail View - 作品详情页
+ */
+function renderDetailView(drama) {
+  const detailContent = DOM.detailView.querySelector('.detail-content');
 
-  playerContent.innerHTML = `
-    <div class="player-album">
-      <div class="player-cover ${AppState.isPlaying ? 'playing' : ''}" id="player-cover">
+  detailContent.innerHTML = `
+    <div class="detail-hero">
+      <div class="detail-cover">
         ${drama.cover
           ? `<img src="${drama.cover}" alt="${drama.title}">`
-          : `<div class="drama-cover-placeholder">${Icons.disc}</div>`
+          : `<div class="detail-cover-placeholder">${Icons.disc}</div>`
         }
       </div>
-      <h2 class="player-album-title">${drama.title}</h2>
-      <div class="player-album-circle">${AppState.circles[drama.circleId]?.name || drama.circle}</div>
-      <div class="player-album-cv">
-        ${drama.cv.map(cv => `<span class="player-cv-tag">${cv}</span>`).join('')}
+      <div class="detail-info">
+        <h1 class="detail-title">${drama.title}</h1>
+        <div class="detail-circle">${AppState.circles[drama.circleId]?.name || drama.circle}</div>
+        <div class="detail-cv-list">
+          ${drama.cv.map(cv => `<span class="detail-cv-tag">${Icons.mic} ${cv}</span>`).join('')}
+        </div>
+        <div class="detail-actions">
+          <button class="detail-play-all-btn" id="play-all-btn">
+            ${Icons.play} すべて再生
+          </button>
+        </div>
       </div>
     </div>
-    <div class="player-tracks">
-      <div class="player-tracks-header">
-        <h3 class="player-tracks-title">トラックリスト</h3>
+    <div class="detail-tracks">
+      <div class="detail-tracks-header">
+        <h3 class="detail-tracks-title">トラックリスト (${drama.tracks.length}曲)</h3>
       </div>
-      <div class="player-tracks-list" id="tracks-list">
+      <div class="detail-tracks-list" id="detail-tracks-list">
         ${drama.tracks.map((track, index) => `
-          <div class="track-item ${AppState.currentTrack?.id === track.id ? 'active' : ''}" data-track-id="${track.id}">
-            <div class="track-number">
-              <span class="track-num">${index + 1}</span>
-              <div class="track-playing-icon">
-                <span></span><span></span><span></span>
-              </div>
+          <div class="detail-track-item ${AppState.currentTrack?.id === track.id ? 'active' : ''}" data-track-id="${track.id}">
+            <div class="detail-track-number">${index + 1}</div>
+            <div class="detail-track-info">
+              <div class="detail-track-title">${track.title}</div>
+              ${track.titleZh ? `<div class="detail-track-title-zh">${track.titleZh}</div>` : ''}
             </div>
-            <div class="track-info">
-              <div class="track-title">${track.title}</div>
-              ${track.titleZh ? `<div class="track-title-zh">${track.titleZh}</div>` : ''}
-            </div>
-            <div class="track-duration">${track.duration}</div>
+            <div class="detail-track-duration">${track.duration}</div>
           </div>
         `).join('')}
       </div>
     </div>
   `;
+}
+
+/**
+ * Render Player View - 专注播放模式（当前单曲）
+ */
+function renderPlayerView() {
+  if (!AppState.currentDrama || !AppState.currentTrack) return;
+
+  const drama = AppState.currentDrama;
+  const track = AppState.currentTrack;
+  const playerMain = DOM.playerView.querySelector('.player-main');
+
+  playerMain.innerHTML = `
+    <div class="player-current">
+      <div class="player-cover-large ${AppState.isPlaying ? 'playing' : ''}" id="player-cover">
+        ${drama.cover
+          ? `<img src="${drama.cover}" alt="${drama.title}">`
+          : `<div class="drama-cover-placeholder">${Icons.disc}</div>`
+        }
+      </div>
+      <h2 class="player-track-title">${track.title}</h2>
+      ${track.titleZh ? `<p class="player-track-title-zh">${track.titleZh}</p>` : ''}
+      <div class="player-album-name">${drama.title}</div>
+    </div>
+  `;
+}
+
+/**
+ * Render Tracklist Panel - 侧边栏曲目列表
+ */
+function renderTracklistPanel() {
+  if (!AppState.currentDrama) return;
+
+  const panelContent = DOM.tracklistPanel.querySelector('.tracklist-panel-content');
+
+  panelContent.innerHTML = AppState.currentDrama.tracks.map((track, index) => `
+    <div class="track-item ${AppState.currentTrack?.id === track.id ? 'active' : ''}" data-track-id="${track.id}">
+      <div class="track-number">${index + 1}</div>
+      <div class="track-info">
+        <div class="track-title">${track.title}</div>
+      </div>
+      <div class="track-duration">${track.duration}</div>
+    </div>
+  `).join('');
 }
 
 function renderMiniPlayer() {
@@ -288,8 +354,8 @@ function renderMiniPlayer() {
     </button>
   `;
 
-  // Don't show mini player when player view is open
-  if (!DOM.playerView.classList.contains('active')) {
+  // Don't show mini player when player view or detail view is open
+  if (!DOM.playerView.classList.contains('active') && !DOM.detailView.classList.contains('active')) {
     DOM.miniPlayer.classList.add('active');
   }
 }
@@ -420,6 +486,29 @@ function setupEventListeners() {
     openDrama(dramaId);
   });
 
+  // Detail view events
+  DOM.detailView.addEventListener('click', (e) => {
+    // Back button
+    if (e.target.closest('.detail-back-btn')) {
+      closeDetailView();
+      return;
+    }
+
+    // Play all button
+    if (e.target.closest('#play-all-btn')) {
+      playAllTracks();
+      return;
+    }
+
+    // Track item
+    const trackItem = e.target.closest('.detail-track-item');
+    if (trackItem) {
+      const trackId = parseInt(trackItem.dataset.trackId);
+      playTrack(trackId);
+      return;
+    }
+  });
+
   // Player view
   DOM.playerView.addEventListener('click', (e) => {
     // Back button
@@ -428,11 +517,25 @@ function setupEventListeners() {
       return;
     }
 
-    // Track item
-    const trackItem = e.target.closest('.track-item');
+    // Tracklist toggle button
+    if (e.target.closest('#tracklist-toggle')) {
+      toggleTracklistPanel();
+      return;
+    }
+
+    // Tracklist panel close button
+    if (e.target.closest('.tracklist-panel-close')) {
+      toggleTracklistPanel();
+      return;
+    }
+
+    // Track item in tracklist panel
+    const trackItem = e.target.closest('.player-tracklist-panel .track-item');
     if (trackItem) {
       const trackId = parseInt(trackItem.dataset.trackId);
-      playTrack(trackId);
+      playTrack(trackId, false); // Don't re-open player view
+      renderTracklistPanel(); // Update panel to show new active track
+      renderPlayerView(); // Update main display
       return;
     }
 
@@ -461,6 +564,19 @@ function setupEventListeners() {
       seekRelative(10);
       return;
     }
+
+    if (e.target.closest('#subtitle-toggle')) {
+      toggleSubtitle();
+      return;
+    }
+  });
+
+  // Click overlay to close tracklist panel
+  DOM.tracklistPanel.addEventListener('click', (e) => {
+    // If clicking on the overlay (::before pseudo element area)
+    if (e.target === DOM.tracklistPanel) {
+      toggleTracklistPanel();
+    }
   });
 
   // Progress bar
@@ -488,8 +604,8 @@ function setupEventListeners() {
     }
 
     // Click on mini player opens player view
-    if (AppState.currentDrama) {
-      openPlayerView(AppState.currentDrama);
+    if (AppState.currentDrama && AppState.currentTrack) {
+      openPlayerView();
     }
   });
 
@@ -546,6 +662,7 @@ function setupAudioEvents() {
   AppState.audio.addEventListener('timeupdate', () => {
     updateAudioControls();
     saveProgress();
+    updateCurrentSubtitle();
   });
 
   AppState.audio.addEventListener('loadedmetadata', () => {
@@ -578,6 +695,10 @@ function setupAudioEvents() {
 // ============================================
 // Actions
 // ============================================
+
+/**
+ * Open Drama - 点击卡片后打开详情页
+ */
 function openDrama(dramaId) {
   const drama = AppState.dramas.find(d => d.id === dramaId);
   if (!drama) return;
@@ -589,23 +710,24 @@ function openDrama(dramaId) {
   }
 
   AppState.currentDrama = drama;
-  openPlayerView(drama);
+  openDetailView(drama);
 }
 
-function openPlayerView(drama) {
-  renderPlayerView(drama);
-  DOM.playerView.classList.add('active');
+/**
+ * Open Detail View - 打开作品详情页
+ */
+function openDetailView(drama) {
+  renderDetailView(drama);
+  DOM.detailView.classList.add('active');
   DOM.miniPlayer.classList.remove('active');
   document.body.style.overflow = 'hidden';
-
-  // Restore progress if same drama
-  if (AppState.currentTrack && AppState.currentDrama.id === drama.id) {
-    updateAudioControls();
-  }
 }
 
-function closePlayerView() {
-  DOM.playerView.classList.remove('active');
+/**
+ * Close Detail View - 关闭详情页返回主页
+ */
+function closeDetailView() {
+  DOM.detailView.classList.remove('active');
   document.body.style.overflow = '';
 
   // Show mini player if playing
@@ -614,13 +736,50 @@ function closePlayerView() {
   }
 }
 
+/**
+ * Open Player View - 打开播放界面（专注模式）
+ */
+function openPlayerView() {
+  renderPlayerView();
+  renderTracklistPanel();
+  DOM.playerView.classList.add('active');
+  DOM.detailView.classList.remove('active');
+  document.body.style.overflow = 'hidden';
+  updateAudioControls();
+}
+
+/**
+ * Close Player View - 关闭播放界面返回详情页
+ */
+function closePlayerView() {
+  DOM.playerView.classList.remove('active');
+  DOM.tracklistPanel.classList.remove('active');
+
+  // Return to detail view
+  if (AppState.currentDrama) {
+    DOM.detailView.classList.add('active');
+    // Update detail view to show current track as active
+    renderDetailView(AppState.currentDrama);
+  }
+}
+
+/**
+ * Toggle Tracklist Panel - 切换曲目列表侧边栏
+ */
+function toggleTracklistPanel() {
+  DOM.tracklistPanel.classList.toggle('active');
+}
+
 function closeMiniPlayer() {
   AppState.audio.pause();
   AppState.currentTrack = null;
   DOM.miniPlayer.classList.remove('active');
 }
 
-function playTrack(trackId) {
+/**
+ * Play Track - 播放指定曲目并打开播放界面
+ */
+function playTrack(trackId, autoOpenPlayer = true) {
   if (!AppState.currentDrama) return;
 
   const track = AppState.currentDrama.tracks.find(t => t.id === trackId);
@@ -628,6 +787,14 @@ function playTrack(trackId) {
 
   AppState.currentTrack = track;
   AppState.audio.src = track.audioFile;
+
+  // Load subtitles for this track
+  loadSubtitles(track.subtitleFile);
+
+  // Open player view if requested
+  if (autoOpenPlayer) {
+    openPlayerView();
+  }
 
   // Try to restore progress
   const saved = getProgress(AppState.currentDrama.id, track.id);
@@ -642,6 +809,15 @@ function playTrack(trackId) {
 
   updateAudioControls();
   renderMiniPlayer();
+}
+
+/**
+ * Play All Tracks - 从第一首开始播放
+ */
+function playAllTracks() {
+  if (!AppState.currentDrama?.tracks.length) return;
+  const firstTrack = AppState.currentDrama.tracks[0];
+  playTrack(firstTrack.id);
 }
 
 function togglePlay() {
@@ -838,6 +1014,142 @@ function getProgress(dramaId, trackId) {
   } catch {
     return null;
   }
+}
+
+// ============================================
+// Subtitle System
+// ============================================
+
+/**
+ * Parse SRT format subtitle file
+ * Format:
+ * 1
+ * 00:00:26,330 --> 00:00:27,830
+ * 中文翻译
+ * 日文原文
+ */
+function parseSRT(srtContent) {
+  const subtitles = [];
+  // Normalize line endings (handle Windows \r\n)
+  const normalizedContent = srtContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const blocks = normalizedContent.trim().split(/\n\s*\n/);
+
+  for (const block of blocks) {
+    const lines = block.trim().split('\n');
+    if (lines.length < 3) continue;
+
+    // Parse time code (line 2)
+    const timeMatch = lines[1].match(/(\d{2}):(\d{2}):(\d{2}),(\d{3})\s*-->\s*(\d{2}):(\d{2}):(\d{2}),(\d{3})/);
+    if (!timeMatch) continue;
+
+    const startTime = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseInt(timeMatch[3]) + parseInt(timeMatch[4]) / 1000;
+    const endTime = parseInt(timeMatch[5]) * 3600 + parseInt(timeMatch[6]) * 60 + parseInt(timeMatch[7]) + parseInt(timeMatch[8]) / 1000;
+
+    // Get text lines (Chinese on line 3, Japanese on line 4)
+    const textZh = lines[2] || '';
+    const textJp = lines[3] || '';
+
+    subtitles.push({
+      id: parseInt(lines[0]) || subtitles.length + 1,
+      startTime,
+      endTime,
+      textZh,
+      textJp
+    });
+  }
+
+  return subtitles;
+}
+
+/**
+ * Load subtitle file for current track
+ */
+async function loadSubtitles(subtitleFile) {
+  if (!subtitleFile) {
+    AppState.subtitles = [];
+    AppState.currentSubtitle = null;
+    updateSubtitleDisplay();
+    return;
+  }
+
+  try {
+    const response = await fetch(subtitleFile);
+    if (!response.ok) throw new Error('Subtitle file not found');
+
+    const srtContent = await response.text();
+    AppState.subtitles = parseSRT(srtContent);
+    AppState.currentSubtitle = null;
+    console.log(`Loaded ${AppState.subtitles.length} subtitles`);
+  } catch (error) {
+    console.warn('Failed to load subtitles:', error);
+    AppState.subtitles = [];
+    AppState.currentSubtitle = null;
+  }
+
+  updateSubtitleDisplay();
+}
+
+/**
+ * Find and update current subtitle based on audio time
+ */
+function updateCurrentSubtitle() {
+  if (!AppState.subtitleEnabled || AppState.subtitles.length === 0) {
+    if (AppState.currentSubtitle !== null) {
+      AppState.currentSubtitle = null;
+      updateSubtitleDisplay();
+    }
+    return;
+  }
+
+  const currentTime = AppState.audio.currentTime;
+
+  // Find matching subtitle
+  const subtitle = AppState.subtitles.find(
+    s => currentTime >= s.startTime && currentTime <= s.endTime
+  );
+
+  // Only update if changed
+  if (subtitle !== AppState.currentSubtitle) {
+    AppState.currentSubtitle = subtitle || null;
+    updateSubtitleDisplay();
+  }
+}
+
+/**
+ * Update subtitle display in UI
+ */
+function updateSubtitleDisplay() {
+  const subtitleEl = document.getElementById('subtitle-display');
+  if (!subtitleEl) return;
+
+  if (!AppState.subtitleEnabled || !AppState.currentSubtitle) {
+    subtitleEl.classList.remove('active');
+    subtitleEl.innerHTML = '';
+    return;
+  }
+
+  const { textZh, textJp } = AppState.currentSubtitle;
+  subtitleEl.innerHTML = `
+    <div class="subtitle-text-zh">${textZh}</div>
+    <div class="subtitle-text-jp">${textJp}</div>
+  `;
+  subtitleEl.classList.add('active');
+}
+
+/**
+ * Toggle subtitle on/off
+ */
+function toggleSubtitle() {
+  AppState.subtitleEnabled = !AppState.subtitleEnabled;
+  localStorage.setItem('dp_subtitle_enabled', JSON.stringify(AppState.subtitleEnabled));
+
+  // Update toggle button state
+  const toggleBtn = document.getElementById('subtitle-toggle');
+  if (toggleBtn) {
+    toggleBtn.classList.toggle('active', AppState.subtitleEnabled);
+  }
+
+  updateSubtitleDisplay();
 }
 
 // ============================================
