@@ -93,11 +93,26 @@ function renderFilters() {
     circleStats[drama.circleId] = (circleStats[drama.circleId] || 0) + 1;
   });
 
-  DOM.filterCircles.innerHTML = Object.entries(circleStats)
+  // 计算标签云大小等级 (1-5)
+  const getTagSize = (count, maxCount) => {
+    if (maxCount <= 1) return 3;
+    const ratio = count / maxCount;
+    if (ratio >= 0.8) return 5;
+    if (ratio >= 0.5) return 4;
+    if (ratio >= 0.3) return 3;
+    if (ratio >= 0.1) return 2;
+    return 1;
+  };
+
+  const circleEntries = Object.entries(circleStats);
+  const maxCircleCount = Math.max(...circleEntries.map(([, c]) => c), 1);
+
+  DOM.filterCircles.innerHTML = circleEntries
     .map(([id, count]) => {
       const circle = AppState.circles[id];
+      const size = getTagSize(count, maxCircleCount);
       return `
-        <button class="filter-tag" data-filter="circle" data-value="${id}">
+        <button class="filter-tag tag-size-${size}" data-filter="circle" data-value="${id}">
           ${circle?.name || id}<span class="count">(${count})</span>
         </button>
       `;
@@ -111,11 +126,15 @@ function renderFilters() {
     });
   });
 
-  DOM.filterCvs.innerHTML = Object.entries(cvStats)
+  const cvEntries = Object.entries(cvStats);
+  const maxCvCount = Math.max(...cvEntries.map(([, c]) => c), 1);
+
+  DOM.filterCvs.innerHTML = cvEntries
     .map(([id, count]) => {
       const cv = AppState.cvs[id];
+      const size = getTagSize(count, maxCvCount);
       return `
-        <button class="filter-tag" data-filter="cv" data-value="${id}">
+        <button class="filter-tag tag-size-${size}" data-filter="cv" data-value="${id}">
           ${cv?.name || id}<span class="count">(${count})</span>
         </button>
       `;
@@ -146,7 +165,8 @@ function renderDramas() {
       <article class="drama-card" data-id="${drama.id}">
         <div class="drama-cover">
           ${drama.cover
-            ? `<img src="${drama.cover}" alt="${drama.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'drama-cover-placeholder\\'>${Icons.disc}</div>'">`
+            ? `<img src="${drama.cover}" alt="${drama.title}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+               <div class="drama-cover-placeholder" style="display:none">${Icons.disc}</div>`
             : `<div class="drama-cover-placeholder">${Icons.disc}</div>`
           }
           <div class="drama-play-btn">${Icons.play}</div>
@@ -176,6 +196,7 @@ function filterDramas() {
         drama.title,
         drama.titleJp,
         drama.circle,
+        drama.productId || '',
         ...drama.cv,
         ...drama.tags
       ].join(' ').toLowerCase();
@@ -311,6 +332,32 @@ function updateAudioControls() {
 // Event Listeners
 // ============================================
 function setupEventListeners() {
+  // Filter Toggle
+  const filterToggle = document.getElementById('filter-toggle');
+  const filterSection = document.querySelector('.filter-section');
+
+  filterToggle?.addEventListener('click', () => {
+    filterToggle.classList.toggle('active');
+    filterSection?.classList.toggle('active');
+  });
+
+  // Breadcrumb clear buttons (use event delegation for dynamic content)
+  document.getElementById('filter-breadcrumb')?.addEventListener('click', (e) => {
+    const clearBtn = e.target.closest('.breadcrumb-item-clear');
+    if (clearBtn) {
+      const type = clearBtn.dataset.type;
+      if (type) {
+        AppState.filters[type] = null;
+        // Update filter tag UI
+        document.querySelectorAll(`.filter-tag[data-filter="${type}"]`).forEach(tag => {
+          tag.classList.remove('active');
+        });
+        updateFilterBreadcrumb();
+        renderDramas();
+      }
+    }
+  });
+
   // Search
   DOM.searchInput.addEventListener('input', debounce((e) => {
     AppState.filters.search = e.target.value.trim();
@@ -343,6 +390,7 @@ function setupEventListeners() {
         filterTag.classList.add('active');
       }
 
+      updateFilterBreadcrumb();
       renderDramas();
     }
   });
@@ -650,19 +698,58 @@ function seekRelative(seconds) {
 }
 
 function setFilter(type, value) {
-  // Clear other filters and set this one
-  AppState.filters.circle = type === 'circle' ? value : null;
-  AppState.filters.cv = type === 'cv' ? value : null;
+  // Set this filter without clearing other type
+  AppState.filters[type] = value;
   AppState.filters.search = '';
   DOM.searchInput.value = '';
 
   // Update filter tag UI
   document.querySelectorAll('.filter-tag').forEach(tag => {
     tag.classList.toggle('active',
-      tag.dataset.filter === type && tag.dataset.value === value
+      (tag.dataset.filter === 'circle' && tag.dataset.value === AppState.filters.circle) ||
+      (tag.dataset.filter === 'cv' && tag.dataset.value === AppState.filters.cv)
     );
   });
 
+  updateFilterBreadcrumb();
+  renderDramas();
+}
+
+function updateFilterBreadcrumb() {
+  const breadcrumb = document.getElementById('filter-breadcrumb');
+  const breadcrumbTag = document.getElementById('breadcrumb-tag');
+  if (!breadcrumb || !breadcrumbTag) return;
+
+  const { circle, cv } = AppState.filters;
+  const parts = [];
+
+  if (circle) {
+    const circleName = AppState.circles[circle]?.name || circle;
+    parts.push(`<span class="breadcrumb-item" data-type="circle"><span style="opacity:0.7">サークル:</span> ${circleName} <button class="breadcrumb-item-clear" data-type="circle">×</button></span>`);
+  }
+  if (cv) {
+    const cvName = AppState.cvs[cv]?.name || cv;
+    parts.push(`<span class="breadcrumb-item" data-type="cv"><span style="opacity:0.7">CV:</span> ${cvName} <button class="breadcrumb-item-clear" data-type="cv">×</button></span>`);
+  }
+
+  if (parts.length > 0) {
+    breadcrumbTag.innerHTML = parts.join('<span class="breadcrumb-separator">+</span>');
+    breadcrumb.style.display = 'flex';
+  } else {
+    breadcrumb.style.display = 'none';
+  }
+}
+
+function clearFilter() {
+  AppState.filters.circle = null;
+  AppState.filters.cv = null;
+
+  // Clear active state from filter tags
+  document.querySelectorAll('.filter-tag').forEach(tag => {
+    tag.classList.remove('active');
+  });
+
+  updateFilterBreadcrumb();
   renderDramas();
 }
 
@@ -782,6 +869,34 @@ function showError(message) {
 }
 
 // ============================================
+// View Toggle (详细/封面模式)
+// ============================================
+const VIEWS = ['detail', 'cover'];
+
+function initViewToggle() {
+  const toggle = document.getElementById('view-toggle');
+  const savedView = localStorage.getItem('dp_view') || 'detail';
+
+  // 应用保存的视图模式
+  applyView(savedView);
+
+  // 切换按钮事件
+  toggle?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-view') || 'detail';
+    const currentIndex = VIEWS.indexOf(current);
+    const nextIndex = (currentIndex + 1) % VIEWS.length;
+    const newView = VIEWS[nextIndex];
+
+    applyView(newView);
+    localStorage.setItem('dp_view', newView);
+  });
+}
+
+function applyView(view) {
+  document.documentElement.setAttribute('data-view', view === 'detail' ? '' : view);
+}
+
+// ============================================
 // Theme Toggle
 // ============================================
 const THEMES = ['light', 'kawaii'];
@@ -822,9 +937,77 @@ function updateThemeColor(theme) {
 }
 
 // ============================================
+// Site Lock (全站密码保护)
+// ============================================
+const SITE_PASSWORD = 'your-secret-password'; // 在这里设置你的全站密码
+const SITE_LOCK_KEY = 'dp_site_unlocked';
+const SITE_LOCK_EXPIRY = 7 * 24 * 60 * 60 * 1000; // 7天后需要重新输入
+
+function checkSiteLock() {
+  const unlockData = localStorage.getItem(SITE_LOCK_KEY);
+  if (unlockData) {
+    try {
+      const { timestamp } = JSON.parse(unlockData);
+      if (Date.now() - timestamp < SITE_LOCK_EXPIRY) {
+        return true; // 已解锁且未过期
+      }
+    } catch (e) {
+      // 数据损坏，需要重新验证
+    }
+  }
+  return false;
+}
+
+function showSiteLock() {
+  const modal = document.getElementById('site-lock-modal');
+  const appContainer = document.querySelector('.app-container');
+
+  if (modal && appContainer) {
+    modal.classList.add('active');
+    appContainer.style.display = 'none';
+
+    const input = document.getElementById('site-password-input');
+    const submitBtn = document.getElementById('site-password-submit');
+    const errorEl = document.getElementById('site-password-error');
+
+    const handleSubmit = () => {
+      const password = input?.value || '';
+      if (password === SITE_PASSWORD) {
+        localStorage.setItem(SITE_LOCK_KEY, JSON.stringify({ timestamp: Date.now() }));
+        modal.classList.remove('active');
+        appContainer.style.display = '';
+        init(); // 解锁后初始化应用
+      } else {
+        errorEl?.classList.add('visible');
+        input?.classList.add('error');
+        setTimeout(() => {
+          input?.classList.remove('error');
+        }, 500);
+      }
+    };
+
+    submitBtn?.addEventListener('click', handleSubmit);
+    input?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleSubmit();
+    });
+
+    setTimeout(() => input?.focus(), 100);
+  }
+}
+
+function initSiteLock() {
+  if (checkSiteLock()) {
+    init(); // 已解锁，直接初始化
+  } else {
+    showSiteLock(); // 显示密码框
+  }
+}
+
+// ============================================
 // Start App
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
-  init();
+  initViewToggle();
+  initSiteLock(); // 先检查全站密码
 });

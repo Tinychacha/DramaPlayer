@@ -367,6 +367,13 @@ body::before {
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* 确保nav-links始终在右边 */
+.nav-links {
+  order: 0;
+  margin-left: auto;
 }
 
 .logo {
@@ -378,33 +385,44 @@ body::before {
 }
 
 .logo-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(145deg, #4a4540, #3a3530);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-md), var(--shadow-glow);
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.1);
   position: relative;
 }
 
+/* 唱片纹路 */
 .logo-icon::before {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background: #ffffff;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at center,
+    transparent 0px,
+    transparent 2px,
+    rgba(255,255,255,0.03) 2px,
+    rgba(255,255,255,0.03) 3px
+  );
 }
 
+/* 中心标签 - 奶油色 */
 .logo-icon::after {
   content: '';
   position: absolute;
-  width: 6px;
-  height: 6px;
-  background: var(--accent-secondary);
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(145deg, #f5ebe0, #e6ddd1);
   border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.5);
 }
 
 .logo-text {
@@ -497,6 +515,53 @@ body::before {
   background: var(--accent-primary);
 }
 
+/* Filter Toggle Button */
+.filter-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: var(--transition-normal);
+}
+
+.filter-toggle:hover {
+  background: var(--accent-soft);
+  color: var(--accent-primary);
+}
+
+.filter-toggle.active {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+.filter-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 调整搜索框padding给筛选按钮留空间 */
+.search-input {
+  padding-right: 3.5rem;
+}
+
+.search-input:not(:placeholder-shown) {
+  padding-right: 5.5rem;
+}
+
+.search-input:not(:placeholder-shown) + .search-icon + .search-clear {
+  right: 3rem;
+}
+
 /* Nav Links */
 .nav-links {
   display: flex;
@@ -524,6 +589,66 @@ body::before {
   color: var(--accent-primary);
   border-color: var(--border-medium);
   background: var(--accent-soft);
+}
+
+/* View Toggle */
+.view-toggle {
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.view-toggle:hover {
+  border-color: var(--accent-primary);
+  background: var(--accent-soft);
+}
+
+.view-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--text-secondary);
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.view-toggle:hover .view-icon {
+  color: var(--accent-primary);
+  transform: scale(1.1);
+}
+
+.view-toggle:active .view-icon {
+  transform: scale(0.95);
+}
+
+/* 默认显示详细图标，隐藏封面图标 */
+.view-icon.detail-icon {
+  display: flex;
+}
+.view-icon.cover-icon {
+  display: none;
+}
+
+/* 封面模式时显示封面图标 */
+[data-view="cover"] .view-icon.detail-icon {
+  display: none;
+}
+[data-view="cover"] .view-icon.cover-icon {
+  display: flex;
 }
 
 /* Theme Toggle */
@@ -558,16 +683,28 @@ body::before {
 }
 
 /* 主题图标显示逻辑 */
-.theme-icon.sun {
-  display: block;
+.theme-icon.coffee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  width: 20px;
+  height: 20px;
+  animation: coffeeSteam 3s ease-in-out infinite;
 }
-.theme-icon.moon,
+
 .theme-icon.sakura {
   display: none;
 }
 
+@keyframes coffeeSteam {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
 /* 萌萌模式显示樱花 */
-[data-theme="kawaii"] .theme-icon.sun {
+[data-theme="kawaii"] .theme-icon.coffee {
   display: none;
 }
 [data-theme="kawaii"] .theme-icon.sakura {
@@ -621,12 +758,120 @@ body::before {
 
 /* Filter Tags */
 .filter-section {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
   background: var(--bg-card);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-sm);
+  /* 默认隐藏 */
+  max-height: 0;
+  padding: 0 1.5rem;
+  margin-bottom: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease, visibility 0s 0.3s;
+}
+
+.filter-section.active {
+  max-height: 500px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: all 0.3s ease, visibility 0s 0s;
+}
+
+/* Filter Breadcrumb */
+.filter-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.breadcrumb-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.breadcrumb-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem 0.4rem 0.9rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  color: var(--accent-primary);
+  font-weight: 500;
+}
+
+.breadcrumb-text {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.breadcrumb-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.breadcrumb-clear:hover {
+  background: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.breadcrumb-item-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  margin-left: 0.2rem;
+}
+
+.breadcrumb-item-clear:hover {
+  background: var(--text-primary);
+  transform: scale(1.1);
+}
+
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .filter-group {
@@ -656,6 +901,42 @@ body::before {
   transition: var(--transition-normal);
 }
 
+/* 标签云 - 5级大小 */
+.filter-tag.tag-size-1 {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  opacity: 0.55;
+}
+
+.filter-tag.tag-size-2 {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  opacity: 0.7;
+}
+
+.filter-tag.tag-size-3 {
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  opacity: 0.85;
+}
+
+.filter-tag.tag-size-4 {
+  font-size: 0.95rem;
+  padding: 0.55rem 1.1rem;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.filter-tag.tag-size-5 {
+  font-size: 1.05rem;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  opacity: 1;
+  background: var(--accent-soft);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
 .filter-tag:hover {
   border-color: var(--border-medium);
   color: var(--text-primary);
@@ -679,6 +960,52 @@ body::before {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
+}
+
+/* 封面模式 - 只显示封面图 */
+[data-view="cover"] .drama-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+[data-view="cover"] .drama-card {
+  border-radius: var(--radius-md);
+}
+
+[data-view="cover"] .drama-cover {
+  border-radius: var(--radius-md);
+}
+
+[data-view="cover"] .drama-info {
+  display: none;
+}
+
+[data-view="cover"] .drama-play-btn {
+  width: 48px;
+  height: 48px;
+}
+
+[data-view="cover"] .drama-play-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 封面模式响应式 */
+@media (max-width: 768px) {
+  [data-view="cover"] .drama-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.5rem;
+  }
+
+  [data-view="cover"] .drama-play-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  [data-view="cover"] .drama-play-btn svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 /* Drama Card */
@@ -1576,6 +1903,12 @@ body::before {
     flex-wrap: wrap;
   }
 
+  .logo {
+    flex: 0 0 auto;
+    max-width: 60%;
+    overflow: hidden;
+  }
+
   .search-container {
     order: 3;
     flex: 1 1 100%;
@@ -1583,7 +1916,10 @@ body::before {
   }
 
   .nav-links {
-    display: none;
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    margin-left: auto;
   }
 
   .main-content {
@@ -1807,6 +2143,43 @@ body::before {
   font-weight: 500;
 }
 
+/* 萌萌标签云大小 */
+[data-theme="kawaii"] .filter-tag.tag-size-1 {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  opacity: 0.5;
+}
+
+[data-theme="kawaii"] .filter-tag.tag-size-2 {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  opacity: 0.65;
+}
+
+[data-theme="kawaii"] .filter-tag.tag-size-3 {
+  font-size: 0.85rem;
+  padding: 0.45rem 0.9rem;
+  opacity: 0.8;
+}
+
+[data-theme="kawaii"] .filter-tag.tag-size-4 {
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  opacity: 1;
+}
+
+[data-theme="kawaii"] .filter-tag.tag-size-5 {
+  font-size: 1.05rem;
+  padding: 0.55rem 1.15rem;
+  font-weight: 700;
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(183,148,246,0.15));
+  border: 2px solid #ff6b9d;
+  color: #ff4785;
+  box-shadow: 0 2px 8px rgba(255, 107, 157, 0.25);
+}
+
 [data-theme="kawaii"] .filter-tag.active {
   background: linear-gradient(135deg, #ff6b9d, #ff4785);
   border: 2px solid transparent;
@@ -1841,6 +2214,60 @@ body::before {
 
 [data-theme="kawaii"] .search-input::placeholder {
   color: #d4a0b8;
+}
+
+/* 萌萌筛选按钮 */
+[data-theme="kawaii"] .filter-toggle {
+  color: #ff6b9d;
+}
+
+[data-theme="kawaii"] .filter-toggle:hover {
+  background: rgba(255, 107, 157, 0.15);
+  color: #ff4785;
+}
+
+[data-theme="kawaii"] .filter-toggle.active {
+  background: linear-gradient(135deg, #ff6b9d, #ff4785);
+  color: white;
+  box-shadow: 0 2px 10px rgba(255, 107, 157, 0.4);
+}
+
+/* 萌萌面包屑 */
+[data-theme="kawaii"] .filter-breadcrumb {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px dashed #ffb6c1;
+  border-radius: 16px;
+}
+
+[data-theme="kawaii"] .breadcrumb-label {
+  color: #d4a0b8;
+}
+
+[data-theme="kawaii"] .breadcrumb-tag {
+  background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(183,148,246,0.15));
+  border: 2px solid #ff6b9d;
+  color: #ff4785;
+  border-radius: 20px;
+}
+
+[data-theme="kawaii"] .breadcrumb-clear {
+  background: linear-gradient(135deg, #ff6b9d, #ff4785);
+}
+
+[data-theme="kawaii"] .breadcrumb-clear:hover {
+  background: linear-gradient(135deg, #ff4785, #e8457a);
+}
+
+[data-theme="kawaii"] .breadcrumb-item-clear {
+  background: linear-gradient(135deg, #ff6b9d, #ff4785);
+}
+
+[data-theme="kawaii"] .breadcrumb-item-clear:hover {
+  background: linear-gradient(135deg, #ff4785, #e8457a);
+}
+
+[data-theme="kawaii"] .breadcrumb-separator {
+  color: #ffb6c1;
 }
 
 /* 萌萌Logo - 立体爱心 */
@@ -1897,25 +2324,33 @@ body::before {
 }
 
 [data-theme="kawaii"] .logo-text::before {
-  content: '♪♫';
+  content: '♪';
   position: absolute;
-  left: -32px;
-  top: -12px;
-  font-size: 0.8em;
+  left: -20px;
+  top: -8px;
+  font-size: 0.7em;
   color: #ffb347;
   animation: noteFloat 2s ease-in-out infinite;
   filter: drop-shadow(2px 2px 0px #ff9a9e) drop-shadow(0 0 6px rgba(255, 179, 71, 0.5));
 }
 
 [data-theme="kawaii"] .logo-text::after {
-  content: '♡✧';
+  content: '✧';
   position: absolute;
-  right: -36px;
-  top: -10px;
-  font-size: 0.85em;
+  right: -16px;
+  top: -6px;
+  font-size: 0.7em;
   color: #ff6b9d;
   animation: heartBounce 1.2s ease-in-out infinite;
   filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.6));
+}
+
+/* 移动端隐藏logo装饰 */
+@media (max-width: 768px) {
+  [data-theme="kawaii"] .logo-text::before,
+  [data-theme="kawaii"] .logo-text::after {
+    display: none;
+  }
 }
 
 /* 每个字母跳舞 */
@@ -2061,6 +2496,21 @@ body::before {
 }
 
 /* 萌萌主题切换按钮 */
+/* 萌萌视图切换按钮 */
+[data-theme="kawaii"] .view-toggle {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.9));
+  border: 2px solid rgba(255, 107, 157, 0.3);
+}
+
+[data-theme="kawaii"] .view-toggle:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
+}
+
+[data-theme="kawaii"] .view-icon {
+  color: #ff6b9d;
+}
+
 [data-theme="kawaii"] .theme-toggle {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.9));
   border: 2px solid rgba(255, 107, 157, 0.3);
@@ -2069,4 +2519,232 @@ body::before {
 [data-theme="kawaii"] .theme-toggle:hover {
   border-color: var(--accent-primary);
   box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
+}
+
+/* ============================================
+   Kawaii Mode - 播放器页面样式统一
+   ============================================ */
+
+/* 萌萌播放器背景 */
+[data-theme="kawaii"] .player-view {
+  background: linear-gradient(135deg,
+    rgba(255, 245, 248, 0.97) 0%,
+    rgba(255, 240, 245, 0.97) 50%,
+    rgba(250, 245, 255, 0.97) 100%);
+}
+
+/* 萌萌返回按钮 */
+[data-theme="kawaii"] .player-back-btn {
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)) padding-box,
+    linear-gradient(135deg, #ffb6c1, #ff6b9d, #b794f6) border-box;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  color: #ff6b8a;
+  transition: all 0.3s ease;
+}
+
+[data-theme="kawaii"] .player-back-btn:hover {
+  background:
+    linear-gradient(rgba(255, 240, 245, 0.95), rgba(255, 240, 245, 0.95)) padding-box,
+    linear-gradient(135deg, #ff6b9d, #ff4785, #b794f6) border-box;
+  color: #ff4785;
+  transform: translateX(-3px);
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+}
+
+[data-theme="kawaii"] .player-back-btn svg {
+  color: #ff6b9d;
+}
+
+/* 萌萌播放器头部 */
+[data-theme="kawaii"] .player-header {
+  border-bottom: 2px dashed rgba(255, 107, 157, 0.3);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent);
+}
+
+/* 萌萌专辑封面 */
+[data-theme="kawaii"] .player-cover {
+  border-radius: 20px;
+  border: 4px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #ffb6c1, #ff6b9d, #b794f6, #7dd3fc) border-box;
+  box-shadow:
+    0 8px 32px rgba(255, 107, 157, 0.3),
+    0 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="kawaii"] .player-cover.playing {
+  animation: kawaiiCoverPulse 3s ease-in-out infinite;
+}
+
+@keyframes kawaiiCoverPulse {
+  0%, 100% {
+    box-shadow:
+      0 8px 32px rgba(255, 107, 157, 0.3),
+      0 0 0 4px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 12px 40px rgba(255, 107, 157, 0.5),
+      0 0 30px rgba(183, 148, 246, 0.4),
+      0 0 0 4px rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* 萌萌专辑标题 */
+[data-theme="kawaii"] .player-album-title {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 700;
+  color: #5c4356;
+  text-shadow: 2px 2px 0px rgba(255, 182, 193, 0.5);
+}
+
+/* 萌萌圈名 */
+[data-theme="kawaii"] .player-album-circle {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  color: #a78bfa;
+}
+
+[data-theme="kawaii"] .player-album-circle::before {
+  content: '♡ ';
+  font-size: 0.9em;
+}
+
+/* 萌萌CV标签 */
+[data-theme="kawaii"] .player-cv-tag {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background: linear-gradient(135deg, #fff0f5, #faf5ff);
+  border: 2px solid transparent;
+  background:
+    linear-gradient(rgba(255, 240, 245, 0.9), rgba(250, 245, 255, 0.9)) padding-box,
+    linear-gradient(135deg, #ffb6c1, #f0abfc) border-box;
+  color: #a78bfa;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+[data-theme="kawaii"] .player-cv-tag:hover {
+  background:
+    linear-gradient(rgba(255, 230, 240, 0.95), rgba(245, 235, 255, 0.95)) padding-box,
+    linear-gradient(135deg, #ff6b9d, #b794f6) border-box;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.25);
+}
+
+/* 萌萌曲目列表标题 */
+[data-theme="kawaii"] .player-tracks-title {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 700;
+  color: #ff6b8a;
+}
+
+[data-theme="kawaii"] .player-tracks-title::before {
+  content: '♪ ';
+  font-size: 0.9em;
+}
+
+[data-theme="kawaii"] .player-tracks-header {
+  border-bottom: 2px dashed rgba(255, 107, 157, 0.3);
+}
+
+/* 萌萌曲目标题 */
+[data-theme="kawaii"] .track-title {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  color: #5c4356;
+}
+
+[data-theme="kawaii"] .track-item.active .track-title {
+  color: #ff6b8a;
+}
+
+[data-theme="kawaii"] .track-title-zh {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: #b8a4b2;
+}
+
+[data-theme="kawaii"] .track-duration {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: #b794f6;
+  font-weight: 500;
+}
+
+/* 萌萌音频控制区 */
+[data-theme="kawaii"] .audio-controls {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 245, 248, 0.95) 50%,
+    rgba(250, 245, 255, 0.95) 100%);
+  border-top: 2px dashed rgba(255, 107, 157, 0.3);
+  box-shadow: 0 -8px 32px rgba(255, 107, 157, 0.15);
+}
+
+/* 萌萌时间显示 */
+[data-theme="kawaii"] .audio-time {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: #b794f6;
+  font-weight: 500;
+}
+
+/* 萌萌控制按钮 */
+[data-theme="kawaii"] .audio-btn {
+  color: #b8a4b2;
+  transition: all 0.3s ease;
+}
+
+[data-theme="kawaii"] .audio-btn:hover {
+  color: #ff6b9d;
+  background: rgba(255, 107, 157, 0.1);
+  transform: scale(1.1);
+}
+
+[data-theme="kawaii"] .audio-btn.skip-btn span {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 600;
+  color: inherit;
+}
+
+/* 萌萌section标题 (播放器内) */
+[data-theme="kawaii"] .section-title {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 700;
+  color: #ff6b8a;
+}
+
+[data-theme="kawaii"] .section-count {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: #b794f6;
+  font-weight: 500;
+}
+
+/* 萌萌滚动条 - 播放器内 */
+[data-theme="kawaii"] .player-tracks-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+[data-theme="kawaii"] .player-tracks-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ffb6c1, #ff6b9d);
+  border-radius: 10px;
+}
+
+[data-theme="kawaii"] .player-tracks-list::-webkit-scrollbar-track {
+  background: rgba(255, 182, 193, 0.15);
+  border-radius: 10px;
+}
+
+/* 萌萌封面模式卡片 */
+[data-theme="kawaii"][data-view="cover"] .drama-card {
+  border-radius: 16px;
+  border-width: 2px;
+}
+
+[data-theme="kawaii"][data-view="cover"] .drama-cover {
+  border-radius: 16px;
 }
