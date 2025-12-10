@@ -1,0 +1,123 @@
+{
+  "dramas": [
+    {
+      "id": "tmw-001",
+      "title": "TELL ME WHY?",
+      "titleJp": "テルミーホワイ",
+      "circle": "ステラワース",
+      "circleId": "stellaworth",
+      "cv": ["猿飛総司"],
+      "cvIds": ["sarutobi-souji"],
+      "cover": "covers/tellmewhy.webp",
+      "releaseDate": "2022-11-25",
+      "description": "正義の味方を夢見る青年と、彼を見守る存在の物語",
+      "tags": ["シチュエーションCD", "切ない", "ヤンデレ"],
+      "password": null,
+      "tracks": [
+        {
+          "id": 1,
+          "title": "正義の味方",
+          "titleZh": "正义的伙伴",
+          "duration": "10:13",
+          "audioFile": "audios/tmw/01.mp3"
+        },
+        {
+          "id": 2,
+          "title": "はじめまして",
+          "titleZh": "初次见面",
+          "duration": "08:45",
+          "audioFile": "audios/tmw/02.mp3"
+        },
+        {
+          "id": 3,
+          "title": "日常",
+          "titleZh": "日常",
+          "duration": "12:30",
+          "audioFile": "audios/tmw/03.mp3"
+        }
+      ]
+    },
+    {
+      "id": "sample-002",
+      "title": "月夜の約束",
+      "titleJp": "つきよのやくそく",
+      "circle": "Honey Bee",
+      "circleId": "honeybee",
+      "cv": ["テトラポット登"],
+      "cvIds": ["tetrapot-noboru"],
+      "cover": "covers/sample2.webp",
+      "releaseDate": "2023-03-15",
+      "description": "満月の夜に交わした、永遠の約束",
+      "tags": ["癒し系", "甘々", "日常"],
+      "password": "moon123",
+      "tracks": [
+        {
+          "id": 1,
+          "title": "出会い",
+          "titleZh": "相遇",
+          "duration": "08:20",
+          "audioFile": "audios/sample2/01.mp3"
+        },
+        {
+          "id": 2,
+          "title": "月明かりの下で",
+          "titleZh": "月光之下",
+          "duration": "15:40",
+          "audioFile": "audios/sample2/02.mp3"
+        }
+      ]
+    },
+    {
+      "id": "sample-003",
+      "title": "珈琲店の彼",
+      "titleJp": "こーひーてんのかれ",
+      "circle": "ステラワース",
+      "circleId": "stellaworth",
+      "cv": ["冬ノ熊肉", "猿飛総司"],
+      "cvIds": ["fuyuno-kumaniku", "sarutobi-souji"],
+      "cover": "covers/sample3.webp",
+      "releaseDate": "2023-06-20",
+      "description": "行きつけの珈琲店で出会った、不思議な店員さん",
+      "tags": ["日常", "ほのぼの", "社会人"],
+      "password": null,
+      "tracks": [
+        {
+          "id": 1,
+          "title": "いつもの席",
+          "titleZh": "老位置",
+          "duration": "09:15",
+          "audioFile": "audios/sample3/01.mp3"
+        }
+      ]
+    }
+  ],
+  "circles": {
+    "stellaworth": {
+      "id": "stellaworth",
+      "name": "ステラワース",
+      "nameEn": "Stellaworth"
+    },
+    "honeybee": {
+      "id": "honeybee",
+      "name": "Honey Bee",
+      "nameEn": "Honey Bee"
+    }
+  },
+  "cvs": {
+    "sarutobi-souji": {
+      "id": "sarutobi-souji",
+      "name": "猿飛総司",
+      "nameEn": "Sarutobi Souji"
+    },
+    "tetrapot-noboru": {
+      "id": "tetrapot-noboru",
+      "name": "テトラポット登",
+      "nameEn": "Tetrapot Noboru"
+    },
+    "fuyuno-kumaniku": {
+      "id": "fuyuno-kumaniku",
+      "name": "冬ノ熊肉",
+      "nameEn": "Fuyuno Kumaniku"
+    }
+  }
+}

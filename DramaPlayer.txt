@@ -1,0 +1,19 @@
+  如何添加新 Drama
+
+  编辑 data/dramas.json，添加新条目：
+  {
+    "id": "unique-id",
+    "title": "作品名",
+    "circle": "社团名",
+    "cv": ["CV1", "CV2"],
+    "cover": "covers/xxx.webp",
+    "password": null,  // 或 "your-password"
+    "tracks": [...]
+  }
+
+  启动方式
+
+  cd DramaPlayer
+  python -m http.server 8080
+  # 访问 http://localhost:8080
+你可以调用你的frontend-design和feature-dev plug-ins
