@@ -2711,6 +2711,118 @@ body::after {
 }
 
 /* ============================================
+   Skeleton Loading
+   ============================================ */
+.skeleton-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-card);
+}
+
+.skeleton-cover {
+  aspect-ratio: 1;
+  background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-info {
+  padding: 1rem 1.125rem 1.125rem;
+}
+
+.skeleton-line {
+  height: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-title {
+  width: 80%;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-circle {
+  width: 50%;
+  height: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton-meta {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.skeleton-tag {
+  width: 4rem;
+  height: 0.75rem;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Kawaii 主题骨架屏 */
+[data-theme="kawaii"] .skeleton-card {
+  border-radius: 24px;
+  border: 3px solid var(--border-subtle);
+}
+
+[data-theme="kawaii"] .skeleton-cover::after,
+[data-theme="kawaii"] .skeleton-line::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 182, 193, 0.3) 50%,
+    transparent 100%
+  );
+}
+
+/* Cover 视图骨架屏 */
+[data-view="cover"] .skeleton-card {
+  border-radius: var(--radius-sm);
+}
+
+[data-view="cover"] .skeleton-info {
+  display: none;
+}
+
+[data-theme="kawaii"][data-view="cover"] .skeleton-card {
+  border-radius: 16px;
+  border-width: 2px;
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 1024px) {

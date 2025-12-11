@@ -135,6 +135,9 @@ const Icons = {
 // ============================================
 async function init() {
   try {
+    // 先显示骨架屏
+    renderSkeletons();
+
     await loadData();
     renderFilters();
     initSort();
@@ -148,6 +151,27 @@ async function init() {
     console.error('Failed to initialize:', error);
     showError('データの読み込みに失敗しました');
   }
+}
+
+/**
+ * Render skeleton loading cards
+ */
+function renderSkeletons(count = 6) {
+  const skeletonHTML = Array(count).fill(null).map(() => `
+    <div class="skeleton-card">
+      <div class="skeleton-cover"></div>
+      <div class="skeleton-info">
+        <div class="skeleton-line skeleton-title"></div>
+        <div class="skeleton-line skeleton-circle"></div>
+        <div class="skeleton-meta">
+          <div class="skeleton-line skeleton-tag"></div>
+          <div class="skeleton-line skeleton-tag"></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  DOM.dramaGrid.innerHTML = skeletonHTML;
 }
 
 /**
