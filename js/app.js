@@ -25,7 +25,9 @@ const AppState = {
   // Subtitle System
   subtitles: [],
   currentSubtitle: null,
-  subtitleEnabled: JSON.parse(localStorage.getItem('dp_subtitle_enabled') ?? 'true')
+  subtitleEnabled: JSON.parse(localStorage.getItem('dp_subtitle_enabled') ?? 'true'),
+  // Playback Speed
+  playbackSpeed: parseFloat(localStorage.getItem('dp_playback_speed')) || 1.0
 };
 
 // ============================================
@@ -140,6 +142,8 @@ async function init() {
     setupEventListeners();
     setupAudioEvents();
     initSubtitleToggle();
+    initPlaybackSpeed();
+    initScriptPanel();
   } catch (error) {
     console.error('Failed to initialize:', error);
     showError('データの読み込みに失敗しました');
@@ -750,6 +754,11 @@ function setupEventListeners() {
       toggleSubtitle();
       return;
     }
+
+    if (e.target.closest('#speed-toggle')) {
+      cyclePlaybackSpeed();
+      return;
+    }
   });
 
   // Click overlay to close tracklist panel
@@ -931,6 +940,7 @@ function setupAudioEvents() {
     updateAudioControls();
     saveProgress();
     updateCurrentSubtitle();
+    updateScriptPanelActive();
   });
 
   AppState.audio.addEventListener('loadedmetadata', () => {
@@ -1485,6 +1495,271 @@ function toggleSubtitle() {
   }
 
   updateSubtitleDisplay();
+}
+
+// ============================================
+// Script Panel System (台本面板)
+// ============================================
+
+/**
+ * Toggle script panel visibility
+ */
+function toggleScriptPanel() {
+  const panel = document.getElementById('script-panel');
+  const btn = document.getElementById('script-toggle');
+
+  if (!panel) return;
+
+  const isActive = panel.classList.toggle('active');
+  btn?.classList.toggle('active', isActive);
+
+  if (isActive) {
+    renderScriptPanel();
+    // Scroll to current subtitle
+    setTimeout(() => scrollToCurrentSubtitle(), 100);
+  }
+}
+
+/**
+ * Render all subtitles in the script panel
+ */
+function renderScriptPanel() {
+  const content = document.getElementById('script-panel-content');
+  if (!content) return;
+
+  if (AppState.subtitles.length === 0) {
+    content.innerHTML = `
+      <div class="script-empty">
+        <p>字幕がありません</p>
+      </div>
+    `;
+    return;
+  }
+
+  content.innerHTML = AppState.subtitles.map((sub, index) => `
+    <div class="script-item" data-index="${index}" data-start="${sub.startTime}">
+      <div class="script-time">${formatSubtitleTime(sub.startTime)}</div>
+      <div class="script-text">
+        ${sub.textZh ? `<div class="script-text-zh">${sub.textZh}</div>` : ''}
+        ${sub.textJp ? `<div class="script-text-jp">${sub.textJp}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  // Update active state
+  updateScriptPanelActive();
+}
+
+/**
+ * Format time for script panel (MM:SS)
+ */
+function formatSubtitleTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+/**
+ * Update active subtitle in script panel
+ */
+function updateScriptPanelActive() {
+  const panel = document.getElementById('script-panel');
+  if (!panel?.classList.contains('active')) return;
+
+  const items = panel.querySelectorAll('.script-item');
+  const currentTime = AppState.audio.currentTime;
+
+  items.forEach((item, index) => {
+    const sub = AppState.subtitles[index];
+    const isActive = sub && currentTime >= sub.startTime && currentTime <= sub.endTime;
+    item.classList.toggle('active', isActive);
+  });
+}
+
+/**
+ * Scroll to current subtitle in script panel
+ */
+function scrollToCurrentSubtitle() {
+  const panel = document.getElementById('script-panel');
+  const content = document.getElementById('script-panel-content');
+  if (!panel?.classList.contains('active') || !content) return;
+
+  const activeItem = content.querySelector('.script-item.active');
+  if (activeItem) {
+    activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+/**
+ * Seek to subtitle time when clicking on script item
+ */
+function seekToSubtitle(startTime) {
+  if (!AppState.audio.duration) return;
+  AppState.audio.currentTime = startTime;
+
+  // Start playing if paused
+  if (!AppState.isPlaying) {
+    AppState.audio.play().catch(console.error);
+  }
+}
+
+/**
+ * Search subtitles and highlight matches
+ */
+function searchScript(query) {
+  const content = document.getElementById('script-panel-content');
+  if (!content) return;
+
+  const items = content.querySelectorAll('.script-item');
+  const normalizedQuery = query.toLowerCase().trim();
+
+  if (!normalizedQuery) {
+    // Clear search - show all items
+    items.forEach(item => {
+      item.classList.remove('hidden', 'search-match');
+      // Remove highlight
+      const textZh = item.querySelector('.script-text-zh');
+      const textJp = item.querySelector('.script-text-jp');
+      if (textZh) textZh.innerHTML = textZh.textContent;
+      if (textJp) textJp.innerHTML = textJp.textContent;
+    });
+    return;
+  }
+
+  items.forEach((item, index) => {
+    const sub = AppState.subtitles[index];
+    const textZh = sub.textZh?.toLowerCase() || '';
+    const textJp = sub.textJp?.toLowerCase() || '';
+    const matches = textZh.includes(normalizedQuery) || textJp.includes(normalizedQuery);
+
+    item.classList.toggle('hidden', !matches);
+    item.classList.toggle('search-match', matches);
+
+    if (matches) {
+      // Highlight matching text
+      const textZhEl = item.querySelector('.script-text-zh');
+      const textJpEl = item.querySelector('.script-text-jp');
+
+      if (textZhEl && sub.textZh) {
+        textZhEl.innerHTML = highlightText(sub.textZh, query);
+      }
+      if (textJpEl && sub.textJp) {
+        textJpEl.innerHTML = highlightText(sub.textJp, query);
+      }
+    }
+  });
+}
+
+/**
+ * Highlight matching text with <mark> tags
+ */
+function highlightText(text, query) {
+  if (!query) return text;
+  const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+  return text.replace(regex, '<mark>$1</mark>');
+}
+
+/**
+ * Escape special regex characters
+ */
+function escapeRegex(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Initialize script panel event listeners
+ */
+function initScriptPanel() {
+  // Script toggle button
+  const toggleBtn = document.getElementById('script-toggle');
+  toggleBtn?.addEventListener('click', toggleScriptPanel);
+
+  // Close button
+  const closeBtn = document.getElementById('script-panel-close');
+  closeBtn?.addEventListener('click', toggleScriptPanel);
+
+  // Script item click - seek to time
+  const content = document.getElementById('script-panel-content');
+  content?.addEventListener('click', (e) => {
+    const item = e.target.closest('.script-item');
+    if (item) {
+      const startTime = parseFloat(item.dataset.start);
+      if (!isNaN(startTime)) {
+        seekToSubtitle(startTime);
+      }
+    }
+  });
+
+  // Search input
+  const searchInput = document.getElementById('script-search');
+  searchInput?.addEventListener('input', debounce((e) => {
+    searchScript(e.target.value);
+  }, 200));
+
+  // Search clear button
+  const clearBtn = document.getElementById('script-search-clear');
+  clearBtn?.addEventListener('click', () => {
+    const searchInput = document.getElementById('script-search');
+    if (searchInput) {
+      searchInput.value = '';
+      searchScript('');
+    }
+  });
+}
+
+// ============================================
+// Playback Speed System
+// ============================================
+const PLAYBACK_SPEEDS = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+
+/**
+ * Cycle through playback speeds
+ */
+function cyclePlaybackSpeed() {
+  const currentIndex = PLAYBACK_SPEEDS.indexOf(AppState.playbackSpeed);
+  const nextIndex = (currentIndex + 1) % PLAYBACK_SPEEDS.length;
+  const newSpeed = PLAYBACK_SPEEDS[nextIndex];
+
+  setPlaybackSpeed(newSpeed);
+}
+
+/**
+ * Set playback speed
+ */
+function setPlaybackSpeed(speed) {
+  AppState.playbackSpeed = speed;
+  AppState.audio.playbackRate = speed;
+  localStorage.setItem('dp_playback_speed', speed.toString());
+
+  updateSpeedDisplay();
+}
+
+/**
+ * Update speed button display
+ */
+function updateSpeedDisplay() {
+  const speedBtn = document.getElementById('speed-toggle');
+  if (!speedBtn) return;
+
+  const label = speedBtn.querySelector('.speed-label');
+  if (label) {
+    // Format: 1x, 1.5x, 2x etc.
+    const speedText = AppState.playbackSpeed === 1.0 ? '1x' :
+                      AppState.playbackSpeed % 1 === 0 ? `${AppState.playbackSpeed}x` :
+                      `${AppState.playbackSpeed}x`;
+    label.textContent = speedText;
+  }
+
+  // Highlight if not normal speed
+  speedBtn.classList.toggle('active', AppState.playbackSpeed !== 1.0);
+}
+
+/**
+ * Initialize playback speed on audio load
+ */
+function initPlaybackSpeed() {
+  AppState.audio.playbackRate = AppState.playbackSpeed;
+  updateSpeedDisplay();
 }
 
 // ============================================

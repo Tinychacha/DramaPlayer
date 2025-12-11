@@ -228,6 +228,18 @@
         </div>
 
         <div class="audio-buttons-secondary">
+          <button class="audio-btn-secondary speed-btn" id="speed-toggle" aria-label="再生速度">
+            <span class="speed-label">1x</span>
+          </button>
+          <button class="audio-btn-secondary script-btn" id="script-toggle" aria-label="台本表示">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </button>
           <button class="audio-btn-secondary subtitle-btn" id="subtitle-toggle" aria-label="字幕切替">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -250,6 +262,29 @@
       </div>
       <div class="tracklist-panel-content">
         <!-- Track list rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Script Panel (台本面板) -->
+    <div class="script-panel" id="script-panel">
+      <div class="script-panel-header">
+        <h3>台本</h3>
+        <div class="script-search-container">
+          <input type="text" id="script-search" class="script-search-input" placeholder="検索..." autocomplete="off">
+          <button class="script-search-clear" id="script-search-clear" aria-label="クリア">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <button class="script-panel-close" id="script-panel-close" aria-label="閉じる">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="script-panel-content" id="script-panel-content">
+        <!-- Script content rendered by JS -->
       </div>
     </div>
   </div>
