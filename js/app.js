@@ -366,6 +366,18 @@ function renderDetailView(drama) {
   const detailContent = DOM.detailView.querySelector('.detail-content');
   const currentRating = AppState.ratings[drama.id] || 0;
 
+  // Check if any track has saved progress (not completed)
+  const hasProgress = drama.tracks.some(track => {
+    const saved = getProgress(drama.id, track.id);
+    return saved && saved.time > 0 && !saved.completed;
+  });
+  // Check if all tracks are completed
+  const allCompleted = drama.tracks.every(track => {
+    const saved = getProgress(drama.id, track.id);
+    return saved && saved.completed;
+  });
+  const playBtnText = hasProgress ? '続きから' : (allCompleted ? '最初から' : '再生する');
+
   detailContent.innerHTML = `
     <div class="detail-hero">
       <div class="detail-cover">
@@ -385,7 +397,7 @@ function renderDetailView(drama) {
         </div>
         <div class="detail-actions">
           <button class="detail-play-all-btn" id="play-all-btn">
-            ${Icons.play} すべて再生
+            ${Icons.play} ${playBtnText}
           </button>
         </div>
       </div>
@@ -395,16 +407,23 @@ function renderDetailView(drama) {
         <h3 class="detail-tracks-title">トラックリスト (${drama.tracks.length}曲)</h3>
       </div>
       <div class="detail-tracks-list" id="detail-tracks-list">
-        ${drama.tracks.map((track, index) => `
+        ${drama.tracks.map((track, index) => {
+          const saved = getProgress(drama.id, track.id);
+          const isCompleted = saved && saved.completed;
+          const hasProgress = saved && saved.time > 0 && !isCompleted;
+
+          return `
           <div class="detail-track-item ${AppState.currentTrack?.id === track.id ? 'active' : ''}" data-track-id="${track.id}">
             <div class="detail-track-number">${index + 1}</div>
             <div class="detail-track-info">
               <div class="detail-track-title">${track.title}</div>
               ${track.titleZh ? `<div class="detail-track-title-zh">${track.titleZh}</div>` : ''}
             </div>
+            ${isCompleted ? `<span class="detail-track-completed">再生済み</span>` : ''}
+            ${hasProgress ? `<span class="detail-track-resume">続き ${formatTime(saved.time)}</span>` : ''}
             <div class="detail-track-duration">${track.duration}</div>
           </div>
-        `).join('')}
+        `}).join('')}
       </div>
     </div>
   `;
@@ -948,7 +967,21 @@ function playTrack(trackId, autoOpenPlayer = true) {
   const track = AppState.currentDrama.tracks.find(t => t.id === trackId);
   if (!track) return;
 
+  // If clicking the currently playing track, just open player view
+  if (AppState.currentTrack?.id === trackId) {
+    if (autoOpenPlayer) {
+      openPlayerView();
+    }
+    return;
+  }
+
   AppState.currentTrack = track;
+
+  // Get saved progress before loading new source
+  const saved = getProgress(AppState.currentDrama.id, track.id);
+  const shouldRestore = saved && saved.time > 10;
+
+  // Set audio source (this triggers loading)
   AppState.audio.src = track.audioFile;
 
   // Load subtitles for this track
@@ -959,28 +992,51 @@ function playTrack(trackId, autoOpenPlayer = true) {
     openPlayerView();
   }
 
-  // Try to restore progress
-  const saved = getProgress(AppState.currentDrama.id, track.id);
+  // Start playing
+  AppState.audio.play().catch(console.error);
 
-  AppState.audio.play().then(() => {
-    if (saved && saved.time > 10 && saved.time < AppState.audio.duration - 10) {
-      AppState.audio.currentTime = saved.time;
-    }
-  }).catch(err => {
-    console.error('Play failed:', err);
-  });
+  // Restore progress after play starts (using setTimeout for reliability)
+  if (shouldRestore) {
+    setTimeout(() => {
+      const duration = AppState.audio.duration;
+      if (duration && !isNaN(duration) && saved.time < duration - 10) {
+        AppState.audio.currentTime = saved.time;
+      }
+    }, 100);
+  }
 
   updateAudioControls();
   renderMiniPlayer();
 }
 
 /**
- * Play All Tracks - 从第一首开始播放
+ * Play All Tracks - 继续上次暂停的位置，或从头开始
  */
 function playAllTracks() {
   if (!AppState.currentDrama?.tracks.length) return;
-  const firstTrack = AppState.currentDrama.tracks[0];
-  playTrack(firstTrack.id);
+
+  const tracks = AppState.currentDrama.tracks;
+
+  // Find the first track with saved progress (not completed)
+  for (const track of tracks) {
+    const saved = getProgress(AppState.currentDrama.id, track.id);
+    if (saved && saved.time > 0 && !saved.completed) {
+      playTrack(track.id);
+      return;
+    }
+  }
+
+  // Find the first incomplete track
+  for (const track of tracks) {
+    const saved = getProgress(AppState.currentDrama.id, track.id);
+    if (!saved || !saved.completed) {
+      playTrack(track.id);
+      return;
+    }
+  }
+
+  // All tracks completed, start from first track
+  playTrack(tracks[0].id);
 }
 
 function togglePlay() {
@@ -1018,13 +1074,24 @@ function playNextTrack() {
   const tracks = AppState.currentDrama.tracks;
   const currentIndex = tracks.findIndex(t => t.id === AppState.currentTrack.id);
 
+  // Mark the completed track as finished
+  markCompleted(AppState.currentDrama.id, AppState.currentTrack.id);
+
   if (currentIndex < tracks.length - 1) {
     playTrack(tracks[currentIndex + 1].id);
   } else {
-    // End of playlist
+    // End of playlist - return to detail view
     AppState.audio.pause();
     AppState.audio.currentTime = 0;
+    AppState.currentTrack = null;
     updateAudioControls();
+
+    // Close player view and return to detail view
+    if (DOM.playerView.classList.contains('active')) {
+      DOM.playerView.classList.remove('active');
+      DOM.tracklistPanel.classList.remove('active');
+      openDetailView(AppState.currentDrama);
+    }
   }
 }
 
@@ -1164,8 +1231,16 @@ function saveProgress() {
   if (!AppState.audio.duration || AppState.audio.currentTime < 5) return;
 
   const key = `dp_progress_${AppState.currentDrama.id}_${AppState.currentTrack.id}`;
+  const currentTime = AppState.audio.currentTime;
+
+  // Check existing progress - only save if new time is greater
+  const existing = getProgress(AppState.currentDrama.id, AppState.currentTrack.id);
+  if (existing && !existing.completed && existing.time > currentTime) {
+    return; // Don't overwrite with smaller time
+  }
+
   localStorage.setItem(key, JSON.stringify({
-    time: AppState.audio.currentTime,
+    time: currentTime,
     savedAt: Date.now()
   }));
 }
@@ -1177,6 +1252,17 @@ function getProgress(dramaId, trackId) {
   } catch {
     return null;
   }
+}
+
+/**
+ * Mark track as completed (played to the end)
+ */
+function markCompleted(dramaId, trackId) {
+  const key = `dp_progress_${dramaId}_${trackId}`;
+  localStorage.setItem(key, JSON.stringify({
+    completed: true,
+    savedAt: Date.now()
+  }));
 }
 
 // ============================================
@@ -1416,6 +1502,18 @@ function formatTime(seconds) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
   return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+/**
+ * Parse duration string "MM:SS" to seconds
+ */
+function parseDuration(durationStr) {
+  if (!durationStr) return 0;
+  const parts = durationStr.split(':');
+  if (parts.length === 2) {
+    return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+  }
+  return 0;
 }
 
 function debounce(fn, delay) {

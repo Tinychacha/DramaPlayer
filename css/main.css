@@ -1629,6 +1629,26 @@ body::after {
   text-overflow: ellipsis;
 }
 
+.detail-track-resume {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  background: var(--accent-soft);
+  color: var(--accent-primary);
+  border-radius: 3px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.detail-track-completed {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  background: var(--accent-soft);
+  color: var(--accent-primary);
+  border-radius: 3px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
 .detail-track-duration {
   font-size: 0.85rem;
   color: var(--text-muted);
