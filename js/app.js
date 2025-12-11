@@ -1469,7 +1469,7 @@ async function loadSubtitles(subtitleFile) {
   }
 
   try {
-    const response = await fetch(subtitleFile);
+    const response = await fetch(getMediaUrl(subtitleFile));
     if (!response.ok) throw new Error('Subtitle file not found');
 
     const srtContent = await response.text();
