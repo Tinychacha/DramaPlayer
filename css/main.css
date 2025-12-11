@@ -2646,7 +2646,7 @@ body::after {
   .logo {
     flex: 0 0 auto;
     max-width: 60%;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .search-container {
@@ -3171,7 +3171,6 @@ body::after {
   color: #ffb6c1;
 }
 
-/* 萌萌Logo - 立体爱心 */
 [data-theme="kawaii"] .logo-icon {
   background: linear-gradient(145deg, #ff8fab 0%, #ff6b9d 30%, #ff4785 70%, #e8457a 100%);
   box-shadow:
@@ -3185,6 +3184,7 @@ body::after {
   clip-path: path('M22 38 C22 38 4 26 4 14 C4 6 10 2 17 2 C20 2 22 4 22 7 C22 4 24 2 27 2 C34 2 40 6 40 14 C40 26 22 38 22 38 Z');
 }
 
+/* 爱心高光 */
 [data-theme="kawaii"] .logo-icon::before {
   content: '';
   position: absolute;
@@ -3246,11 +3246,39 @@ body::after {
   filter: drop-shadow(0 0 6px rgba(255, 107, 157, 0.6));
 }
 
-/* 移动端隐藏logo装饰 */
+/* 移动端隐藏logo装饰并调整大小 */
 @media (max-width: 768px) {
+  [data-theme="kawaii"] .logo::after,
   [data-theme="kawaii"] .logo-text::before,
   [data-theme="kawaii"] .logo-text::after {
     display: none;
+  }
+
+  [data-theme="kawaii"] .logo-text {
+    font-size: 1.2rem;
+    filter:
+      drop-shadow(0 0 4px rgba(255, 107, 157, 0.4))
+      drop-shadow(2px 2px 0px rgba(255, 182, 193, 0.6));
+  }
+
+  [data-theme="kawaii"] .logo-icon {
+    width: 32px;
+    height: 28px;
+    animation: heartPulseMobile 1.5s ease-in-out infinite;
+    /* 缩小后的心形路径 (原44x40 → 32x28) */
+    clip-path: path('M16 26.6 C16 26.6 2.9 18.2 2.9 9.8 C2.9 4.2 7.3 1.4 12.4 1.4 C14.5 1.4 16 2.8 16 4.9 C16 2.8 17.5 1.4 19.6 1.4 C24.7 1.4 29.1 4.2 29.1 9.8 C29.1 18.2 16 26.6 16 26.6 Z');
+  }
+
+  @keyframes heartPulseMobile {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  [data-theme="kawaii"] .logo-icon::before {
+    width: 8px;
+    height: 5px;
+    top: 5px;
+    left: 5px;
   }
 }
 
@@ -3981,5 +4009,312 @@ body::after {
 
   .subtitle-text-jp {
     font-size: 0.75rem;
+  }
+}
+
+/* ============================================
+   Sort Dropdown
+   ============================================ */
+.sort-dropdown {
+  position: relative;
+  margin-left: auto;
+}
+
+.sort-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-family: var(--font-jp);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.sort-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-medium);
+}
+
+.sort-btn svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+.sort-chevron {
+  transition: transform 0.2s ease;
+}
+
+.sort-menu.active + .sort-btn .sort-chevron,
+.sort-btn:focus + .sort-menu.active ~ .sort-chevron {
+  transform: rotate(180deg);
+}
+
+.sort-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 160px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.sort-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.sort-option {
+  display: block;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-jp);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sort-option:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.sort-option.active {
+  background: var(--accent-soft);
+  color: var(--accent-primary);
+  font-weight: 500;
+}
+
+/* Section header with sort - 让排序下拉靠右 */
+.section-count {
+  margin-right: auto;
+}
+
+/* ============================================
+   Rating System - 主题化评分图标
+   ============================================ */
+
+/* 评分容器 */
+.detail-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.85rem 0;
+  padding: 0.5rem 0;
+}
+
+/* 评分按钮基础样式 */
+.rating-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.rating-btn:hover {
+  transform: scale(1.2) translateY(-2px);
+}
+
+.rating-btn:active {
+  transform: scale(0.9);
+}
+
+/* 评分图标尺寸 */
+.rating-icon {
+  width: 28px;
+  height: 28px;
+  transition: all 0.25s ease;
+}
+
+/* ===== 昭和喫茶店主题 - 咖啡杯评分 ===== */
+:root:not([data-theme="kawaii"]) {
+  --rating-fill-top: #D4A574;
+  --rating-fill-bottom: #8B5A2B;
+  --rating-center: #6B4423;
+  --rating-stroke: var(--showa-brown);
+  --rating-empty-stroke: var(--showa-copper);
+}
+
+/* 昭和空杯 */
+:root:not([data-theme="kawaii"]) .rating-empty {
+  color: var(--rating-empty-stroke);
+  opacity: 0.45;
+}
+
+/* 昭和满杯 - 温暖咖啡色 */
+:root:not([data-theme="kawaii"]) .rating-filled {
+  color: var(--rating-stroke);
+  filter: drop-shadow(0 2px 4px rgba(139, 90, 43, 0.35));
+}
+
+/* 昭和悬停效果 */
+:root:not([data-theme="kawaii"]) .rating-btn:hover .rating-empty {
+  color: var(--showa-copper);
+  opacity: 0.75;
+  filter: drop-shadow(0 1px 3px rgba(166, 123, 91, 0.3));
+}
+
+/* 昭和蒸汽动画 */
+:root:not([data-theme="kawaii"]) .rating-filled .steam {
+  animation: steam-rise 2s ease-in-out infinite;
+}
+
+:root:not([data-theme="kawaii"]) .rating-filled .steam-1 {
+  animation-delay: 0s;
+}
+
+:root:not([data-theme="kawaii"]) .rating-filled .steam-2 {
+  animation-delay: 0.5s;
+}
+
+@keyframes steam-rise {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+}
+
+/* ===== 樱花可爱主题 - 樱花评分 ===== */
+[data-theme="kawaii"] {
+  --rating-fill-top: #FFB7C5;
+  --rating-fill-bottom: #FF6B9D;
+  --rating-center: #FFD700;
+  --rating-stroke: var(--accent-secondary);
+  --rating-empty-stroke: var(--kawaii-peach);
+}
+
+/* 樱花空心 */
+[data-theme="kawaii"] .rating-empty {
+  color: var(--rating-empty-stroke);
+  opacity: 0.5;
+}
+
+/* 樱花填充 - 粉嫩渐变 */
+[data-theme="kawaii"] .rating-filled {
+  color: var(--rating-stroke);
+  filter: drop-shadow(0 2px 6px rgba(255, 107, 157, 0.45));
+}
+
+/* 樱花悬停效果 */
+[data-theme="kawaii"] .rating-btn:hover .rating-empty {
+  color: var(--accent-primary);
+  opacity: 0.7;
+  filter: drop-shadow(0 1px 4px rgba(255, 107, 157, 0.35));
+}
+
+/* 樱花花瓣旋转动画 */
+[data-theme="kawaii"] .rating-filled .petal {
+  transform-origin: center;
+  animation: petal-pulse 3s ease-in-out infinite;
+}
+
+[data-theme="kawaii"] .rating-filled .petal:nth-child(1) { animation-delay: 0s; }
+[data-theme="kawaii"] .rating-filled .petal:nth-child(2) { animation-delay: 0.15s; }
+[data-theme="kawaii"] .rating-filled .petal:nth-child(3) { animation-delay: 0.3s; }
+[data-theme="kawaii"] .rating-filled .petal:nth-child(4) { animation-delay: 0.45s; }
+[data-theme="kawaii"] .rating-filled .petal:nth-child(5) { animation-delay: 0.6s; }
+
+@keyframes petal-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* 樱花悬停时轻微旋转 */
+[data-theme="kawaii"] .rating-btn:hover .rating-icon {
+  animation: sakura-spin 0.6s ease-out;
+}
+
+@keyframes sakura-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(15deg);
+  }
+}
+
+/* ===== 交互状态 ===== */
+
+/* 填充时的弹跳动画 */
+.rating-btn.filled .rating-icon {
+  animation: rating-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes rating-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 悬停预览 - 后面的变暗 */
+.detail-rating:hover .rating-btn:hover ~ .rating-btn .rating-filled {
+  opacity: 0.35;
+  filter: grayscale(0.4);
+}
+
+/* 依次延迟出现 */
+.rating-btn:nth-child(1) { transition-delay: 0s; }
+.rating-btn:nth-child(2) { transition-delay: 0.03s; }
+.rating-btn:nth-child(3) { transition-delay: 0.06s; }
+.rating-btn:nth-child(4) { transition-delay: 0.09s; }
+.rating-btn:nth-child(5) { transition-delay: 0.12s; }
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+  .sort-btn span:not(.sort-chevron):first-of-type {
+    display: none;
+  }
+
+  .sort-btn {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .rating-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .detail-rating {
+    gap: 0.25rem;
   }
 }

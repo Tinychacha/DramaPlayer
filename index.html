@@ -16,8 +16,8 @@
   <meta name="apple-mobile-web-app-title" content="DramaPlayer">
   <meta name="format-detection" content="telephone=no">
 
-  <!-- Favicon - 可爱樱花 -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='p' cx='50%25' cy='30%25'><stop offset='0%25' stop-color='%23ffc0cb'/><stop offset='100%25' stop-color='%23ff6b9d'/></radialGradient></defs><g transform='translate(50,50)'><ellipse rx='18' ry='28' fill='url(%23p)' transform='rotate(0)'/><ellipse rx='18' ry='28' fill='url(%23p)' transform='rotate(72)'/><ellipse rx='18' ry='28' fill='url(%23p)' transform='rotate(144)'/><ellipse rx='18' ry='28' fill='url(%23p)' transform='rotate(216)'/><ellipse rx='18' ry='28' fill='url(%23p)' transform='rotate(288)'/></g><circle cx='50' cy='50' r='10' fill='%23ffeb3b'/></svg>">
+  <!-- Favicon - Q版可爱樱花 -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='p' cx='30%25' cy='20%25' r='80%25'><stop offset='0%25' stop-color='%23FFFFFF'/><stop offset='40%25' stop-color='%23FFCDD6'/><stop offset='100%25' stop-color='%23FF8BA7'/></radialGradient><radialGradient id='c' cx='30%25' cy='30%25' r='60%25'><stop offset='0%25' stop-color='%23FFF9C4'/><stop offset='100%25' stop-color='%23FFCC02'/></radialGradient></defs><g transform='translate(50,50)'><ellipse rx='16' ry='24' fill='url(%23p)' stroke='%23FF7DAA' stroke-width='2' transform='rotate(0) translate(0,-6)'/><ellipse rx='16' ry='24' fill='url(%23p)' stroke='%23FF7DAA' stroke-width='2' transform='rotate(72) translate(0,-6)'/><ellipse rx='16' ry='24' fill='url(%23p)' stroke='%23FF7DAA' stroke-width='2' transform='rotate(144) translate(0,-6)'/><ellipse rx='16' ry='24' fill='url(%23p)' stroke='%23FF7DAA' stroke-width='2' transform='rotate(216) translate(0,-6)'/><ellipse rx='16' ry='24' fill='url(%23p)' stroke='%23FF7DAA' stroke-width='2' transform='rotate(288) translate(0,-6)'/></g><circle cx='50' cy='50' r='14' fill='url(%23c)' stroke='%23FFB347' stroke-width='2'/><circle cx='46' cy='46' r='5' fill='white' opacity='0.6'/></svg>">
 
   <!-- Preconnect for fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -113,6 +113,23 @@
         <div class="section-header">
           <h2 class="section-title">ライブラリ</h2>
           <span class="section-count" id="section-count">0作品</span>
+          <div class="sort-dropdown">
+            <button class="sort-btn" id="sort-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M6 12h12M9 18h6" stroke-linecap="round"/>
+              </svg>
+              <span id="sort-label">新しい順</span>
+              <svg class="sort-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+            <div class="sort-menu" id="sort-menu">
+              <button class="sort-option active" data-sort="newest">新しい順</button>
+              <button class="sort-option" data-sort="oldest">古い順</button>
+              <button class="sort-option" data-sort="name">名前順 (あいうえお)</button>
+              <button class="sort-option" data-sort="rating">お気に入り順</button>
+            </div>
+          </div>
         </div>
 
         <div class="drama-grid" id="drama-grid">

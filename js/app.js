@@ -19,6 +19,8 @@ const AppState = {
     circle: null,
     cv: null
   },
+  sort: localStorage.getItem('dp_sort') || 'newest',
+  ratings: JSON.parse(localStorage.getItem('dp_ratings') || '{}'),
   unlockedDramas: new Set(JSON.parse(localStorage.getItem('dp_unlocked') || '[]')),
   // Subtitle System
   subtitles: [],
@@ -60,7 +62,70 @@ const Icons = {
   close: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>`,
   music: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,
   mic: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`,
-  disc: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>`
+  disc: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>`,
+
+  // 昭和喫茶店风格 - 复古咖啡杯
+  coffeeEmpty: `<svg viewBox="0 0 24 24" class="rating-icon rating-empty">
+    <path d="M5 9h12a2 2 0 0 1 2 2v1a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5v-1a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M17 11h1.5a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2H17" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M6 20h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <path class="steam steam-1" d="M8 6c0-1 .5-2 1.5-2s1.5 1 1.5 2" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+    <path class="steam steam-2" d="M12 5c0-1.5.5-2.5 1.5-2.5s1.5 1 1.5 2.5" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+  </svg>`,
+  coffeeFilled: `<svg viewBox="0 0 24 24" class="rating-icon rating-filled">
+    <defs>
+      <linearGradient id="coffeeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:var(--rating-fill-top)"/>
+        <stop offset="100%" style="stop-color:var(--rating-fill-bottom)"/>
+      </linearGradient>
+    </defs>
+    <path d="M5 9h12a2 2 0 0 1 2 2v1a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5v-1a2 2 0 0 1 2-2z" fill="url(#coffeeGrad)" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M17 11h1.5a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2H17" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M6 20h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <path class="steam steam-1" d="M8 6c0-1 .5-2 1.5-2s1.5 1 1.5 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    <path class="steam steam-2" d="M12 5c0-1.5.5-2.5 1.5-2.5s1.5 1 1.5 2.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+  </svg>`,
+
+  // 樱花可爱风格 - 精致五瓣樱花（带缺口的心形花瓣）
+  sakuraEmpty: `<svg viewBox="0 0 24 24" class="rating-icon rating-empty">
+    <g transform="translate(12,12)">
+      <path class="petal" d="M0,-9 C-2.5,-9 -4,-7 -4,-5 C-4,-2.5 -2,0 0,1 C2,0 4,-2.5 4,-5 C4,-7 2.5,-9 0,-9 M0,-7.5 C0,-7.5 0,-7.5 0,-7.5" transform="rotate(0)" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path class="petal" d="M0,-9 C-2.5,-9 -4,-7 -4,-5 C-4,-2.5 -2,0 0,1 C2,0 4,-2.5 4,-5 C4,-7 2.5,-9 0,-9 M0,-7.5 C0,-7.5 0,-7.5 0,-7.5" transform="rotate(72)" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path class="petal" d="M0,-9 C-2.5,-9 -4,-7 -4,-5 C-4,-2.5 -2,0 0,1 C2,0 4,-2.5 4,-5 C4,-7 2.5,-9 0,-9 M0,-7.5 C0,-7.5 0,-7.5 0,-7.5" transform="rotate(144)" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path class="petal" d="M0,-9 C-2.5,-9 -4,-7 -4,-5 C-4,-2.5 -2,0 0,1 C2,0 4,-2.5 4,-5 C4,-7 2.5,-9 0,-9 M0,-7.5 C0,-7.5 0,-7.5 0,-7.5" transform="rotate(216)" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path class="petal" d="M0,-9 C-2.5,-9 -4,-7 -4,-5 C-4,-2.5 -2,0 0,1 C2,0 4,-2.5 4,-5 C4,-7 2.5,-9 0,-9 M0,-7.5 C0,-7.5 0,-7.5 0,-7.5" transform="rotate(288)" fill="none" stroke="currentColor" stroke-width="1"/>
+    </g>
+    <circle cx="12" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1"/>
+  </svg>`,
+  sakuraFilled: `<svg viewBox="0 0 24 24" class="rating-icon rating-filled">
+    <defs>
+      <radialGradient id="kawaiiPetal" cx="30%" cy="20%" r="80%">
+        <stop offset="0%" stop-color="#FFFFFF"/>
+        <stop offset="40%" stop-color="#FFCDD6"/>
+        <stop offset="100%" stop-color="#FF8BA7"/>
+      </radialGradient>
+      <radialGradient id="kawaiiCenter" cx="30%" cy="30%" r="60%">
+        <stop offset="0%" stop-color="#FFF9C4"/>
+        <stop offset="100%" stop-color="#FFCC02"/>
+      </radialGradient>
+      <filter id="kawaiiGlow">
+        <feGaussianBlur stdDeviation="0.6" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <g filter="url(#kawaiiGlow)">
+      <!-- Q版圆润花瓣 -->
+      <ellipse cx="12" cy="5" rx="3.8" ry="4.5" fill="url(#kawaiiPetal)" stroke="#FF7DAA" stroke-width="0.5"/>
+      <ellipse cx="12" cy="5" rx="3.8" ry="4.5" fill="url(#kawaiiPetal)" stroke="#FF7DAA" stroke-width="0.5" transform="rotate(72 12 12)"/>
+      <ellipse cx="12" cy="5" rx="3.8" ry="4.5" fill="url(#kawaiiPetal)" stroke="#FF7DAA" stroke-width="0.5" transform="rotate(144 12 12)"/>
+      <ellipse cx="12" cy="5" rx="3.8" ry="4.5" fill="url(#kawaiiPetal)" stroke="#FF7DAA" stroke-width="0.5" transform="rotate(216 12 12)"/>
+      <ellipse cx="12" cy="5" rx="3.8" ry="4.5" fill="url(#kawaiiPetal)" stroke="#FF7DAA" stroke-width="0.5" transform="rotate(288 12 12)"/>
+      <!-- 圆润花蕊 -->
+      <circle cx="12" cy="12" r="3.5" fill="url(#kawaiiCenter)" stroke="#FFB347" stroke-width="0.5"/>
+      <!-- 高光 -->
+      <circle cx="10.8" cy="11" r="1.2" fill="white" opacity="0.5"/>
+    </g>
+  </svg>`
 };
 
 // ============================================
@@ -70,6 +135,7 @@ async function init() {
   try {
     await loadData();
     renderFilters();
+    initSort();
     renderDramas();
     setupEventListeners();
     setupAudioEvents();
@@ -205,7 +271,7 @@ function renderDramas() {
 }
 
 function filterDramas() {
-  return AppState.dramas.filter(drama => {
+  let filtered = AppState.dramas.filter(drama => {
     // Search filter
     if (AppState.filters.search) {
       const query = AppState.filters.search.toLowerCase();
@@ -233,6 +299,64 @@ function filterDramas() {
 
     return true;
   });
+
+  // Sort
+  filtered = sortDramas(filtered);
+
+  return filtered;
+}
+
+/**
+ * Sort dramas based on current sort setting
+ */
+function sortDramas(dramas) {
+  const sorted = [...dramas];
+
+  switch (AppState.sort) {
+    case 'newest':
+      // 按发布日期降序（最新在前）
+      sorted.sort((a, b) => {
+        const dateA = a.releaseDate || '1970-01-01';
+        const dateB = b.releaseDate || '1970-01-01';
+        return dateB.localeCompare(dateA);
+      });
+      break;
+
+    case 'oldest':
+      // 按发布日期升序（最旧在前）
+      sorted.sort((a, b) => {
+        const dateA = a.releaseDate || '1970-01-01';
+        const dateB = b.releaseDate || '1970-01-01';
+        return dateA.localeCompare(dateB);
+      });
+      break;
+
+    case 'name':
+      // 按 titleJp 假名排序（あいうえお顺）
+      sorted.sort((a, b) => {
+        const nameA = a.titleJp || a.title || '';
+        const nameB = b.titleJp || b.title || '';
+        return nameA.localeCompare(nameB, 'ja');
+      });
+      break;
+
+    case 'rating':
+      // 按评分降序（最高在前），未评分的放最后
+      sorted.sort((a, b) => {
+        const ratingA = AppState.ratings[a.id] || 0;
+        const ratingB = AppState.ratings[b.id] || 0;
+        if (ratingA === ratingB) {
+          // 同评分按日期排序
+          const dateA = a.releaseDate || '1970-01-01';
+          const dateB = b.releaseDate || '1970-01-01';
+          return dateB.localeCompare(dateA);
+        }
+        return ratingB - ratingA;
+      });
+      break;
+  }
+
+  return sorted;
 }
 
 /**
@@ -240,6 +364,7 @@ function filterDramas() {
  */
 function renderDetailView(drama) {
   const detailContent = DOM.detailView.querySelector('.detail-content');
+  const currentRating = AppState.ratings[drama.id] || 0;
 
   detailContent.innerHTML = `
     <div class="detail-hero">
@@ -254,6 +379,9 @@ function renderDetailView(drama) {
         <div class="detail-circle">${AppState.circles[drama.circleId]?.name || drama.circle}</div>
         <div class="detail-cv-list">
           ${drama.cv.map(cv => `<span class="detail-cv-tag">${Icons.mic} ${cv}</span>`).join('')}
+        </div>
+        <div class="detail-rating" data-drama-id="${drama.id}">
+          ${renderStars(currentRating)}
         </div>
         <div class="detail-actions">
           <button class="detail-play-all-btn" id="play-all-btn">
@@ -486,6 +614,29 @@ function setupEventListeners() {
     openDrama(dramaId);
   });
 
+  // Sort dropdown
+  const sortBtn = document.getElementById('sort-btn');
+  const sortMenu = document.getElementById('sort-menu');
+
+  sortBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    sortMenu?.classList.toggle('active');
+  });
+
+  sortMenu?.addEventListener('click', (e) => {
+    const option = e.target.closest('.sort-option');
+    if (option) {
+      const sortValue = option.dataset.sort;
+      setSort(sortValue);
+      sortMenu.classList.remove('active');
+    }
+  });
+
+  // Close sort menu when clicking outside
+  document.addEventListener('click', () => {
+    sortMenu?.classList.remove('active');
+  });
+
   // Detail view events
   DOM.detailView.addEventListener('click', (e) => {
     // Back button
@@ -497,6 +648,18 @@ function setupEventListeners() {
     // Play all button
     if (e.target.closest('#play-all-btn')) {
       playAllTracks();
+      return;
+    }
+
+    // Star rating
+    const starBtn = e.target.closest('.rating-btn');
+    if (starBtn) {
+      const rating = parseInt(starBtn.dataset.star);
+      const ratingContainer = starBtn.closest('.detail-rating');
+      const dramaId = ratingContainer?.dataset.dramaId;
+      if (dramaId) {
+        setRating(dramaId, rating);
+      }
       return;
     }
 
@@ -1153,6 +1316,99 @@ function toggleSubtitle() {
 }
 
 // ============================================
+// Rating System
+// ============================================
+
+/**
+ * Render star rating component
+ */
+function renderStars(rating) {
+  // 根据当前主题选择图标
+  const isKawaii = document.documentElement.getAttribute('data-theme') === 'kawaii';
+  const emptyIcon = isKawaii ? Icons.sakuraEmpty : Icons.coffeeEmpty;
+  const filledIcon = isKawaii ? Icons.sakuraFilled : Icons.coffeeFilled;
+
+  let html = '';
+  for (let i = 1; i <= 5; i++) {
+    const isFilled = i <= rating;
+    html += `<button class="rating-btn ${isFilled ? 'filled' : ''}" data-star="${i}" aria-label="${i}">
+      ${isFilled ? filledIcon : emptyIcon}
+    </button>`;
+  }
+  return html;
+}
+
+/**
+ * Set rating for a drama
+ */
+function setRating(dramaId, rating) {
+  // Toggle off if clicking same rating
+  if (AppState.ratings[dramaId] === rating) {
+    delete AppState.ratings[dramaId];
+  } else {
+    AppState.ratings[dramaId] = rating;
+  }
+
+  localStorage.setItem('dp_ratings', JSON.stringify(AppState.ratings));
+
+  // Update UI
+  const ratingContainer = document.querySelector(`.detail-rating[data-drama-id="${dramaId}"]`);
+  if (ratingContainer) {
+    ratingContainer.innerHTML = renderStars(AppState.ratings[dramaId] || 0);
+  }
+}
+
+/**
+ * Set sort order
+ */
+function setSort(sortValue) {
+  AppState.sort = sortValue;
+  localStorage.setItem('dp_sort', sortValue);
+
+  // Update UI
+  const sortLabel = document.getElementById('sort-label');
+  const sortLabels = {
+    newest: '新しい順',
+    oldest: '古い順',
+    name: '名前順',
+    rating: 'お気に入り順'
+  };
+  if (sortLabel) {
+    sortLabel.textContent = sortLabels[sortValue] || sortValue;
+  }
+
+  // Update active state
+  document.querySelectorAll('.sort-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.sort === sortValue);
+  });
+
+  // Re-render
+  renderDramas();
+}
+
+/**
+ * Initialize sort UI based on saved state
+ */
+function initSort() {
+  const sortValue = AppState.sort;
+  const sortLabel = document.getElementById('sort-label');
+  const sortLabels = {
+    newest: '新しい順',
+    oldest: '古い順',
+    name: '名前順',
+    rating: 'お気に入り順'
+  };
+
+  if (sortLabel) {
+    sortLabel.textContent = sortLabels[sortValue] || sortLabels.newest;
+  }
+
+  document.querySelectorAll('.sort-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.sort === sortValue);
+  });
+}
+
+// ============================================
 // Utilities
 // ============================================
 function formatTime(seconds) {
@@ -1239,6 +1495,14 @@ function initTheme() {
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme === 'light' ? '' : theme);
   updateThemeColor(theme);
+
+  // Re-render rating icons if detail view is open
+  if (AppState.currentDrama) {
+    const ratingContainer = document.querySelector(`.detail-rating[data-drama-id="${AppState.currentDrama.id}"]`);
+    if (ratingContainer) {
+      ratingContainer.innerHTML = renderStars(AppState.ratings[AppState.currentDrama.id] || 0);
+    }
+  }
 }
 
 function updateThemeColor(theme) {
