@@ -23,7 +23,9 @@ const Config = {
 function getMediaUrl(path) {
   if (!path) return '';
   if (Config.useR2 && Config.mediaBaseUrl) {
-    return `${Config.mediaBaseUrl}/${path}`;
+    // 编码路径中的特殊字符（如空格），但保留斜杠
+    const encodedPath = path.split('/').map(segment => encodeURIComponent(segment)).join('/');
+    return `${Config.mediaBaseUrl}/${encodedPath}`;
   }
   return path;
 }
