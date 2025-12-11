@@ -20,21 +20,72 @@
           "title": "正義の味方",
           "titleZh": "正义的伙伴",
           "duration": "10:13",
-          "audioFile": "audios/tmw/01.mp3"
+          "audioFile": "audios/TELL ME WHY/01.mp3",
+          "subtitleFile": "audios/TELL ME WHY/01 正義の味方.txt"
         },
         {
           "id": 2,
-          "title": "はじめまして",
-          "titleZh": "初次见面",
-          "duration": "08:45",
-          "audioFile": "audios/tmw/02.mp3"
+          "title": "付和雷同",
+          "titleZh": "随声附和",
+          "duration": "04:35",
+          "audioFile": "audios/TELL ME WHY/02.mp3",
+          "subtitleFile": "audios/TELL ME WHY/02 付和雷同.txt"
         },
         {
           "id": 3,
-          "title": "日常",
-          "titleZh": "日常",
-          "duration": "12:30",
-          "audioFile": "audios/tmw/03.mp3"
+          "title": "望郷の空",
+          "titleZh": "思乡的天空",
+          "duration": "04:41",
+          "audioFile": "audios/TELL ME WHY/03.mp3",
+          "subtitleFile": "audios/TELL ME WHY/03 望郷の空.txt"
+        },
+        {
+          "id": 4,
+          "title": "偽薬を飲み、吊り橋を渡る",
+          "titleZh": "服下安慰剂，走过吊桥",
+          "duration": "12:14",
+          "audioFile": "audios/TELL ME WHY/04.mp3",
+          "subtitleFile": "audios/TELL ME WHY/04 偽薬を飲み、吊り橋を渡る.txt"
+        },
+        {
+          "id": 5,
+          "title": "正義の見方",
+          "titleZh": "正义的看法",
+          "duration": "04:43",
+          "audioFile": "audios/TELL ME WHY/05.mp3",
+          "subtitleFile": "audios/TELL ME WHY/05 正義の見方.txt"
+        },
+        {
+          "id": 6,
+          "title": "COllaPse",
+          "titleZh": "崩塌",
+          "duration": "25:00",
+          "audioFile": "audios/TELL ME WHY/06.mp3",
+          "subtitleFile": "audios/TELL ME WHY/06 COllaPse.txt"
+        },
+        {
+          "id": 7,
+          "title": "久遠",
+          "titleZh": "永恒",
+          "duration": "07:22",
+          "audioFile": "audios/TELL ME WHY/07.mp3",
+          "subtitleFile": "audios/TELL ME WHY/07 久遠.txt"
+        },
+        {
+          "id": 8,
+          "title": "キャストトーク",
+          "titleZh": "演员访谈",
+          "duration": "03:13",
+          "audioFile": "audios/TELL ME WHY/08.mp3",
+          "subtitleFile": "audios/TELL ME WHY/08 キャストトーク.txt"
+        },
+        {
+          "id": 9,
+          "title": "九仞の功を一簣に虧く",
+          "titleZh": "功亏一篑",
+          "duration": "16:52",
+          "audioFile": "audios/TELL ME WHY/09.mp3",
+          "subtitleFile": "audios/TELL ME WHY/09 九仞の功を一簣に虧く.txt"
         }
       ]
     },
