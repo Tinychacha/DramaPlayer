@@ -441,15 +441,14 @@ function renderPlayerView() {
 
   playerMain.innerHTML = `
     <div class="player-current">
+      <h2 class="player-track-title">${track.title}</h2>
+      <div class="player-album-name">${drama.title}</div>
       <div class="player-cover-large ${AppState.isPlaying ? 'playing' : ''}" id="player-cover">
         ${drama.cover
           ? `<img src="${drama.cover}" alt="${drama.title}">`
           : `<div class="drama-cover-placeholder">${Icons.disc}</div>`
         }
       </div>
-      <h2 class="player-track-title">${track.title}</h2>
-      ${track.titleZh ? `<p class="player-track-title-zh">${track.titleZh}</p>` : ''}
-      <div class="player-album-name">${drama.title}</div>
     </div>
   `;
 }
@@ -761,13 +760,100 @@ function setupEventListeners() {
     }
   });
 
-  // Progress bar
-  document.addEventListener('click', (e) => {
-    const progressBar = e.target.closest('.progress-bar');
-    if (progressBar && AppState.audio.duration) {
+  // Progress bar - click and drag functionality
+  const progressBar = document.getElementById('progress-bar');
+  const progressPreview = document.getElementById('progress-preview');
+  let isDragging = false;
+
+  function updatePreviewPosition(e, bar) {
+    if (!AppState.audio.duration) return;
+
+    const rect = bar.getBoundingClientRect();
+    let clientX = e.clientX || (e.touches && e.touches[0]?.clientX) || 0;
+    let percent = (clientX - rect.left) / rect.width;
+    percent = Math.max(0, Math.min(1, percent));
+
+    const previewTime = percent * AppState.audio.duration;
+    progressPreview.textContent = formatTime(previewTime);
+
+    // Position the preview tooltip
+    const previewLeft = percent * rect.width;
+    progressPreview.style.left = `${previewLeft}px`;
+  }
+
+  // Mouse events
+  progressBar.addEventListener('mousedown', (e) => {
+    if (!AppState.audio.duration) return;
+    isDragging = true;
+    progressBar.classList.add('dragging');
+    updatePreviewPosition(e, progressBar);
+  });
+
+  progressBar.addEventListener('mousemove', (e) => {
+    updatePreviewPosition(e, progressBar);
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging && AppState.audio.duration) {
+      const rect = progressBar.getBoundingClientRect();
+      let percent = (e.clientX - rect.left) / rect.width;
+      percent = Math.max(0, Math.min(1, percent));
+
+      // Update fill position during drag
+      document.getElementById('progress-fill').style.width = `${percent * 100}%`;
+      updatePreviewPosition(e, progressBar);
+    }
+  });
+
+  document.addEventListener('mouseup', (e) => {
+    if (isDragging && AppState.audio.duration) {
+      const rect = progressBar.getBoundingClientRect();
+      let percent = (e.clientX - rect.left) / rect.width;
+      percent = Math.max(0, Math.min(1, percent));
+      AppState.audio.currentTime = percent * AppState.audio.duration;
+    }
+    isDragging = false;
+    progressBar.classList.remove('dragging');
+  });
+
+  // Touch events for mobile
+  progressBar.addEventListener('touchstart', (e) => {
+    if (!AppState.audio.duration) return;
+    isDragging = true;
+    progressBar.classList.add('dragging');
+    updatePreviewPosition(e, progressBar);
+  }, { passive: true });
+
+  progressBar.addEventListener('touchmove', (e) => {
+    if (isDragging && AppState.audio.duration) {
+      const rect = progressBar.getBoundingClientRect();
+      const touch = e.touches[0];
+      let percent = (touch.clientX - rect.left) / rect.width;
+      percent = Math.max(0, Math.min(1, percent));
+
+      document.getElementById('progress-fill').style.width = `${percent * 100}%`;
+      updatePreviewPosition(e, progressBar);
+    }
+  }, { passive: true });
+
+  progressBar.addEventListener('touchend', (e) => {
+    if (isDragging && AppState.audio.duration) {
+      const rect = progressBar.getBoundingClientRect();
+      const touch = e.changedTouches[0];
+      let percent = (touch.clientX - rect.left) / rect.width;
+      percent = Math.max(0, Math.min(1, percent));
+      AppState.audio.currentTime = percent * AppState.audio.duration;
+    }
+    isDragging = false;
+    progressBar.classList.remove('dragging');
+  });
+
+  // Click to seek (when not dragging)
+  progressBar.addEventListener('click', (e) => {
+    if (AppState.audio.duration && !isDragging) {
       const rect = progressBar.getBoundingClientRect();
       const percent = (e.clientX - rect.left) / rect.width;
-      AppState.audio.currentTime = percent * AppState.audio.duration;
+      AppState.audio.currentTime = Math.max(0, Math.min(1, percent)) * AppState.audio.duration;
     }
   });
 

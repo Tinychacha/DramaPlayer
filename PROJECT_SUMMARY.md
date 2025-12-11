@@ -7,9 +7,9 @@
 ## 文件结构
 ```
 DramaPlayer/
-├── index.html          # 主页面 (~270行)
-├── js/app.js           # 核心逻辑 (~1,258行)
-├── css/main.css        # 样式+主题 (~3,985行)
+├── index.html          # 主页面 (~291行)
+├── js/app.js           # 核心逻辑 (~1,706行)
+├── css/main.css        # 样式+主题 (~4,463行)
 ├── data/dramas.json    # 作品数据库
 ├── audios/             # 音频文件目录
 ├── covers/             # 封面图片目录
