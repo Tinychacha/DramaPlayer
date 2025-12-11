@@ -4,6 +4,31 @@
  */
 
 // ============================================
+// Configuration
+// ============================================
+const Config = {
+  // R2 存储基础 URL（音频和封面）
+  // 本地开发时设为空字符串 ''，部署时设为 R2 地址
+  mediaBaseUrl: 'https://pub-4479f18f775b4579a79d5229aeafc322.r2.dev',
+
+  // 是否使用 R2（false 时使用本地文件，本地开发时设为 false）
+  useR2: true
+};
+
+/**
+ * 获取媒体文件的完整 URL
+ * @param {string} path - 相对路径，如 'audios/xxx/01.mp3' 或 'covers/xxx.webp'
+ * @returns {string} 完整 URL
+ */
+function getMediaUrl(path) {
+  if (!path) return '';
+  if (Config.useR2 && Config.mediaBaseUrl) {
+    return `${Config.mediaBaseUrl}/${path}`;
+  }
+  return path;
+}
+
+// ============================================
 // Global State
 // ============================================
 const AppState = {
@@ -276,7 +301,7 @@ function renderDramas() {
       <article class="drama-card" data-id="${drama.id}">
         <div class="drama-cover">
           ${drama.cover
-            ? `<img src="${drama.cover}" alt="${drama.title}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            ? `<img src="${getMediaUrl(drama.cover)}" alt="${drama.title}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                <div class="drama-cover-placeholder" style="display:none">${Icons.disc}</div>`
             : `<div class="drama-cover-placeholder">${Icons.disc}</div>`
           }
@@ -410,7 +435,7 @@ function renderDetailView(drama) {
     <div class="detail-hero">
       <div class="detail-cover">
         ${drama.cover
-          ? `<img src="${drama.cover}" alt="${drama.title}">`
+          ? `<img src="${getMediaUrl(drama.cover)}" alt="${drama.title}">`
           : `<div class="detail-cover-placeholder">${Icons.disc}</div>`
         }
       </div>
@@ -473,7 +498,7 @@ function renderPlayerView() {
       <div class="player-album-name">${drama.title}</div>
       <div class="player-cover-large ${AppState.isPlaying ? 'playing' : ''}" id="player-cover">
         ${drama.cover
-          ? `<img src="${drama.cover}" alt="${drama.title}">`
+          ? `<img src="${getMediaUrl(drama.cover)}" alt="${drama.title}">`
           : `<div class="drama-cover-placeholder">${Icons.disc}</div>`
         }
       </div>
@@ -512,7 +537,7 @@ function renderMiniPlayer() {
   DOM.miniPlayer.innerHTML = `
     <div class="mini-player-cover">
       ${drama.cover
-        ? `<img src="${drama.cover}" alt="${drama.title}">`
+        ? `<img src="${getMediaUrl(drama.cover)}" alt="${drama.title}">`
         : `<div class="drama-cover-placeholder">${Icons.disc}</div>`
       }
     </div>
@@ -1102,7 +1127,7 @@ function playTrack(trackId, autoOpenPlayer = true) {
   const shouldRestore = saved && saved.time > 10;
 
   // Set audio source (this triggers loading)
-  AppState.audio.src = track.audioFile;
+  AppState.audio.src = getMediaUrl(track.audioFile);
 
   // Load subtitles for this track
   loadSubtitles(track.subtitleFile);
