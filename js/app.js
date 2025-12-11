@@ -1,5 +1,5 @@
 /**
- * DramaPlayer - Main Application
+ * TinyPlayer - Main Application
  * 温暖复古唱片店风格播放器
  */
 

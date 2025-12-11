@@ -1,4 +1,4 @@
-# DramaPlayer 项目总结
+# TinyPlayer 项目总结
 
 ## 项目简介
 日系广播剧/Drama CD 播放器，具有温暖复古的昭和喫茶店美学风格。
@@ -6,7 +6,7 @@
 
 ## 文件结构
 ```
-DramaPlayer/
+TinyPlayer/
 ├── index.html          # 主页面 (~326行)
 ├── js/app.js           # 核心逻辑 (~1,983行)
 ├── css/main.css        # 样式+主题 (~4,789行)
@@ -77,7 +77,7 @@ DramaPlayer/
 
 ## 启动方式
 ```bash
-cd DramaPlayer
+cd TinyPlayer
 python -m http.server 8080
 # 访问 http://localhost:8080
 ```
