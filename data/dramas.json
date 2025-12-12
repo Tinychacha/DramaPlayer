@@ -98,7 +98,7 @@
       "circleId": "koguma-cookie",
       "cv": ["六条銀"],
       "cvIds": ["rokujo-gin"],
-      "cover": "tinyplayer-media/covers/神待ちイブくん.png",
+      "cover": "covers/神待ちイブくん.png",
       "releaseDate": "2025-03-12",
       "description": "SNSの「#共依存先募集中」をきっかけに出会った二人の、歪んだ愛の物語。情緒不安定な彼との共依存関係を描く。",
       "tags": ["ヤンデレ", "純愛", "共依存", "退廃", "狂気"],
@@ -109,88 +109,88 @@
           "title": "SNSの「共依存契約」から始まる物語",
           "titleZh": "从SNS「共依存契约」开始的故事",
           "duration": "22:55",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨1.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨1.txt"
+          "audioFile": "audios/神待ちイブくん/音轨1.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨1.txt"
         },
         {
           "id": 2,
           "title": "イブとの日常生活",
           "titleZh": "与Eve的日常生活",
           "duration": "11:41",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨2.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨2.txt"
+          "audioFile": "audios/神待ちイブくん/音轨2.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨2.txt"
         },
         {
           "id": 3,
           "title": "キメセク初体験",
           "titleZh": "初次体验",
           "duration": "29:30",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨3.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨3.txt"
+          "audioFile": "audios/神待ちイブくん/音轨3.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨3.txt"
         },
         {
           "id": 4,
           "title": "ピロートークで秘密発覚",
           "titleZh": "枕边谈话中的秘密发觉",
           "duration": "07:48",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨4.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨4.txt"
+          "audioFile": "audios/神待ちイブくん/音轨4.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨4.txt"
         },
         {
           "id": 5,
           "title": "薬物過剰摂取と喧嘩",
           "titleZh": "药物过量与争吵",
           "duration": "20:06",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨5.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨5.txt"
+          "audioFile": "audios/神待ちイブくん/音轨5.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨5.txt"
         },
         {
           "id": 6,
           "title": "深夜のハンバーガーと踊り",
           "titleZh": "深夜的汉堡与舞蹈",
           "duration": "09:49",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨6.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨6.txt"
+          "audioFile": "audios/神待ちイブくん/音轨6.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨6.txt"
         },
         {
           "id": 7,
           "title": "昔の知り合いとの遭遇",
           "titleZh": "与旧识的相遇",
           "duration": "19:05",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨7.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨7.txt"
+          "audioFile": "audios/神待ちイブくん/音轨7.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨7.txt"
         },
         {
           "id": 8,
           "title": "人生オワオワリ（バッドトリップ）",
           "titleZh": "人生完蛋了（噩梦之旅）",
           "duration": "53:37",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨8.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨8.txt"
+          "audioFile": "audios/神待ちイブくん/音轨8.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨8.txt"
         },
         {
           "id": 9,
           "title": "故郷への道",
           "titleZh": "回乡之路",
           "duration": "12:11",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨9.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨9.txt"
+          "audioFile": "audios/神待ちイブくん/音轨9.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨9.txt"
         },
         {
           "id": 10,
           "title": "夢見る少年イブは少女Aの夢を見るか？",
           "titleZh": "做梦的少年Eve会梦见少女A吗？",
           "duration": "41:44",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/音轨10.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/音轨10.txt"
+          "audioFile": "audios/神待ちイブくん/音轨10.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨10.txt"
         },
         {
           "id": 11,
           "title": "六条銀様フリートーク",
           "titleZh": "六条银老师自由访谈",
           "duration": "13:26",
-          "audioFile": "tinyplayer-media/audios/神待ちイブくん/六条银老师声优谈话.mp3",
-          "subtitleFile": "tinyplayer-media/audios/神待ちイブくん/六条银老师声优谈话.txt"
+          "audioFile": "audios/神待ちイブくん/六条银老师声优谈话.mp3",
+          "subtitleFile": "audios/神待ちイブくん/六条银老师声优谈话.txt"
         }
       ]
     }
