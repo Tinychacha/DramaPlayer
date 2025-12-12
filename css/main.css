@@ -1792,8 +1792,10 @@ body::after {
   align-items: center;
   justify-content: flex-start;
   padding: 1rem 2rem;
-  overflow: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
+  min-height: 0; /* 重要：允许 flex 子元素收缩 */
 }
 
 .player-current {
@@ -2201,6 +2203,7 @@ body::after {
   padding: 1.5rem 2rem;
   background: var(--bg-card);
   border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0; /* 确保控件区域不被压缩 */
 }
 
 .audio-controls-inner {
