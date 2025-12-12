@@ -1417,36 +1417,57 @@ function markCompleted(dramaId, trackId) {
 // ============================================
 
 /**
- * Parse SRT format subtitle file
- * Format:
- * 1
- * 00:00:26,330 --> 00:00:27,830
+ * Parse SRT/WEBVTT format subtitle file
+ * Supports both formats:
+ * SRT:    00:00:26,330 --> 00:00:27,830 (comma separator)
+ * WEBVTT: 00:00:26.330 --> 00:00:27.830 (dot separator)
+ *
+ * Text format:
  * 中文翻译
- * 日文原文
+ * 日文原文 (optional)
  */
 function parseSRT(srtContent) {
   const subtitles = [];
   // Normalize line endings (handle Windows \r\n)
-  const normalizedContent = srtContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  let normalizedContent = srtContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  // Remove WEBVTT header if present
+  normalizedContent = normalizedContent.replace(/^WEBVTT\s*\n/, '');
+
   const blocks = normalizedContent.trim().split(/\n\s*\n/);
 
   for (const block of blocks) {
     const lines = block.trim().split('\n');
-    if (lines.length < 3) continue;
+    if (lines.length < 2) continue;
 
-    // Parse time code (line 2)
-    const timeMatch = lines[1].match(/(\d{2}):(\d{2}):(\d{2}),(\d{3})\s*-->\s*(\d{2}):(\d{2}):(\d{2}),(\d{3})/);
-    if (!timeMatch) continue;
+    // Find the line with time code (could be line 0 or line 1)
+    let timeLineIndex = -1;
+    let timeMatch = null;
+
+    for (let i = 0; i < Math.min(2, lines.length); i++) {
+      // Support both comma (SRT) and dot (WEBVTT) as millisecond separator
+      timeMatch = lines[i].match(/(\d{2}):(\d{2}):(\d{2})[,.](\d{3})\s*-->\s*(\d{2}):(\d{2}):(\d{2})[,.](\d{3})/);
+      if (timeMatch) {
+        timeLineIndex = i;
+        break;
+      }
+    }
+
+    if (!timeMatch || timeLineIndex === -1) continue;
 
     const startTime = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseInt(timeMatch[3]) + parseInt(timeMatch[4]) / 1000;
     const endTime = parseInt(timeMatch[5]) * 3600 + parseInt(timeMatch[6]) * 60 + parseInt(timeMatch[7]) + parseInt(timeMatch[8]) / 1000;
 
-    // Get text lines (Chinese on line 3, Japanese on line 4)
-    const textZh = lines[2] || '';
-    const textJp = lines[3] || '';
+    // Get text lines (Chinese first, Japanese second if exists)
+    const textZh = lines[timeLineIndex + 1] || '';
+    const textJp = lines[timeLineIndex + 2] || '';
+
+    // Get ID from line before time code, or use sequential number
+    const idLine = timeLineIndex > 0 ? lines[timeLineIndex - 1] : '';
+    const id = parseInt(idLine) || subtitles.length + 1;
 
     subtitles.push({
-      id: parseInt(lines[0]) || subtitles.length + 1,
+      id,
       startTime,
       endTime,
       textZh,
