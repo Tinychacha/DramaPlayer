@@ -4145,17 +4145,16 @@ body::after {
    字幕システム - Subtitle System
    ============================================ */
 
-/* 字幕コンテナ - 固定位置，融入主题 */
+/* 字幕コンテナ - flex布局，自然定位在封面和控件之间 */
 .subtitle-container {
-  position: absolute;
-  bottom: 160px;
-  left: 0;
-  right: 0;
+  position: relative;
+  width: 100%;
   display: flex;
   justify-content: center;
   z-index: 100;
   pointer-events: none;
-  padding: 0 1.5rem;
+  padding: 0.5rem 1.5rem;
+  flex-shrink: 0;
 }
 
 /* 字幕表示エリア - 简洁透明风格 */
@@ -4578,12 +4577,8 @@ body::after {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
-/* 手机端字幕位置调整 */
+/* 手机端字幕样式调整 */
 @media (max-width: 768px) {
-  .subtitle-container {
-    bottom: 200px;
-  }
-
   .subtitle-display {
     max-height: 100px;
   }
@@ -4605,12 +4600,8 @@ body::after {
   }
 }
 
-/* 横屏模式调整 */
+/* 横屏模式字幕样式调整 */
 @media (orientation: landscape) and (max-height: 500px) {
-  .subtitle-container {
-    bottom: 130px;
-  }
-
   .subtitle-text-zh {
     font-size: 0.85rem;
     margin-bottom: 0.2rem;
