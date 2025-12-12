@@ -9,7 +9,7 @@
 const Config = {
   // R2 存储基础 URL（音频和封面）
   // 本地开发时设为空字符串 ''，部署时设为 R2 地址
-  mediaBaseUrl: 'https://pub-4479f18f775b4579a79d5229aeafc322.r2.dev/tinyplayer-media',
+  mediaBaseUrl: 'https://pub-4479f18f775b4579a79d5229aeafc322.r2.dev',
 
   // 是否使用 R2（false 时使用本地文件，本地开发时设为 false）
   useR2: true
