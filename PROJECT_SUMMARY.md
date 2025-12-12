@@ -17,7 +17,7 @@ TinyPlayer/
 
 ## 已实现功能
 - [x] 多轨道音频播放 (播放/暂停/上下曲/快进快退)
-- [x] SRT 字幕支持 (中日双语显示)
+- [x] SRT/WEBVTT 字幕支持 (中日双语显示，自动识别格式)
 - [x] 双主题系统 (昭和喫茶店复古 / 樱花可爱风)
 - [x] 高级筛选 (按社团/CV筛选，标签云可视化)
 - [x] 搜索功能 (标题/社团/CV/标签，300ms防抖)
@@ -56,7 +56,7 @@ TinyPlayer/
       "titleZh": "中文标题",
       "duration": "05:30",
       "audioFile": "audios/xxx/01.mp3",
-      "subtitleFile": "audios/xxx/01.srt"
+      "subtitleFile": "audios/xxx/01.txt"
     }]
   }],
   "circles": {},
@@ -88,7 +88,7 @@ python -m http.server 8080
 
 ## 待办/想法
 - [ ] 收藏夹功能
-- [ ] Cloudflare R2 存储集成
+- [x] Cloudflare R2 存储集成
 - [ ] Cloudflare Access 认证层
 - [ ] 离线播放 (Service Worker)
 - [ ] 深色模式
@@ -103,6 +103,7 @@ python -m http.server 8080
 - iOS 安全区域已适配
 - 图片懒加载已启用
 - 已禁止搜索引擎索引 (robots.txt + meta)
+- 中文字体: 昭和风用 Noto Serif SC (宋体)，樱花风用 Noto Sans SC (黑体)
 
 ---
-最后更新: 2025-12-11
+最后更新: 2025-12-12
