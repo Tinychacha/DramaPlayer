@@ -3,8 +3,8 @@
    Shōwa Kissaten Aesthetic (1960-70s Japanese Coffee House)
    ============================================ */
 
-/* Google Fonts - 昭和レトロな書体 */
-@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;600&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&family=Dela+Gothic+One&family=Hachi+Maru+Pop&family=Kaisei+Decol:wght@400;500;700&family=Klee+One:wght@400;600&display=swap');
+/* Google Fonts - 昭和レトロな書体 + 中文字体 */
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;600&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&family=Dela+Gothic+One&family=Hachi+Maru+Pop&family=Kaisei+Decol:wght@400;500;700&family=Klee+One:wght@400;600&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@400;500&display=swap');
 
 :root {
   /* ===== 昭和喫茶店 - Shōwa Kissaten Theme ===== */
@@ -4163,9 +4163,11 @@ body::after {
   width: 100%;
   max-width: 800px;
   min-height: 60px;
+  max-height: 120px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   text-align: center;
   opacity: 0;
   transition: opacity 0.25s ease;
@@ -4175,11 +4177,11 @@ body::after {
   opacity: 1;
 }
 
-/* 中文字幕 - 主字幕 */
+/* 中文字幕 - 主字幕（默认样式，会被主题覆盖） */
 .subtitle-text-zh {
-  font-family: var(--font-display);
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: 1.05rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.6;
   margin-bottom: 0.4rem;
   letter-spacing: 0.02em;
@@ -4542,6 +4544,9 @@ body::after {
 }
 
 :root:not([data-theme="kawaii"]) .subtitle-text-zh {
+  /* 使用思源宋体，保持复古文艺感，回退到系统衬线体 */
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'SimSun', serif;
+  font-weight: 500;
   color: var(--showa-brown);
   text-shadow:
     0 1px 0 rgba(255, 255, 255, 0.8),
@@ -4559,6 +4564,9 @@ body::after {
 }
 
 [data-theme="kawaii"] .subtitle-text-zh {
+  /* 使用圆体，保持可爱柔和感 */
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-weight: 400;
   color: var(--kawaii-pink-dark);
   text-shadow:
     0 1px 0 rgba(255, 255, 255, 0.9),
@@ -4574,6 +4582,26 @@ body::after {
 @media (max-width: 768px) {
   .subtitle-container {
     bottom: 200px;
+  }
+
+  .subtitle-display {
+    max-height: 100px;
+  }
+
+  .subtitle-text-zh {
+    font-size: 0.95rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .subtitle-text-jp {
+    font-size: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
