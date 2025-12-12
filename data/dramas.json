@@ -90,55 +90,107 @@
       ]
     },
     {
-      "id": "sample-002",
-      "title": "月夜の約束",
-      "titleJp": "つきよのやくそく",
-      "circle": "Honey Bee",
-      "circleId": "honeybee",
-      "cv": ["テトラポット登"],
-      "cvIds": ["tetrapot-noboru"],
-      "cover": "covers/sample2.webp",
-      "releaseDate": "2023-03-15",
-      "description": "満月の夜に交わした、永遠の約束",
-      "tags": ["癒し系", "甘々", "日常"],
-      "password": "moon123",
-      "tracks": [
-        {
-          "id": 1,
-          "title": "出会い",
-          "titleZh": "相遇",
-          "duration": "08:20",
-          "audioFile": "audios/sample2/01.mp3"
-        },
-        {
-          "id": 2,
-          "title": "月明かりの下で",
-          "titleZh": "月光之下",
-          "duration": "15:40",
-          "audioFile": "audios/sample2/02.mp3"
-        }
-      ]
-    },
-    {
-      "id": "sample-003",
-      "title": "珈琲店の彼",
-      "titleJp": "こーひーてんのかれ",
-      "circle": "ステラワース",
-      "circleId": "stellaworth",
-      "cv": ["冬ノ熊肉", "猿飛総司"],
-      "cvIds": ["fuyuno-kumaniku", "sarutobi-souji"],
-      "cover": "covers/sample3.webp",
-      "releaseDate": "2023-06-20",
-      "description": "行きつけの珈琲店で出会った、不思議な店員さん",
-      "tags": ["日常", "ほのぼの", "社会人"],
+      "id": "ibu-001",
+      "productId": "RJ01349154",
+      "title": "神待ちイブくん",
+      "titleJp": "かみまちイブくん",
+      "circle": "こぐまクッキー",
+      "circleId": "koguma-cookie",
+      "cv": ["六条銀"],
+      "cvIds": ["rokujo-gin"],
+      "cover": "covers/神待ちイブくん.png",
+      "releaseDate": "2025-03-12",
+      "description": "SNSの「#共依存先募集中」をきっかけに出会った二人の、歪んだ愛の物語。情緒不安定な彼との共依存関係を描く。",
+      "tags": ["ヤンデレ", "純愛", "共依存", "退廃", "狂気"],
       "password": null,
       "tracks": [
         {
           "id": 1,
-          "title": "いつもの席",
-          "titleZh": "老位置",
-          "duration": "09:15",
-          "audioFile": "audios/sample3/01.mp3"
+          "title": "SNSの「共依存契約」から始まる物語",
+          "titleZh": "从SNS「共依存契约」开始的故事",
+          "duration": "22:55",
+          "audioFile": "audios/神待ちイブくん/音轨1.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨1.txt"
+        },
+        {
+          "id": 2,
+          "title": "イブとの日常生活",
+          "titleZh": "与Eve的日常生活",
+          "duration": "11:41",
+          "audioFile": "audios/神待ちイブくん/音轨2.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨2.txt"
+        },
+        {
+          "id": 3,
+          "title": "キメセク初体験",
+          "titleZh": "初次体验",
+          "duration": "29:30",
+          "audioFile": "audios/神待ちイブくん/音轨3.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨3.txt"
+        },
+        {
+          "id": 4,
+          "title": "ピロートークで秘密発覚",
+          "titleZh": "枕边谈话中的秘密发觉",
+          "duration": "07:48",
+          "audioFile": "audios/神待ちイブくん/音轨4.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨4.txt"
+        },
+        {
+          "id": 5,
+          "title": "薬物過剰摂取と喧嘩",
+          "titleZh": "药物过量与争吵",
+          "duration": "20:06",
+          "audioFile": "audios/神待ちイブくん/音轨5.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨5.txt"
+        },
+        {
+          "id": 6,
+          "title": "深夜のハンバーガーと踊り",
+          "titleZh": "深夜的汉堡与舞蹈",
+          "duration": "09:49",
+          "audioFile": "audios/神待ちイブくん/音轨6.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨6.txt"
+        },
+        {
+          "id": 7,
+          "title": "昔の知り合いとの遭遇",
+          "titleZh": "与旧识的相遇",
+          "duration": "19:05",
+          "audioFile": "audios/神待ちイブくん/音轨7.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨7.txt"
+        },
+        {
+          "id": 8,
+          "title": "人生オワオワリ（バッドトリップ）",
+          "titleZh": "人生完蛋了（噩梦之旅）",
+          "duration": "53:37",
+          "audioFile": "audios/神待ちイブくん/音轨8.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨8.txt"
+        },
+        {
+          "id": 9,
+          "title": "故郷への道",
+          "titleZh": "回乡之路",
+          "duration": "12:11",
+          "audioFile": "audios/神待ちイブくん/音轨9.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨9.txt"
+        },
+        {
+          "id": 10,
+          "title": "夢見る少年イブは少女Aの夢を見るか？",
+          "titleZh": "做梦的少年Eve会梦见少女A吗？",
+          "duration": "41:44",
+          "audioFile": "audios/神待ちイブくん/音轨10.mp3",
+          "subtitleFile": "audios/神待ちイブくん/音轨10.txt"
+        },
+        {
+          "id": 11,
+          "title": "六条銀様フリートーク",
+          "titleZh": "六条银老师自由访谈",
+          "duration": "13:26",
+          "audioFile": "audios/神待ちイブくん/六条银老师声优谈话.mp3",
+          "subtitleFile": "audios/神待ちイブくん/六条银老师声优谈话.txt"
         }
       ]
     }
@@ -149,10 +201,10 @@
       "name": "ステラワース",
       "nameEn": "Stellaworth"
     },
-    "honeybee": {
-      "id": "honeybee",
-      "name": "Honey Bee",
-      "nameEn": "Honey Bee"
+    "koguma-cookie": {
+      "id": "koguma-cookie",
+      "name": "こぐまクッキー",
+      "nameEn": "Koguma Cookie"
     }
   },
   "cvs": {
@@ -161,15 +213,10 @@
       "name": "猿飛総司",
       "nameEn": "Sarutobi Souji"
     },
-    "tetrapot-noboru": {
-      "id": "tetrapot-noboru",
-      "name": "テトラポット登",
-      "nameEn": "Tetrapot Noboru"
-    },
-    "fuyuno-kumaniku": {
-      "id": "fuyuno-kumaniku",
-      "name": "冬ノ熊肉",
-      "nameEn": "Fuyuno Kumaniku"
+    "rokujo-gin": {
+      "id": "rokujo-gin",
+      "name": "六条銀",
+      "nameEn": "Rokujo Gin"
     }
   }
 }
