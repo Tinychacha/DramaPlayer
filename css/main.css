@@ -666,6 +666,236 @@ body::after {
 }
 
 /* View Toggle - 昭和風ボタン */
+/* Recent Play Button - 最近播放按钮 */
+.recent-play-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-normal);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.recent-play-btn svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent-primary);
+  transition: var(--transition-normal);
+}
+
+.recent-play-btn:hover {
+  border-color: var(--accent-primary);
+  background: var(--bg-card-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.recent-play-btn:hover svg {
+  transform: scale(1.1);
+}
+
+.recent-play-btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 小圆点指示器 - 表示有未完成的播放 */
+.recent-play-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-secondary);
+  border-radius: 50%;
+  border: 2px solid var(--bg-card);
+  animation: indicatorPulse 2s ease-in-out infinite;
+}
+
+@keyframes indicatorPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+/* 隐藏时的样式 */
+.recent-play-btn[style*="display: none"] {
+  display: none !important;
+}
+
+/* ============================================
+   History Dropdown Panel
+   ============================================ */
+.history-dropdown {
+  position: relative;
+}
+
+.history-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 300px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.history-panel.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.history-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-jp);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.history-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-item:hover {
+  background: var(--bg-secondary);
+}
+
+.history-cover {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.history-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.history-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.history-title {
+  font-family: var(--font-jp);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-track {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+
+.history-progress-bar {
+  flex: 1;
+  height: 3px;
+  background: var(--border-subtle);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.history-progress-fill {
+  height: 100%;
+  background: var(--accent-primary);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.history-percent,
+.history-completed {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.history-completed {
+  color: var(--accent-secondary);
+}
+
+.history-footer {
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.history-clear-btn {
+  width: 100%;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-jp);
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.history-clear-btn:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border-medium);
+  color: var(--text-secondary);
+}
+
+.history-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  font-family: var(--font-jp);
+}
+
 .view-toggle {
   width: 38px;
   height: 38px;
@@ -3803,6 +4033,72 @@ body::after {
 
 /* 萌萌主题切换按钮 */
 /* 萌萌视图切换按钮 */
+/* 樱花主题 - 最近播放按钮 */
+[data-theme="kawaii"] .recent-play-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.9));
+  border: 2px solid rgba(255, 107, 157, 0.3);
+}
+
+[data-theme="kawaii"] .recent-play-btn:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
+}
+
+[data-theme="kawaii"] .recent-play-btn svg {
+  color: #ff6b9d;
+}
+
+[data-theme="kawaii"] .recent-play-indicator {
+  background: linear-gradient(135deg, #ff6b9d, #b794f6);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+/* 樱花主题 - 历史面板 */
+[data-theme="kawaii"] .history-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 245, 250, 0.98));
+  border: 2px solid rgba(255, 107, 157, 0.2);
+  box-shadow: 0 8px 32px rgba(255, 107, 157, 0.15);
+}
+
+[data-theme="kawaii"] .history-header {
+  border-color: rgba(255, 107, 157, 0.15);
+  color: #ff6b9d;
+}
+
+[data-theme="kawaii"] .history-item {
+  border-color: rgba(255, 107, 157, 0.1);
+}
+
+[data-theme="kawaii"] .history-item:hover {
+  background: rgba(255, 182, 193, 0.15);
+}
+
+[data-theme="kawaii"] .history-title {
+  color: #4a4a4a;
+}
+
+[data-theme="kawaii"] .history-progress-fill {
+  background: linear-gradient(90deg, #ff6b9d, #b794f6);
+}
+
+[data-theme="kawaii"] .history-completed {
+  color: #b794f6;
+}
+
+[data-theme="kawaii"] .history-footer {
+  border-color: rgba(255, 107, 157, 0.15);
+}
+
+[data-theme="kawaii"] .history-clear-btn {
+  border-color: rgba(255, 107, 157, 0.2);
+  color: #ff6b9d;
+}
+
+[data-theme="kawaii"] .history-clear-btn:hover {
+  background: rgba(255, 182, 193, 0.2);
+  border-color: rgba(255, 107, 157, 0.4);
+}
+
 [data-theme="kawaii"] .view-toggle {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 240, 245, 0.9));
   border: 2px solid rgba(255, 107, 157, 0.3);

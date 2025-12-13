@@ -57,6 +57,18 @@
         </div>
 
         <nav class="nav-links">
+          <!-- 播放历史按钮+面板 -->
+          <div class="history-dropdown">
+            <button class="recent-play-btn" id="recent-play-btn" aria-label="再生履歴" title="再生履歴">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12,6 12,12 16,14"/>
+              </svg>
+            </button>
+            <div class="history-panel" id="history-panel">
+              <!-- Content rendered by JS -->
+            </div>
+          </div>
           <button class="view-toggle" id="view-toggle" aria-label="表示切替">
             <span class="view-icon detail-icon" title="詳細表示">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -128,6 +140,7 @@
               <button class="sort-option" data-sort="oldest">古い順</button>
               <button class="sort-option" data-sort="name">名前順 (あいうえお)</button>
               <button class="sort-option" data-sort="rating">お気に入り順</button>
+              <button class="sort-option" data-sort="recent">最近再生順</button>
             </div>
           </div>
         </div>

@@ -7,9 +7,9 @@
 ## 文件结构
 ```
 TinyPlayer/
-├── index.html          # 主页面 (~326行)
-├── js/app.js           # 核心逻辑 (~1,983行)
-├── css/main.css        # 样式+主题 (~4,789行)
+├── index.html          # 主页面 (~339行)
+├── js/app.js           # 核心逻辑 (~2,373行)
+├── css/main.css        # 样式+主题 (~5,363行)
 ├── data/dramas.json    # 作品数据库
 ├── audios/             # 音频文件目录
 ├── covers/             # 封面图片目录
@@ -21,7 +21,8 @@ TinyPlayer/
 - [x] 双主题系统 (昭和喫茶店复古 / 樱花可爱风)
 - [x] 高级筛选 (按社团/CV筛选，标签云可视化)
 - [x] 搜索功能 (标题/社团/CV/标签，300ms防抖)
-- [x] 排序功能 (新しい順/古い順/名前順/お気に入り順)
+- [x] 排序功能 (新しい順/古い順/名前順/お気に入り順/最近再生順)
+- [x] 播放历史记录 (Header下拉面板，最多5条，支持清除)
 - [x] 评分系统 (5星评分，主题适配图标：咖啡杯/樱花)
 - [x] 密码保护 (单作品加密，localStorage记住解锁状态)
 - [x] 播放进度保存 (自动保存，支持继续收听)
@@ -72,8 +73,9 @@ TinyPlayer/
 | `dp_subtitle_enabled` | 字幕开关状态 |
 | `dp_theme` | 当前主题 (light/kawaii) |
 | `dp_view` | 视图模式 (detail/cover) |
-| `dp_sort` | 排序方式 (newest/oldest/name/rating) |
+| `dp_sort` | 排序方式 (newest/oldest/name/rating/recent) |
 | `dp_ratings` | 作品评分 JSON对象 {dramaId: 1-5} |
+| `dp_history` | 播放历史记录 (最多5条) |
 
 ## 启动方式
 ```bash
@@ -88,10 +90,12 @@ python -m http.server 8080
 
 ## 待办/想法
 - [ ] 收藏夹功能
-- [x] Cloudflare R2 存储集成
-- [ ] Cloudflare Access 认证层
 - [ ] 离线播放 (Service Worker)
 - [ ] 深色模式
+
+## 部署配置
+- [x] Cloudflare R2 存储集成 (音频/封面资源托管)
+- [x] Cloudflare Access 认证层 (访问控制)
 
 ## 播放逻辑
 - 播放进度自动保存，支持继续收听
@@ -105,5 +109,9 @@ python -m http.server 8080
 - 已禁止搜索引擎索引 (robots.txt + meta)
 - 中文字体: 昭和风用 Noto Serif SC (宋体)，樱花风用 Noto Sans SC (黑体)
 
+## 已修复的 Bug (2025-12-13)
+- 跨作品切换播放时状态错乱 (新增 playingDramaId 追踪)
+- 切换作品后进度恢复失败 (改用 loadedmetadata 事件)
+
 ---
-最后更新: 2025-12-12
+最后更新: 2025-12-13

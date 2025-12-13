@@ -37,8 +37,9 @@ const AppState = {
   dramas: [],
   circles: {},
   cvs: {},
-  currentDrama: null,
-  currentTrack: null,
+  currentDrama: null,      // 当前查看的作品（详情页）
+  currentTrack: null,       // 当前播放的 track
+  playingDramaId: null,     // 正在播放的作品 ID（用于跨作品切换检测）
   isPlaying: false,
   audio: new Audio(),
   filters: {
@@ -174,10 +175,19 @@ async function init() {
     initSubtitleToggle();
     initPlaybackSpeed();
     initScriptPanel();
+    initRecentPlayButton();
   } catch (error) {
     console.error('Failed to initialize:', error);
     showError('データの読み込みに失敗しました');
   }
+}
+
+/**
+ * Initialize recent play button (now uses history panel)
+ */
+function initRecentPlayButton() {
+  // History panel handles the button click now
+  initHistoryPanel();
 }
 
 /**
@@ -362,6 +372,20 @@ function filterDramas() {
 }
 
 /**
+ * Get latest play time for a drama (across all tracks)
+ */
+function getLatestPlayTime(drama) {
+  let latest = 0;
+  for (const track of drama.tracks) {
+    const progress = getProgress(drama.id, track.id);
+    if (progress && progress.savedAt > latest) {
+      latest = progress.savedAt;
+    }
+  }
+  return latest;
+}
+
+/**
  * Sort dramas based on current sort setting
  */
 function sortDramas(dramas) {
@@ -407,6 +431,23 @@ function sortDramas(dramas) {
           return dateB.localeCompare(dateA);
         }
         return ratingB - ratingA;
+      });
+      break;
+
+    case 'recent':
+      // 按最近播放时间降序（最近播放在前），未播放的放最后
+      sorted.sort((a, b) => {
+        const timeA = getLatestPlayTime(a);
+        const timeB = getLatestPlayTime(b);
+        if (timeA === 0 && timeB === 0) {
+          // 都没播放过，按日期排序
+          const dateA = a.releaseDate || '1970-01-01';
+          const dateB = b.releaseDate || '1970-01-01';
+          return dateB.localeCompare(dateA);
+        }
+        if (timeA === 0) return 1;  // a没播放过，排后面
+        if (timeB === 0) return -1; // b没播放过，排后面
+        return timeB - timeA; // 时间戳降序
       });
       break;
   }
@@ -1114,14 +1155,18 @@ function playTrack(trackId, autoOpenPlayer = true) {
   const track = AppState.currentDrama.tracks.find(t => t.id === trackId);
   if (!track) return;
 
-  // If clicking the currently playing track, just open player view
-  if (AppState.currentTrack?.id === trackId) {
+  // If clicking the currently playing track of the SAME drama, just open player view
+  const isSameDrama = AppState.playingDramaId === AppState.currentDrama.id;
+  const isSameTrack = AppState.currentTrack?.id === trackId;
+  if (isSameDrama && isSameTrack) {
     if (autoOpenPlayer) {
       openPlayerView();
     }
     return;
   }
 
+  // Update playing state
+  AppState.playingDramaId = AppState.currentDrama.id;
   AppState.currentTrack = track;
 
   // Get saved progress before loading new source
@@ -1139,18 +1184,32 @@ function playTrack(trackId, autoOpenPlayer = true) {
     openPlayerView();
   }
 
-  // Start playing
-  AppState.audio.play().catch(console.error);
-
-  // Restore progress after play starts (using setTimeout for reliability)
+  // Restore progress when metadata is loaded
   if (shouldRestore) {
-    setTimeout(() => {
+    const restoreProgress = () => {
       const duration = AppState.audio.duration;
       if (duration && !isNaN(duration) && saved.time < duration - 10) {
         AppState.audio.currentTime = saved.time;
       }
-    }, 100);
+      AppState.audio.removeEventListener('loadedmetadata', restoreProgress);
+    };
+
+    // If metadata already loaded, restore immediately; otherwise wait for event
+    if (AppState.audio.readyState >= 1) {
+      restoreProgress();
+    } else {
+      AppState.audio.addEventListener('loadedmetadata', restoreProgress);
+    }
   }
+
+  // Start playing
+  AppState.audio.play().catch(console.error);
+
+  // Save as last played for quick resume
+  saveLastPlayed();
+
+  // Save to play history
+  saveToHistory(AppState.currentDrama.id, track.id);
 
   updateAudioControls();
   renderMiniPlayer();
@@ -1410,6 +1469,265 @@ function markCompleted(dramaId, trackId) {
     completed: true,
     savedAt: Date.now()
   }));
+}
+
+/**
+ * Save last played info for quick resume
+ */
+function saveLastPlayed() {
+  if (!AppState.currentDrama || !AppState.currentTrack) return;
+
+  localStorage.setItem('dp_last_played', JSON.stringify({
+    dramaId: AppState.currentDrama.id,
+    trackId: AppState.currentTrack.id,
+    savedAt: Date.now()
+  }));
+
+  updateRecentPlayButton();
+}
+
+/**
+ * Get last played info
+ */
+function getLastPlayed() {
+  try {
+    return JSON.parse(localStorage.getItem('dp_last_played'));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Update recent play button visibility and state
+ * Now delegates to updateHistoryPanel for consistency
+ */
+function updateRecentPlayButton() {
+  updateHistoryPanel();
+}
+
+/**
+ * Handle recent play button click
+ */
+function handleRecentPlayClick() {
+  const lastPlayed = getLastPlayed();
+  if (!lastPlayed) return;
+
+  const drama = AppState.dramas.find(d => d.id === lastPlayed.dramaId);
+  if (!drama) return;
+
+  const track = drama.tracks.find(t => t.id === lastPlayed.trackId);
+  if (!track) return;
+
+  // Set current drama and play the track
+  AppState.currentDrama = drama;
+  playTrack(track.id, true); // true = auto open player view
+}
+
+// ============================================
+// Play History System
+// ============================================
+
+const MAX_HISTORY_ITEMS = 5;
+
+/**
+ * Save current track to play history
+ */
+function saveToHistory(dramaId, trackId) {
+  if (!dramaId || !trackId) return;
+
+  let history = getPlayHistory();
+
+  // Remove existing entry for same drama+track (to move it to front)
+  history = history.filter(h => !(h.dramaId === dramaId && h.trackId === trackId));
+
+  // Add new entry at the beginning
+  history.unshift({
+    dramaId,
+    trackId,
+    playedAt: Date.now()
+  });
+
+  // Keep only MAX_HISTORY_ITEMS
+  history = history.slice(0, MAX_HISTORY_ITEMS);
+
+  localStorage.setItem('dp_history', JSON.stringify(history));
+  updateHistoryPanel();
+}
+
+/**
+ * Get play history list
+ */
+function getPlayHistory() {
+  try {
+    return JSON.parse(localStorage.getItem('dp_history')) || [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Clear all play history
+ */
+function clearHistory() {
+  localStorage.removeItem('dp_history');
+  updateHistoryPanel();
+}
+
+/**
+ * Format relative time (e.g., "3分前", "昨日")
+ */
+function formatRelativeTime(timestamp) {
+  const now = Date.now();
+  const diff = now - timestamp;
+
+  const minutes = Math.floor(diff / (1000 * 60));
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (minutes < 1) return 'たった今';
+  if (minutes < 60) return `${minutes}分前`;
+  if (hours < 24) return `${hours}時間前`;
+  if (days === 1) return '昨日';
+  if (days < 7) return `${days}日前`;
+
+  const date = new Date(timestamp);
+  return `${date.getMonth() + 1}/${date.getDate()}`;
+}
+
+/**
+ * Update history panel content
+ */
+function updateHistoryPanel() {
+  const panel = document.getElementById('history-panel');
+  const btn = document.getElementById('recent-play-btn');
+  if (!panel || !btn) return;
+
+  const history = getPlayHistory();
+
+  // Always show button
+  btn.style.display = 'flex';
+
+  // Build history list HTML
+  let html = '<div class="history-header"><span>再生履歴</span></div>';
+  html += '<div class="history-list">';
+
+  if (history.length === 0) {
+    // Empty state
+    html += '<div class="history-empty">再生履歴がありません</div>';
+  } else {
+    for (const item of history) {
+      const drama = AppState.dramas.find(d => d.id === item.dramaId);
+      if (!drama) continue;
+
+      const track = drama.tracks.find(t => t.id === item.trackId);
+      if (!track) continue;
+
+      const progress = getProgress(item.dramaId, item.trackId);
+      const relativeTime = formatRelativeTime(item.playedAt);
+
+      // Progress bar
+      let progressHtml = '';
+      if (progress) {
+        if (progress.completed) {
+          progressHtml = '<div class="history-progress-bar"><div class="history-progress-fill" style="width: 100%"></div></div><span class="history-completed">完了</span>';
+        } else if (progress.time > 0) {
+          // We need duration to calculate percentage, estimate from track.duration if available
+          const durationParts = (track.duration || '0:00').split(':');
+          const durationSec = durationParts.length === 2
+            ? parseInt(durationParts[0]) * 60 + parseInt(durationParts[1])
+            : parseInt(durationParts[0]) * 3600 + parseInt(durationParts[1]) * 60 + parseInt(durationParts[2] || 0);
+          const percent = durationSec > 0 ? Math.min(100, Math.round((progress.time / durationSec) * 100)) : 0;
+          progressHtml = `<div class="history-progress-bar"><div class="history-progress-fill" style="width: ${percent}%"></div></div><span class="history-percent">${percent}%</span>`;
+        }
+      }
+
+      html += `
+        <div class="history-item" data-drama-id="${item.dramaId}" data-track-id="${item.trackId}">
+          <div class="history-cover">
+            <img src="${drama.cover}" alt="${drama.title}" loading="lazy">
+          </div>
+          <div class="history-info">
+            <div class="history-title">${drama.title}</div>
+            <div class="history-track">${track.titleZh || track.title} · ${relativeTime}</div>
+            <div class="history-progress">${progressHtml}</div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  html += '</div>';
+
+  // Only show clear button if there's history
+  if (history.length > 0) {
+    html += '<div class="history-footer"><button class="history-clear-btn" id="history-clear-btn">履歴をクリア</button></div>';
+  }
+
+  panel.innerHTML = html;
+
+  // Re-bind clear button event
+  const clearBtn = document.getElementById('history-clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      clearHistory();
+    });
+  }
+}
+
+/**
+ * Handle history item click
+ */
+function handleHistoryItemClick(dramaId, trackId) {
+  const drama = AppState.dramas.find(d => d.id === dramaId);
+  if (!drama) return;
+
+  const track = drama.tracks.find(t => t.id === parseInt(trackId));
+  if (!track) return;
+
+  // Close history panel
+  const panel = document.getElementById('history-panel');
+  if (panel) panel.classList.remove('active');
+
+  // Set current drama and play
+  AppState.currentDrama = drama;
+  playTrack(track.id, true);
+}
+
+/**
+ * Initialize history panel
+ */
+function initHistoryPanel() {
+  const btn = document.getElementById('recent-play-btn');
+  const panel = document.getElementById('history-panel');
+
+  if (!btn || !panel) return;
+
+  // Toggle panel on button click
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    panel.classList.toggle('active');
+  });
+
+  // Handle history item clicks (event delegation)
+  panel.addEventListener('click', (e) => {
+    const item = e.target.closest('.history-item');
+    if (item) {
+      const dramaId = item.dataset.dramaId;
+      const trackId = item.dataset.trackId;
+      handleHistoryItemClick(dramaId, trackId);
+    }
+  });
+
+  // Close panel when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!btn.contains(e.target) && !panel.contains(e.target)) {
+      panel.classList.remove('active');
+    }
+  });
+
+  // Initial render
+  updateHistoryPanel();
 }
 
 // ============================================
@@ -1890,7 +2208,8 @@ function setSort(sortValue) {
     newest: '新しい順',
     oldest: '古い順',
     name: '名前順',
-    rating: 'お気に入り順'
+    rating: 'お気に入り順',
+    recent: '最近再生順'
   };
   if (sortLabel) {
     sortLabel.textContent = sortLabels[sortValue] || sortValue;
@@ -1915,7 +2234,8 @@ function initSort() {
     newest: '新しい順',
     oldest: '古い順',
     name: '名前順',
-    rating: 'お気に入り順'
+    rating: 'お気に入り順',
+    recent: '最近再生順'
   };
 
   if (sortLabel) {
