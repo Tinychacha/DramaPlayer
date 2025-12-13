@@ -129,6 +129,7 @@ python -m http.server 8080
 - 历史面板封面在 R2 模式下不显示 (补充 getMediaUrl 调用)
 - 切换轨道时台本面板内容不更新 (loadSubtitles 中重新渲染)
 - 台本面板播放时不跟踪当前字幕 (新增 lastActiveSubtitleIndex 实现实时自动滚动)
+- 樱花主题移动端Header图标被挤到第二行 (缩小按钮尺寸和间距)
 
 ---
 最后更新: 2025-12-13

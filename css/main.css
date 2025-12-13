@@ -4123,6 +4123,27 @@ body::after {
   box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
 }
 
+/* 樱花主题 - 移动端Header图标缩小 */
+@media (max-width: 768px) {
+  [data-theme="kawaii"] .recent-play-btn,
+  [data-theme="kawaii"] .view-toggle,
+  [data-theme="kawaii"] .theme-toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  [data-theme="kawaii"] .recent-play-btn svg,
+  [data-theme="kawaii"] .view-icon,
+  [data-theme="kawaii"] .theme-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  [data-theme="kawaii"] .nav-links {
+    gap: 0.25rem;
+  }
+}
+
 /* ============================================
    Kawaii Mode - 播放器页面样式统一
    ============================================ */

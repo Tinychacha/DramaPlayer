@@ -193,6 +193,224 @@
           "subtitleFile": "神待ちイブくん/六条银老师声优谈话.txt"
         }
       ]
+    },
+    {
+      "id": "mmn-001",
+      "productId": "BJ02244842",
+      "title": "ミステリアス・メルティナイト～アンデッド～",
+      "titleJp": "ミステリアス・メルティナイト～アンデッド～",
+      "circle": "irisquartz",
+      "circleId": "irisquartz",
+      "cv": ["灰羽蒼"],
+      "cvIds": ["haiwa-ao"],
+      "cover": "ミステリアス・メルティナイト～アンデッド/BJ02244843_img_main.webp",
+      "releaseDate": "2025-11-19",
+      "description": "研究施設から逃げ出した不死者との出会い。「夜」と名付けた彼を家に連れ帰り、共に暮らす物語。",
+      "tags": ["ゾンビ", "年下攻め", "同居", "ファンタジー"],
+      "password": null,
+      "tracks": [
+        {
+          "id": 1,
+          "title": "雨の夜",
+          "titleZh": "雨夜",
+          "duration": "09:09",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/01 雨の夜.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/01 雨の夜.txt"
+        },
+        {
+          "id": 2,
+          "title": "幸せ",
+          "titleZh": "幸福",
+          "duration": "06:19",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/02 幸せ.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/02 幸せ.txt"
+        },
+        {
+          "id": 3,
+          "title": "手伝い",
+          "titleZh": "帮忙",
+          "duration": "12:38",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/03 手伝い.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/03 手伝い.txt"
+        },
+        {
+          "id": 4,
+          "title": "学習",
+          "titleZh": "学习",
+          "duration": "04:12",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/04 学習.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/04 学習.txt"
+        },
+        {
+          "id": 5,
+          "title": "激情",
+          "titleZh": "激情",
+          "duration": "11:05",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/05 激情.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/05 激情.txt"
+        },
+        {
+          "id": 6,
+          "title": "手料理",
+          "titleZh": "亲手做的料理",
+          "duration": "05:34",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/06 手料理.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/06 手料理.txt"
+        },
+        {
+          "id": 7,
+          "title": "不死",
+          "titleZh": "不死",
+          "duration": "06:44",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/07 不死.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/07 不死.txt"
+        },
+        {
+          "id": 8,
+          "title": "逃避",
+          "titleZh": "逃避",
+          "duration": "14:47",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/08 逃避.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/08 逃避.txt"
+        },
+        {
+          "id": 9,
+          "title": "晴れの朝",
+          "titleZh": "晴朗的早晨",
+          "duration": "02:46",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/09 晴れの朝.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/09 晴れの朝.txt"
+        },
+        {
+          "id": 10,
+          "title": "海",
+          "titleZh": "海",
+          "duration": "15:53",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/10 海.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/10 海.txt"
+        },
+        {
+          "id": 11,
+          "title": "お休み",
+          "titleZh": "晚安",
+          "duration": "14:22",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/11 お休み.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/11 お休み.txt"
+        },
+        {
+          "id": 12,
+          "title": "甘えん坊",
+          "titleZh": "撒娇鬼",
+          "duration": "13:34",
+          "audioFile": "ミステリアス・メルティナイト～アンデッド/12 甘えん坊.mp3",
+          "subtitleFile": "ミステリアス・メルティナイト～アンデッド/12 甘えん坊.txt"
+        }
+      ]
+    },
+    {
+      "id": "lsl-001",
+      "productId": "BJ01267550",
+      "title": "Love Sickness Level.3 Confinement",
+      "titleJp": "ラブシックネス レベル3 監禁",
+      "circle": "EpinoiR",
+      "circleId": "epinoir",
+      "cv": ["河村眞人"],
+      "cvIds": ["kawamura-masato"],
+      "cover": "Love Sickness Level.3 Confinement/BJ01267550_img_main.webp",
+      "releaseDate": "2024-02-01",
+      "description": "完璧な彼氏・三上航の執着愛が暴走する。3ヶ月の別離の後、再び接触してきた彼は、ついに監禁という手段に出る。",
+      "tags": ["ヤンデレ", "監禁", "執着"],
+      "password": null,
+      "tracks": [
+        {
+          "id": 1,
+          "title": "やっと会えたね",
+          "titleZh": "终于见到你了",
+          "duration": "08:20",
+          "audioFile": "Love Sickness Level.3 Confinement/1：やっと会えたね.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/1：やっと会えたね.txt"
+        },
+        {
+          "id": 2,
+          "title": "先にシちゃった",
+          "titleZh": "我先做了",
+          "duration": "05:05",
+          "audioFile": "Love Sickness Level.3 Confinement/2：先にシちゃった.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/2：先にシちゃった.txt"
+        },
+        {
+          "id": 3,
+          "title": "3ヶ月分愛してあげる",
+          "titleZh": "把三个月份的爱给你",
+          "duration": "21:46",
+          "audioFile": "Love Sickness Level.3 Confinement/3：3ヶ月分愛してあげる.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/3：3ヶ月分愛してあげる.txt"
+        },
+        {
+          "id": 4,
+          "title": "君は病気なんだ",
+          "titleZh": "你病了",
+          "duration": "05:13",
+          "audioFile": "Love Sickness Level.3 Confinement/4：君は病気なんだ.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/4：君は病気なんだ.txt"
+        },
+        {
+          "id": 5,
+          "title": "逃げないって約束したよね？",
+          "titleZh": "你答应过不会逃跑的对吧？",
+          "duration": "06:49",
+          "audioFile": "Love Sickness Level.3 Confinement/5：逃げないって約束したよね？.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/5：逃げないって約束したよね？.txt"
+        },
+        {
+          "id": 6,
+          "title": "お仕置きだよ",
+          "titleZh": "要惩罚你了",
+          "duration": "26:53",
+          "audioFile": "Love Sickness Level.3 Confinement/6：お仕置きだよ.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/6：お仕置きだよ.txt"
+        },
+        {
+          "id": 7,
+          "title": "結婚しよう",
+          "titleZh": "结婚吧",
+          "duration": "05:52",
+          "audioFile": "Love Sickness Level.3 Confinement/7：結婚しよう.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/7：結婚しよう.txt"
+        },
+        {
+          "id": 8,
+          "title": "僕の奥さん",
+          "titleZh": "我的妻子",
+          "duration": "16:01",
+          "audioFile": "Love Sickness Level.3 Confinement/8：僕の奥さん.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/8：僕の奥さん.txt"
+        },
+        {
+          "id": 9,
+          "title": "永遠に一緒だよ",
+          "titleZh": "永远在一起",
+          "duration": "02:42",
+          "audioFile": "Love Sickness Level.3 Confinement/9：永遠に一緒だよ.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/9：永遠に一緒だよ.txt"
+        },
+        {
+          "id": 10,
+          "title": "全部見せて",
+          "titleZh": "全部展示给我看",
+          "duration": "22:45",
+          "audioFile": "Love Sickness Level.3 Confinement/10：全部見せて.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/10：全部見せて.txt"
+        },
+        {
+          "id": 11,
+          "title": "お風呂に入ろう",
+          "titleZh": "一起洗澡吧",
+          "duration": "14:26",
+          "audioFile": "Love Sickness Level.3 Confinement/11：お風呂に入ろう.mp3",
+          "subtitleFile": "Love Sickness Level.3 Confinement/11：お風呂に入ろう.txt"
+        }
+      ]
     }
   ],
   "circles": {
@@ -205,6 +423,16 @@
       "id": "koguma-cookie",
       "name": "こぐまクッキー",
       "nameEn": "Koguma Cookie"
+    },
+    "irisquartz": {
+      "id": "irisquartz",
+      "name": "irisquartz",
+      "nameEn": "irisquartz"
+    },
+    "epinoir": {
+      "id": "epinoir",
+      "name": "EpinoiR",
+      "nameEn": "EpinoiR"
     }
   },
   "cvs": {
@@ -217,6 +445,16 @@
       "id": "rokujo-gin",
       "name": "六条銀",
       "nameEn": "Rokujo Gin"
+    },
+    "haiwa-ao": {
+      "id": "haiwa-ao",
+      "name": "灰羽蒼",
+      "nameEn": "Haiwa Ao"
+    },
+    "kawamura-masato": {
+      "id": "kawamura-masato",
+      "name": "河村眞人",
+      "nameEn": "Kawamura Masato"
     }
   }
 }
