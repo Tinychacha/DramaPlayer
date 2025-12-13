@@ -1807,6 +1807,9 @@ function parseSRT(srtContent) {
  * Load subtitle file for current track
  */
 async function loadSubtitles(subtitleFile) {
+  // Reset auto-scroll tracking
+  lastActiveSubtitleIndex = -1;
+
   if (!subtitleFile) {
     AppState.subtitles = [];
     AppState.currentSubtitle = null;
@@ -1829,6 +1832,12 @@ async function loadSubtitles(subtitleFile) {
   }
 
   updateSubtitleDisplay();
+
+  // 如果台本面板打开，重新渲染
+  const panel = document.getElementById('script-panel');
+  if (panel?.classList.contains('active')) {
+    renderScriptPanel();
+  }
 }
 
 /**
@@ -1956,6 +1965,9 @@ function formatSubtitleTime(seconds) {
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
+// Track last active subtitle index for auto-scroll
+let lastActiveSubtitleIndex = -1;
+
 /**
  * Update active subtitle in script panel
  */
@@ -1965,12 +1977,22 @@ function updateScriptPanelActive() {
 
   const items = panel.querySelectorAll('.script-item');
   const currentTime = AppState.audio.currentTime;
+  let currentActiveIndex = -1;
 
   items.forEach((item, index) => {
     const sub = AppState.subtitles[index];
     const isActive = sub && currentTime >= sub.startTime && currentTime <= sub.endTime;
     item.classList.toggle('active', isActive);
+    if (isActive) {
+      currentActiveIndex = index;
+    }
   });
+
+  // Auto-scroll when active subtitle changes
+  if (currentActiveIndex !== -1 && currentActiveIndex !== lastActiveSubtitleIndex) {
+    lastActiveSubtitleIndex = currentActiveIndex;
+    scrollToCurrentSubtitle();
+  }
 }
 
 /**

@@ -11,8 +11,21 @@ TinyPlayer/
 ├── js/app.js           # 核心逻辑 (~2,373行)
 ├── css/main.css        # 样式+主题 (~5,363行)
 ├── data/dramas.json    # 作品数据库
-├── audios/             # 音频文件目录
-├── covers/             # 封面图片目录
+```
+
+媒体文件托管在 Cloudflare R2，按作品分组：
+```
+tinyplayer-media/
+├── tellmewhy/
+│   ├── tellmewhy.webp    # 封面
+│   ├── 01.mp3            # 音频
+│   ├── 01 正義の味方.txt  # 字幕
+│   └── ...
+├── 神待ちイブくん/
+│   ├── RJ01349154_img_main.webp
+│   ├── 音轨1.mp3
+│   ├── 音轨1.txt
+│   └── ...
 ```
 
 ## 已实现功能
@@ -46,7 +59,7 @@ TinyPlayer/
     "circleId": "circle-id",
     "cv": ["CV1", "CV2"],
     "cvIds": ["cv-id-1"],
-    "cover": "covers/xxx.webp",
+    "cover": "作品文件夹/cover.webp",
     "releaseDate": "2024-01-01",
     "description": "简介",
     "tags": ["标签"],
@@ -56,8 +69,8 @@ TinyPlayer/
       "title": "Track Title",
       "titleZh": "中文标题",
       "duration": "05:30",
-      "audioFile": "audios/xxx/01.mp3",
-      "subtitleFile": "audios/xxx/01.txt"
+      "audioFile": "作品文件夹/01.mp3",
+      "subtitleFile": "作品文件夹/01.txt"
     }]
   }],
   "circles": {},
@@ -99,12 +112,13 @@ python -m http.server 8080
 
 ## 播放逻辑
 - 播放进度自动保存，支持继续收听
-- 自动播放下一轨
+- 自动播放下一轨（静默切换，不打开播放页面）
 - 播完最后一轨后清空进度，下次从头开始
 
 ## 开发备注
 - 响应式断点: 768px, 1024px
 - iOS 安全区域已适配
+- 本地开发: 设置 `useR2: false`，媒体文件放在 `media/` 文件夹
 - 图片懒加载已启用
 - 已禁止搜索引擎索引 (robots.txt + meta)
 - 中文字体: 昭和风用 Noto Serif SC (宋体)，樱花风用 Noto Sans SC (黑体)
@@ -112,6 +126,9 @@ python -m http.server 8080
 ## 已修复的 Bug (2025-12-13)
 - 跨作品切换播放时状态错乱 (新增 playingDramaId 追踪)
 - 切换作品后进度恢复失败 (改用 loadedmetadata 事件)
+- 历史面板封面在 R2 模式下不显示 (补充 getMediaUrl 调用)
+- 切换轨道时台本面板内容不更新 (loadSubtitles 中重新渲染)
+- 台本面板播放时不跟踪当前字幕 (新增 lastActiveSubtitleIndex 实现实时自动滚动)
 
 ---
 最后更新: 2025-12-13
