@@ -8,24 +8,30 @@
 // ============================================
 const Config = {
   // R2 存储基础 URL（音频和封面）
-  // 本地开发时设为空字符串 ''，部署时设为 R2 地址
   mediaBaseUrl: 'https://pub-4479f18f775b4579a79d5229aeafc322.r2.dev',
 
-  // 是否使用 R2（false 时使用本地文件，本地开发时设为 false）
+  // 本地媒体文件夹路径（本地开发时使用）
+  localBasePath: 'media',
+
+  // 是否使用 R2（false 时使用本地文件）
   useR2: true
 };
 
 /**
  * 获取媒体文件的完整 URL
- * @param {string} path - 相对路径，如 'audios/xxx/01.mp3' 或 'covers/xxx.webp'
+ * @param {string} path - 相对路径，如 'tellmewhy/01.mp3'
  * @returns {string} 完整 URL
  */
 function getMediaUrl(path) {
   if (!path) return '';
   if (Config.useR2 && Config.mediaBaseUrl) {
-    // 编码路径中的特殊字符（如空格），但保留斜杠
+    // R2 模式：编码路径中的特殊字符（如空格），但保留斜杠
     const encodedPath = path.split('/').map(segment => encodeURIComponent(segment)).join('/');
     return `${Config.mediaBaseUrl}/${encodedPath}`;
+  }
+  // 本地模式：添加本地 base path
+  if (Config.localBasePath) {
+    return `${Config.localBasePath}/${path}`;
   }
   return path;
 }
@@ -1284,7 +1290,8 @@ function playNextTrack() {
   markCompleted(AppState.currentDrama.id, AppState.currentTrack.id);
 
   if (currentIndex < tracks.length - 1) {
-    playTrack(tracks[currentIndex + 1].id);
+    // 自动播放下一轨，但不打开播放页面（静默切换）
+    playTrack(tracks[currentIndex + 1].id, false);
   } else {
     // End of playlist - return to detail view
     AppState.audio.pause();
