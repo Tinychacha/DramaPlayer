@@ -2638,6 +2638,195 @@ body::after {
   height: 18px;
 }
 
+/* Volume Control */
+.volume-control {
+  position: relative;
+}
+
+.volume-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.volume-slider-popup {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 100px;
+  padding: 0.5rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-normal);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volume-slider-popup::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-medium);
+  border-bottom: 1px solid var(--border-medium);
+}
+
+.volume-control:hover .volume-slider-popup,
+.volume-slider-popup:hover {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 使用 transform 旋转实现竖向滑块 */
+.volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  background: var(--border-medium);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.volume-slider::-moz-range-track {
+  width: 80px;
+  height: 4px;
+  background: var(--border-medium);
+  border-radius: 2px;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-primary);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Sleep Timer Control */
+.sleep-timer-control {
+  position: relative;
+}
+
+.sleep-btn {
+  position: relative;
+}
+
+.sleep-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sleep-time-label {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  background: var(--accent-primary);
+  color: white;
+  padding: 1px 3px;
+  border-radius: 4px;
+  line-height: 1;
+  min-width: 16px;
+  text-align: center;
+}
+
+.sleep-time-label:empty {
+  display: none;
+}
+
+.sleep-timer-popup {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 0;
+  padding: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-normal);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 80px;
+}
+
+.sleep-timer-popup::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 16px;
+  transform: rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-medium);
+  border-bottom: 1px solid var(--border-medium);
+}
+
+.sleep-timer-popup.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sleep-option {
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: center;
+  transition: var(--transition-fast);
+}
+
+.sleep-option:hover {
+  background: var(--accent-soft);
+  color: var(--accent-primary);
+}
+
+.sleep-option.active {
+  background: var(--accent-primary);
+  color: white;
+}
+
 /* ============================================
    Password Modal
    ============================================ */
@@ -4548,6 +4737,42 @@ body::after {
   background: var(--accent-soft);
   border-color: var(--accent-primary);
   color: var(--accent-primary);
+}
+
+/* Volume and Sleep Timer - Showa Theme */
+:root:not([data-theme="kawaii"]) .volume-slider-popup,
+:root:not([data-theme="kawaii"]) .sleep-timer-popup {
+  border-radius: var(--radius-sm);
+  background: var(--showa-cream);
+  border: 1px solid var(--showa-brown);
+}
+
+:root:not([data-theme="kawaii"]) .volume-slider-popup::before,
+:root:not([data-theme="kawaii"]) .sleep-timer-popup::before {
+  background: var(--showa-cream);
+  border-color: var(--showa-brown);
+}
+
+:root:not([data-theme="kawaii"]) .volume-slider::-webkit-slider-thumb {
+  background: var(--showa-brown);
+}
+
+:root:not([data-theme="kawaii"]) .volume-slider::-moz-range-thumb {
+  background: var(--showa-brown);
+}
+
+:root:not([data-theme="kawaii"]) .sleep-option:hover {
+  background: rgba(139, 90, 43, 0.1);
+  color: var(--showa-brown);
+}
+
+:root:not([data-theme="kawaii"]) .sleep-option.active {
+  background: var(--showa-brown);
+  color: white;
+}
+
+:root:not([data-theme="kawaii"]) .sleep-time-label {
+  background: var(--showa-brown);
 }
 
 /* 昭和風 - プログレスバー */

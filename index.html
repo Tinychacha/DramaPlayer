@@ -241,9 +241,43 @@
         </div>
 
         <div class="audio-buttons-secondary">
+          <!-- 音量控制 -->
+          <div class="volume-control">
+            <button class="audio-btn-secondary volume-btn" id="volume-toggle" aria-label="音量">
+              <svg class="volume-icon-high" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+              </svg>
+              <svg class="volume-icon-low" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+              <svg class="volume-icon-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <line x1="23" y1="9" x2="17" y2="15"/>
+                <line x1="17" y1="9" x2="23" y2="15"/>
+              </svg>
+            </button>
+            <div class="volume-slider-popup" id="volume-slider-popup">
+              <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="100" orient="vertical">
+            </div>
+          </div>
+
+          <!-- 倍速 -->
           <button class="audio-btn-secondary speed-btn" id="speed-toggle" aria-label="再生速度">
             <span class="speed-label">1x</span>
           </button>
+
+          <!-- 字幕 -->
+          <button class="audio-btn-secondary subtitle-btn" id="subtitle-toggle" aria-label="字幕切替">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M7 15h4M13 15h4M7 11h10"/>
+            </svg>
+          </button>
+
+          <!-- 台本 -->
           <button class="audio-btn-secondary script-btn" id="script-toggle" aria-label="台本表示">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -253,12 +287,23 @@
               <polyline points="10 9 9 9 8 9"/>
             </svg>
           </button>
-          <button class="audio-btn-secondary subtitle-btn" id="subtitle-toggle" aria-label="字幕切替">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <path d="M7 15h4M13 15h4M7 11h10"/>
-            </svg>
-          </button>
+
+          <!-- 睡眠定时器 -->
+          <div class="sleep-timer-control">
+            <button class="audio-btn-secondary sleep-btn" id="sleep-toggle" aria-label="スリープタイマー">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+              <span class="sleep-time-label" id="sleep-time-label"></span>
+            </button>
+            <div class="sleep-timer-popup" id="sleep-timer-popup">
+              <button class="sleep-option" data-minutes="15">15分</button>
+              <button class="sleep-option" data-minutes="30">30分</button>
+              <button class="sleep-option" data-minutes="45">45分</button>
+              <button class="sleep-option" data-minutes="60">60分</button>
+              <button class="sleep-option" data-minutes="0">オフ</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

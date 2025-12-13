@@ -6,10 +6,10 @@
 
 ## 文件结构
 ```
-TinyPlayer/
-├── index.html          # 主页面 (~339行)
-├── js/app.js           # 核心逻辑 (~2,373行)
-├── css/main.css        # 样式+主题 (~5,363行)
+DramaPlayer/
+├── index.html          # 主页面 (~370行)
+├── js/app.js           # 核心逻辑 (~2,715行)
+├── css/main.css        # 样式+主题 (~5,500行)
 ├── data/dramas.json    # 作品数据库
 ```
 
@@ -46,6 +46,10 @@ tinyplayer-media/
 - [x] 键盘快捷键 (空格播放，方向键快进，ESC关闭)
 - [x] 台本面板 (全字幕一览、搜索高亮、点击跳转、自动滚动)
 - [x] 骨架屏加载 (Skeleton Loading，双主题适配)
+- [x] 音量控制 (竖向滑块，点击静音/取消静音，记忆音量)
+- [x] 睡眠定时器 (15/30/45/60分钟，倒计时显示，自动暂停)
+- [x] Media Session API (锁屏显示封面/曲名/CV，锁屏控制播放)
+- [x] 预加载下一轨 (播放进度80%时自动预加载，切歌更流畅)
 
 ## 数据结构 (dramas.json)
 ```json
@@ -89,10 +93,12 @@ tinyplayer-media/
 | `dp_sort` | 排序方式 (newest/oldest/name/rating/recent) |
 | `dp_ratings` | 作品评分 JSON对象 {dramaId: 1-5} |
 | `dp_history` | 播放历史记录 (最多5条) |
+| `dp_volume` | 音量设置 (0-1) |
+| `dp_playback_speed` | 播放速度 (0.5-2.0) |
 
 ## 启动方式
 ```bash
-cd TinyPlayer
+cd DramaPlayer
 python -m http.server 8080
 # 访问 http://localhost:8080
 ```
@@ -102,9 +108,11 @@ python -m http.server 8080
 - `feature-dev`: 功能开发辅助
 
 ## 待办/想法
+- [ ] 存档/读档功能 (导出/导入 JSON，跨设备迁移数据)
 - [ ] 收藏夹功能
 - [ ] 离线播放 (Service Worker)
 - [ ] 深色模式
+- [ ] 用户数据云同步 (Cloudflare KV + Workers)
 
 ## 部署配置
 - [x] Cloudflare R2 存储集成 (音频/封面资源托管)
@@ -130,6 +138,12 @@ python -m http.server 8080
 - 切换轨道时台本面板内容不更新 (loadSubtitles 中重新渲染)
 - 台本面板播放时不跟踪当前字幕 (新增 lastActiveSubtitleIndex 实现实时自动滚动)
 - 樱花主题移动端Header图标被挤到第二行 (缩小按钮尺寸和间距)
+
+## 新增功能 (2025-12-13)
+- 音量控制 UI (播放页面第二行，竖向滑块)
+- 睡眠定时器 (15/30/45/60分钟选项，按钮显示剩余时间)
+- Media Session API (手机锁屏显示封面和控制按钮)
+- 预加载下一轨 (80%进度时自动预加载)
 
 ---
 最后更新: 2025-12-13

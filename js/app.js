@@ -1039,10 +1039,14 @@ function setupAudioEvents() {
     saveProgress();
     updateCurrentSubtitle();
     updateScriptPanelActive();
+    checkPreloadNextTrack();
+    updateMediaSessionPosition();
   });
 
   AppState.audio.addEventListener('loadedmetadata', () => {
     updateAudioControls();
+    updateMediaSession();
+    updateMediaSessionPosition();
   });
 
   AppState.audio.addEventListener('play', () => {
@@ -1058,6 +1062,7 @@ function setupAudioEvents() {
   });
 
   AppState.audio.addEventListener('ended', () => {
+    clearPreloadedAudio();
     playNextTrack();
   });
 
@@ -2393,10 +2398,322 @@ function updateThemeColor(theme) {
 }
 
 // ============================================
+// Volume Control System
+// ============================================
+let savedVolume = parseFloat(localStorage.getItem('dp_volume')) || 1.0;
+
+/**
+ * Initialize volume control
+ */
+function initVolumeControl() {
+  const volumeSlider = document.getElementById('volume-slider');
+  const volumeToggle = document.getElementById('volume-toggle');
+
+  if (!volumeSlider || !volumeToggle) return;
+
+  // Apply saved volume
+  AppState.audio.volume = savedVolume;
+  volumeSlider.value = savedVolume * 100;
+  updateVolumeIcon(savedVolume);
+
+  // Slider change
+  volumeSlider.addEventListener('input', (e) => {
+    const volume = e.target.value / 100;
+    AppState.audio.volume = volume;
+    savedVolume = volume;
+    localStorage.setItem('dp_volume', volume.toString());
+    updateVolumeIcon(volume);
+  });
+
+  // Click to mute/unmute
+  volumeToggle.addEventListener('click', (e) => {
+    // Don't toggle if clicking on slider
+    if (e.target.closest('.volume-slider-popup')) return;
+
+    if (AppState.audio.volume > 0) {
+      // Mute
+      savedVolume = AppState.audio.volume;
+      AppState.audio.volume = 0;
+      volumeSlider.value = 0;
+    } else {
+      // Unmute
+      AppState.audio.volume = savedVolume || 1.0;
+      volumeSlider.value = (savedVolume || 1.0) * 100;
+    }
+    updateVolumeIcon(AppState.audio.volume);
+  });
+}
+
+/**
+ * Update volume icon based on level
+ */
+function updateVolumeIcon(volume) {
+  const volumeToggle = document.getElementById('volume-toggle');
+  if (!volumeToggle) return;
+
+  const iconHigh = volumeToggle.querySelector('.volume-icon-high');
+  const iconLow = volumeToggle.querySelector('.volume-icon-low');
+  const iconMute = volumeToggle.querySelector('.volume-icon-mute');
+
+  if (!iconHigh || !iconLow || !iconMute) return;
+
+  // Hide all icons first
+  iconHigh.style.display = 'none';
+  iconLow.style.display = 'none';
+  iconMute.style.display = 'none';
+
+  // Show appropriate icon
+  if (volume === 0) {
+    iconMute.style.display = 'block';
+  } else if (volume < 0.5) {
+    iconLow.style.display = 'block';
+  } else {
+    iconHigh.style.display = 'block';
+  }
+}
+
+// ============================================
+// Sleep Timer System
+// ============================================
+let sleepTimerId = null;
+let sleepEndTime = null;
+let sleepDisplayInterval = null;
+
+/**
+ * Initialize sleep timer
+ */
+function initSleepTimer() {
+  const sleepToggle = document.getElementById('sleep-toggle');
+  const sleepPopup = document.getElementById('sleep-timer-popup');
+
+  if (!sleepToggle || !sleepPopup) return;
+
+  // Toggle popup
+  sleepToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    sleepPopup.classList.toggle('active');
+  });
+
+  // Close popup when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!sleepToggle.contains(e.target) && !sleepPopup.contains(e.target)) {
+      sleepPopup.classList.remove('active');
+    }
+  });
+
+  // Sleep options
+  sleepPopup.addEventListener('click', (e) => {
+    const option = e.target.closest('.sleep-option');
+    if (!option) return;
+
+    const minutes = parseInt(option.dataset.minutes);
+    setSleepTimer(minutes);
+    sleepPopup.classList.remove('active');
+
+    // Update active state
+    sleepPopup.querySelectorAll('.sleep-option').forEach(opt => {
+      opt.classList.toggle('active', opt === option && minutes > 0);
+    });
+  });
+}
+
+/**
+ * Set sleep timer
+ */
+function setSleepTimer(minutes) {
+  // Clear existing timer
+  if (sleepTimerId) {
+    clearTimeout(sleepTimerId);
+    sleepTimerId = null;
+  }
+  if (sleepDisplayInterval) {
+    clearInterval(sleepDisplayInterval);
+    sleepDisplayInterval = null;
+  }
+
+  const sleepToggle = document.getElementById('sleep-toggle');
+  const sleepLabel = document.getElementById('sleep-time-label');
+
+  if (minutes === 0) {
+    // Turn off
+    sleepEndTime = null;
+    if (sleepLabel) sleepLabel.textContent = '';
+    if (sleepToggle) sleepToggle.classList.remove('active');
+    return;
+  }
+
+  // Set new timer
+  sleepEndTime = Date.now() + minutes * 60 * 1000;
+
+  sleepTimerId = setTimeout(() => {
+    // Pause playback
+    AppState.audio.pause();
+    sleepEndTime = null;
+    if (sleepLabel) sleepLabel.textContent = '';
+    if (sleepToggle) sleepToggle.classList.remove('active');
+
+    // Clear interval
+    if (sleepDisplayInterval) {
+      clearInterval(sleepDisplayInterval);
+      sleepDisplayInterval = null;
+    }
+  }, minutes * 60 * 1000);
+
+  // Update display
+  if (sleepToggle) sleepToggle.classList.add('active');
+  updateSleepDisplay();
+
+  // Update display every second
+  sleepDisplayInterval = setInterval(updateSleepDisplay, 1000);
+}
+
+/**
+ * Update sleep timer display
+ */
+function updateSleepDisplay() {
+  const sleepLabel = document.getElementById('sleep-time-label');
+  if (!sleepLabel || !sleepEndTime) return;
+
+  const remaining = Math.max(0, sleepEndTime - Date.now());
+  const mins = Math.ceil(remaining / 60000);
+
+  if (mins > 0) {
+    sleepLabel.textContent = `${mins}`;
+  } else {
+    sleepLabel.textContent = '';
+  }
+}
+
+// ============================================
+// Media Session API
+// ============================================
+
+/**
+ * Update Media Session metadata
+ */
+function updateMediaSession() {
+  if (!('mediaSession' in navigator)) return;
+  if (!AppState.currentDrama || !AppState.currentTrack) return;
+
+  const drama = AppState.currentDrama;
+  const track = AppState.currentTrack;
+
+  // Set metadata
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: track.titleZh || track.title,
+    artist: drama.cv.join(', '),
+    album: drama.title,
+    artwork: drama.cover ? [
+      { src: getMediaUrl(drama.cover), sizes: '512x512', type: 'image/webp' }
+    ] : []
+  });
+
+  // Set action handlers
+  navigator.mediaSession.setActionHandler('play', () => {
+    AppState.audio.play().catch(console.error);
+  });
+
+  navigator.mediaSession.setActionHandler('pause', () => {
+    AppState.audio.pause();
+  });
+
+  navigator.mediaSession.setActionHandler('previoustrack', () => {
+    playPrevTrack();
+  });
+
+  navigator.mediaSession.setActionHandler('nexttrack', () => {
+    playNextTrack();
+  });
+
+  navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+    const skipTime = details.seekOffset || 10;
+    seekRelative(-skipTime);
+  });
+
+  navigator.mediaSession.setActionHandler('seekforward', (details) => {
+    const skipTime = details.seekOffset || 10;
+    seekRelative(skipTime);
+  });
+
+  navigator.mediaSession.setActionHandler('seekto', (details) => {
+    if (details.seekTime !== undefined && AppState.audio.duration) {
+      AppState.audio.currentTime = details.seekTime;
+    }
+  });
+}
+
+/**
+ * Update Media Session position state
+ */
+function updateMediaSessionPosition() {
+  if (!('mediaSession' in navigator)) return;
+  if (!AppState.audio.duration || isNaN(AppState.audio.duration)) return;
+
+  try {
+    navigator.mediaSession.setPositionState({
+      duration: AppState.audio.duration,
+      playbackRate: AppState.audio.playbackRate,
+      position: AppState.audio.currentTime
+    });
+  } catch (e) {
+    // Ignore errors (some browsers don't support this)
+  }
+}
+
+// ============================================
+// Preload Next Track
+// ============================================
+let preloadedAudio = null;
+let preloadedTrackId = null;
+
+/**
+ * Preload next track when current track is 80% complete
+ */
+function checkPreloadNextTrack() {
+  if (!AppState.currentDrama || !AppState.currentTrack) return;
+  if (!AppState.audio.duration) return;
+
+  const progress = AppState.audio.currentTime / AppState.audio.duration;
+  if (progress < 0.8) return;
+
+  const tracks = AppState.currentDrama.tracks;
+  const currentIndex = tracks.findIndex(t => t.id === AppState.currentTrack.id);
+
+  // No next track
+  if (currentIndex >= tracks.length - 1) return;
+
+  const nextTrack = tracks[currentIndex + 1];
+
+  // Already preloaded this track
+  if (preloadedTrackId === nextTrack.id) return;
+
+  // Preload
+  preloadedAudio = new Audio();
+  preloadedAudio.preload = 'auto';
+  preloadedAudio.src = getMediaUrl(nextTrack.audioFile);
+  preloadedTrackId = nextTrack.id;
+
+  console.log(`Preloading next track: ${nextTrack.title}`);
+}
+
+/**
+ * Clear preloaded audio
+ */
+function clearPreloadedAudio() {
+  if (preloadedAudio) {
+    preloadedAudio.src = '';
+    preloadedAudio = null;
+  }
+  preloadedTrackId = null;
+}
+
+// ============================================
 // Start App
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initViewToggle();
   init(); // 直接初始化（Cloudflare Access 负责访问控制）
+  initVolumeControl();
+  initSleepTimer();
 });
