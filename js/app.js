@@ -1644,7 +1644,7 @@ function updateHistoryPanel() {
       html += `
         <div class="history-item" data-drama-id="${item.dramaId}" data-track-id="${item.trackId}">
           <div class="history-cover">
-            <img src="${drama.cover}" alt="${drama.title}" loading="lazy">
+            <img src="${getMediaUrl(drama.cover)}" alt="${drama.title}" loading="lazy">
           </div>
           <div class="history-info">
             <div class="history-title">${drama.title}</div>

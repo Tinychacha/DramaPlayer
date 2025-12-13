@@ -9,7 +9,7 @@
       "circleId": "stellaworth",
       "cv": ["猿飛総司"],
       "cvIds": ["sarutobi-souji"],
-      "cover": "covers/tellmewhy.webp",
+      "cover": "tellmewhy/tellmewhy.webp",
       "releaseDate": "2022-11-25",
       "description": "正義の味方を夢見る青年と、彼を見守る存在の物語",
       "tags": ["シチュエーションCD", "切ない", "ヤンデレ"],
@@ -20,72 +20,72 @@
           "title": "正義の味方",
           "titleZh": "正义的伙伴",
           "duration": "10:13",
-          "audioFile": "audios/TELL ME WHY/01.mp3",
-          "subtitleFile": "audios/TELL ME WHY/01 正義の味方.txt"
+          "audioFile": "tellmewhy/01.mp3",
+          "subtitleFile": "tellmewhy/01 正義の味方.txt"
         },
         {
           "id": 2,
           "title": "付和雷同",
           "titleZh": "随声附和",
           "duration": "04:35",
-          "audioFile": "audios/TELL ME WHY/02.mp3",
-          "subtitleFile": "audios/TELL ME WHY/02 付和雷同.txt"
+          "audioFile": "tellmewhy/02.mp3",
+          "subtitleFile": "tellmewhy/02 付和雷同.txt"
         },
         {
           "id": 3,
           "title": "望郷の空",
           "titleZh": "思乡的天空",
           "duration": "04:41",
-          "audioFile": "audios/TELL ME WHY/03.mp3",
-          "subtitleFile": "audios/TELL ME WHY/03 望郷の空.txt"
+          "audioFile": "tellmewhy/03.mp3",
+          "subtitleFile": "tellmewhy/03 望郷の空.txt"
         },
         {
           "id": 4,
           "title": "偽薬を飲み、吊り橋を渡る",
           "titleZh": "服下安慰剂，走过吊桥",
           "duration": "12:14",
-          "audioFile": "audios/TELL ME WHY/04.mp3",
-          "subtitleFile": "audios/TELL ME WHY/04 偽薬を飲み、吊り橋を渡る.txt"
+          "audioFile": "tellmewhy/04.mp3",
+          "subtitleFile": "tellmewhy/04 偽薬を飲み、吊り橋を渡る.txt"
         },
         {
           "id": 5,
           "title": "正義の見方",
           "titleZh": "正义的看法",
           "duration": "04:43",
-          "audioFile": "audios/TELL ME WHY/05.mp3",
-          "subtitleFile": "audios/TELL ME WHY/05 正義の見方.txt"
+          "audioFile": "tellmewhy/05.mp3",
+          "subtitleFile": "tellmewhy/05 正義の見方.txt"
         },
         {
           "id": 6,
           "title": "COllaPse",
           "titleZh": "崩塌",
           "duration": "25:00",
-          "audioFile": "audios/TELL ME WHY/06.mp3",
-          "subtitleFile": "audios/TELL ME WHY/06 COllaPse.txt"
+          "audioFile": "tellmewhy/06.mp3",
+          "subtitleFile": "tellmewhy/06 COllaPse.txt"
         },
         {
           "id": 7,
           "title": "久遠",
           "titleZh": "永恒",
           "duration": "07:22",
-          "audioFile": "audios/TELL ME WHY/07.mp3",
-          "subtitleFile": "audios/TELL ME WHY/07 久遠.txt"
+          "audioFile": "tellmewhy/07.mp3",
+          "subtitleFile": "tellmewhy/07 久遠.txt"
         },
         {
           "id": 8,
           "title": "キャストトーク",
           "titleZh": "演员访谈",
           "duration": "03:13",
-          "audioFile": "audios/TELL ME WHY/08.mp3",
-          "subtitleFile": "audios/TELL ME WHY/08 キャストトーク.txt"
+          "audioFile": "tellmewhy/08.mp3",
+          "subtitleFile": "tellmewhy/08 キャストトーク.txt"
         },
         {
           "id": 9,
           "title": "九仞の功を一簣に虧く",
           "titleZh": "功亏一篑",
           "duration": "16:52",
-          "audioFile": "audios/TELL ME WHY/09.mp3",
-          "subtitleFile": "audios/TELL ME WHY/09 九仞の功を一簣に虧く.txt"
+          "audioFile": "tellmewhy/09.mp3",
+          "subtitleFile": "tellmewhy/09 九仞の功を一簣に虧く.txt"
         }
       ]
     },
@@ -98,7 +98,7 @@
       "circleId": "koguma-cookie",
       "cv": ["六条銀"],
       "cvIds": ["rokujo-gin"],
-      "cover": "covers/神待ちイブくん.png",
+      "cover": "神待ちイブくん/RJ01349154_img_main.webp",
       "releaseDate": "2025-03-12",
       "description": "SNSの「#共依存先募集中」をきっかけに出会った二人の、歪んだ愛の物語。情緒不安定な彼との共依存関係を描く。",
       "tags": ["ヤンデレ", "純愛", "共依存", "退廃", "狂気"],
@@ -109,88 +109,88 @@
           "title": "SNSの「共依存契約」から始まる物語",
           "titleZh": "从SNS「共依存契约」开始的故事",
           "duration": "22:55",
-          "audioFile": "audios/神待ちイブくん/音轨1.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨1.txt"
+          "audioFile": "神待ちイブくん/音轨1.mp3",
+          "subtitleFile": "神待ちイブくん/音轨1.txt"
         },
         {
           "id": 2,
           "title": "イブとの日常生活",
           "titleZh": "与Eve的日常生活",
           "duration": "11:41",
-          "audioFile": "audios/神待ちイブくん/音轨2.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨2.txt"
+          "audioFile": "神待ちイブくん/音轨2.mp3",
+          "subtitleFile": "神待ちイブくん/音轨2.txt"
         },
         {
           "id": 3,
           "title": "キメセク初体験",
           "titleZh": "初次体验",
           "duration": "29:30",
-          "audioFile": "audios/神待ちイブくん/音轨3.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨3.txt"
+          "audioFile": "神待ちイブくん/音轨3.mp3",
+          "subtitleFile": "神待ちイブくん/音轨3.txt"
         },
         {
           "id": 4,
           "title": "ピロートークで秘密発覚",
           "titleZh": "枕边谈话中的秘密发觉",
           "duration": "07:48",
-          "audioFile": "audios/神待ちイブくん/音轨4.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨4.txt"
+          "audioFile": "神待ちイブくん/音轨4.mp3",
+          "subtitleFile": "神待ちイブくん/音轨4.txt"
         },
         {
           "id": 5,
           "title": "薬物過剰摂取と喧嘩",
           "titleZh": "药物过量与争吵",
           "duration": "20:06",
-          "audioFile": "audios/神待ちイブくん/音轨5.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨5.txt"
+          "audioFile": "神待ちイブくん/音轨5.mp3",
+          "subtitleFile": "神待ちイブくん/音轨5.txt"
         },
         {
           "id": 6,
           "title": "深夜のハンバーガーと踊り",
           "titleZh": "深夜的汉堡与舞蹈",
           "duration": "09:49",
-          "audioFile": "audios/神待ちイブくん/音轨6.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨6.txt"
+          "audioFile": "神待ちイブくん/音轨6.mp3",
+          "subtitleFile": "神待ちイブくん/音轨6.txt"
         },
         {
           "id": 7,
           "title": "昔の知り合いとの遭遇",
           "titleZh": "与旧识的相遇",
           "duration": "19:05",
-          "audioFile": "audios/神待ちイブくん/音轨7.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨7.txt"
+          "audioFile": "神待ちイブくん/音轨7.mp3",
+          "subtitleFile": "神待ちイブくん/音轨7.txt"
         },
         {
           "id": 8,
           "title": "人生オワオワリ（バッドトリップ）",
           "titleZh": "人生完蛋了（噩梦之旅）",
           "duration": "53:37",
-          "audioFile": "audios/神待ちイブくん/音轨8.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨8.txt"
+          "audioFile": "神待ちイブくん/音轨8.mp3",
+          "subtitleFile": "神待ちイブくん/音轨8.txt"
         },
         {
           "id": 9,
           "title": "故郷への道",
           "titleZh": "回乡之路",
           "duration": "12:11",
-          "audioFile": "audios/神待ちイブくん/音轨9.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨9.txt"
+          "audioFile": "神待ちイブくん/音轨9.mp3",
+          "subtitleFile": "神待ちイブくん/音轨9.txt"
         },
         {
           "id": 10,
           "title": "夢見る少年イブは少女Aの夢を見るか？",
           "titleZh": "做梦的少年Eve会梦见少女A吗？",
           "duration": "41:44",
-          "audioFile": "audios/神待ちイブくん/音轨10.mp3",
-          "subtitleFile": "audios/神待ちイブくん/音轨10.txt"
+          "audioFile": "神待ちイブくん/音轨10.mp3",
+          "subtitleFile": "神待ちイブくん/音轨10.txt"
         },
         {
           "id": 11,
           "title": "六条銀様フリートーク",
           "titleZh": "六条银老师自由访谈",
           "duration": "13:26",
-          "audioFile": "audios/神待ちイブくん/六条银老师声优谈话.mp3",
-          "subtitleFile": "audios/神待ちイブくん/六条银老师声优谈话.txt"
+          "audioFile": "神待ちイブくん/六条银老师声优谈话.mp3",
+          "subtitleFile": "神待ちイブくん/六条银老师声优谈话.txt"
         }
       ]
     }
