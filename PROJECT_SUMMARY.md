@@ -95,6 +95,7 @@ tinyplayer-media/
 | `dp_history` | 播放历史记录 (最多5条) |
 | `dp_volume` | 音量设置 (0-1) |
 | `dp_playback_speed` | 播放速度 (0.5-2.0) |
+| `dp_loop_mode` | 循环模式 (off/all/one) - iOS专用 |
 
 ## 启动方式
 ```bash
@@ -145,5 +146,13 @@ python -m http.server 8080
 - Media Session API (手机锁屏显示封面和控制按钮)
 - 预加载下一轨 (80%进度时自动预加载)
 
+## 已修复的 Bug (2025-12-15)
+- 跳到下一轨时播放器界面标题不更新 (静默切换时也刷新 UI)
+- 快进/拖拽进度条后暂停按钮无效 (新增 userWantsToPlay 状态追踪用户意图)
+
+## 新增功能 (2025-12-15)
+- iOS 循环模式按钮 (替代不支持的音量控制，支持 off/all/one 三种模式)
+- Media Session 锁屏显示改为日文原名
+
 ---
-最后更新: 2025-12-13
+最后更新: 2025-12-15

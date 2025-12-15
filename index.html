@@ -241,7 +241,7 @@
         </div>
 
         <div class="audio-buttons-secondary">
-          <!-- 音量控制 -->
+          <!-- 音量控制 (hidden on iOS) -->
           <div class="volume-control">
             <button class="audio-btn-secondary volume-btn" id="volume-toggle" aria-label="音量">
               <svg class="volume-icon-high" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -263,6 +263,29 @@
               <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="100" orient="vertical">
             </div>
           </div>
+
+          <!-- 循环模式 (shown on iOS instead of volume) -->
+          <button class="audio-btn-secondary loop-btn" id="loop-toggle" aria-label="リピートモード" style="display:none">
+            <svg class="loop-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="17 1 21 5 17 9"/>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+              <polyline points="7 23 3 19 7 15"/>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+            </svg>
+            <svg class="loop-icon-all" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" style="display:none">
+              <polyline points="17 1 21 5 17 9" fill="none" stroke-width="2"/>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14" fill="none" stroke-width="2"/>
+              <polyline points="7 23 3 19 7 15" fill="none" stroke-width="2"/>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3" fill="none" stroke-width="2"/>
+            </svg>
+            <svg class="loop-icon-one" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+              <polyline points="17 1 21 5 17 9"/>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+              <polyline points="7 23 3 19 7 15"/>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+              <text x="12" y="14" text-anchor="middle" font-size="8" font-weight="bold" fill="currentColor" stroke="none">1</text>
+            </svg>
+          </button>
 
           <!-- 倍速 -->
           <button class="audio-btn-secondary speed-btn" id="speed-toggle" aria-label="再生速度">

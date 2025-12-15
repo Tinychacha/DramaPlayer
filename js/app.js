@@ -47,6 +47,7 @@ const AppState = {
   currentTrack: null,       // 当前播放的 track
   playingDramaId: null,     // 正在播放的作品 ID（用于跨作品切换检测）
   isPlaying: false,
+  userWantsToPlay: false,   // 用户意图：是否想要播放（用于处理 seek 时的暂停）
   audio: new Audio(),
   filters: {
     search: '',
@@ -1152,6 +1153,7 @@ function toggleTracklistPanel() {
 }
 
 function closeMiniPlayer() {
+  AppState.userWantsToPlay = false;
   AppState.audio.pause();
   AppState.currentTrack = null;
   DOM.miniPlayer.classList.remove('active');
@@ -1193,6 +1195,12 @@ function playTrack(trackId, autoOpenPlayer = true) {
   // Open player view if requested
   if (autoOpenPlayer) {
     openPlayerView();
+  } else {
+    // Even if not opening player, update UI if player is already visible
+    if (DOM.playerView.classList.contains('active')) {
+      renderPlayerView();
+      renderTracklistPanel();
+    }
   }
 
   // Restore progress when metadata is loaded
@@ -1214,6 +1222,7 @@ function playTrack(trackId, autoOpenPlayer = true) {
   }
 
   // Start playing
+  AppState.userWantsToPlay = true;
   AppState.audio.play().catch(console.error);
 
   // Save as last played for quick resume
@@ -1265,9 +1274,12 @@ function togglePlay() {
     return;
   }
 
-  if (AppState.isPlaying) {
+  // Use userWantsToPlay to track intent (more reliable during seeking)
+  if (AppState.userWantsToPlay) {
+    AppState.userWantsToPlay = false;
     AppState.audio.pause();
   } else {
+    AppState.userWantsToPlay = true;
     AppState.audio.play().catch(console.error);
   }
 }
@@ -1291,6 +1303,13 @@ function playNextTrack() {
   const tracks = AppState.currentDrama.tracks;
   const currentIndex = tracks.findIndex(t => t.id === AppState.currentTrack.id);
 
+  // Handle loop mode 'one' (single track repeat)
+  if (loopMode === 'one') {
+    AppState.audio.currentTime = 0;
+    AppState.audio.play().catch(console.error);
+    return;
+  }
+
   // Mark the completed track as finished
   markCompleted(AppState.currentDrama.id, AppState.currentTrack.id);
 
@@ -1298,17 +1317,24 @@ function playNextTrack() {
     // 自动播放下一轨，但不打开播放页面（静默切换）
     playTrack(tracks[currentIndex + 1].id, false);
   } else {
-    // End of playlist - return to detail view
-    AppState.audio.pause();
-    AppState.audio.currentTime = 0;
-    AppState.currentTrack = null;
-    updateAudioControls();
+    // End of playlist
+    if (loopMode === 'all') {
+      // Loop all: restart from first track
+      playTrack(tracks[0].id, false);
+    } else {
+      // No loop: stop and return to detail view
+      AppState.userWantsToPlay = false;
+      AppState.audio.pause();
+      AppState.audio.currentTime = 0;
+      AppState.currentTrack = null;
+      updateAudioControls();
 
-    // Close player view and return to detail view
-    if (DOM.playerView.classList.contains('active')) {
-      DOM.playerView.classList.remove('active');
-      DOM.tracklistPanel.classList.remove('active');
-      openDetailView(AppState.currentDrama);
+      // Close player view and return to detail view
+      if (DOM.playerView.classList.contains('active')) {
+        DOM.playerView.classList.remove('active');
+        DOM.tracklistPanel.classList.remove('active');
+        openDetailView(AppState.currentDrama);
+      }
     }
   }
 }
@@ -2403,6 +2429,14 @@ function updateThemeColor(theme) {
 let savedVolume = parseFloat(localStorage.getItem('dp_volume')) || 1.0;
 
 /**
+ * Check if device is iOS (iOS doesn't allow JS volume control)
+ */
+function isIOSDevice() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+/**
  * Initialize volume control
  */
 function initVolumeControl() {
@@ -2410,6 +2444,9 @@ function initVolumeControl() {
   const volumeToggle = document.getElementById('volume-toggle');
 
   if (!volumeSlider || !volumeToggle) return;
+
+  // Skip on iOS (handled by initLoopControl which shows loop button instead)
+  if (isIOSDevice()) return;
 
   // Apply saved volume
   AppState.audio.volume = savedVolume;
@@ -2469,6 +2506,75 @@ function updateVolumeIcon(volume) {
     iconLow.style.display = 'block';
   } else {
     iconHigh.style.display = 'block';
+  }
+}
+
+// ============================================
+// Loop Mode System (for iOS - replaces volume control)
+// ============================================
+// Loop modes: 'off' (no loop), 'all' (loop playlist), 'one' (loop single track)
+let loopMode = localStorage.getItem('dp_loop_mode') || 'off';
+
+/**
+ * Initialize loop mode control (shown on iOS instead of volume)
+ */
+function initLoopControl() {
+  const loopToggle = document.getElementById('loop-toggle');
+  const volumeControl = document.querySelector('.volume-control');
+
+  if (!loopToggle) return;
+
+  // On iOS: hide volume (not supported), show loop button instead
+  if (isIOSDevice()) {
+    if (volumeControl) {
+      volumeControl.style.display = 'none';
+    }
+    loopToggle.style.display = 'flex';
+    updateLoopIcon();
+  }
+
+  // Click to cycle through modes: off -> all -> one -> off
+  loopToggle.addEventListener('click', () => {
+    if (loopMode === 'off') {
+      loopMode = 'all';
+    } else if (loopMode === 'all') {
+      loopMode = 'one';
+    } else {
+      loopMode = 'off';
+    }
+    localStorage.setItem('dp_loop_mode', loopMode);
+    updateLoopIcon();
+  });
+}
+
+/**
+ * Update loop icon based on current mode
+ */
+function updateLoopIcon() {
+  const loopToggle = document.getElementById('loop-toggle');
+  if (!loopToggle) return;
+
+  const iconOff = loopToggle.querySelector('.loop-icon-off');
+  const iconAll = loopToggle.querySelector('.loop-icon-all');
+  const iconOne = loopToggle.querySelector('.loop-icon-one');
+
+  if (!iconOff || !iconAll || !iconOne) return;
+
+  // Hide all icons first
+  iconOff.style.display = 'none';
+  iconAll.style.display = 'none';
+  iconOne.style.display = 'none';
+
+  // Show appropriate icon and update button state
+  loopToggle.classList.remove('active');
+  if (loopMode === 'off') {
+    iconOff.style.display = 'block';
+  } else if (loopMode === 'all') {
+    iconAll.style.display = 'block';
+    loopToggle.classList.add('active');
+  } else {
+    iconOne.style.display = 'block';
+    loopToggle.classList.add('active');
   }
 }
 
@@ -2598,9 +2704,9 @@ function updateMediaSession() {
   const drama = AppState.currentDrama;
   const track = AppState.currentTrack;
 
-  // Set metadata
+  // Set metadata (use Japanese title for lock screen display)
   navigator.mediaSession.metadata = new MediaMetadata({
-    title: track.titleZh || track.title,
+    title: track.title,
     artist: drama.cv.join(', '),
     album: drama.title,
     artwork: drama.cover ? [
@@ -2715,5 +2821,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initViewToggle();
   init(); // 直接初始化（Cloudflare Access 负责访问控制）
   initVolumeControl();
+  initLoopControl();
   initSleepTimer();
 });
