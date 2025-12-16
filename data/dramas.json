@@ -411,6 +411,87 @@
           "subtitleFile": "Love Sickness Level.3 Confinement/11：お風呂に入ろう.txt"
         }
       ]
+    },
+    {
+      "id": "ekun-001",
+      "productId": "RJ01431383",
+      "title": "えーくんの遺書",
+      "titleJp": "えーくんの遺書",
+      "circle": "幽玄トラオム",
+      "circleId": "yugen-traum",
+      "cv": ["三橋渡"],
+      "cvIds": ["mitsuhashi-wataru"],
+      "cover": "えーくんの遺書/RJ01431383_img_main.webp",
+      "releaseDate": "2025-08-16",
+      "description": "「不穏な危ない彼」シリーズ作品",
+      "tags": [],
+      "password": null,
+      "tracks": [
+        {
+          "id": 1,
+          "title": "現代-2014年の夏",
+          "titleZh": "现代-2014年的夏天",
+          "duration": "17:49",
+          "audioFile": "えーくんの遺書/Tr01_現代-2014年の夏.mp3",
+          "subtitleFile": "えーくんの遺書/Tr01_现代-2014的夏天.wav.vtt"
+        },
+        {
+          "id": 2,
+          "title": "食痕",
+          "titleZh": "食痕",
+          "duration": "26:32",
+          "audioFile": "えーくんの遺書/Tr02_食痕.mp3",
+          "subtitleFile": "えーくんの遺書/Tr02_食痕.wav.vtt"
+        },
+        {
+          "id": 3,
+          "title": "自切",
+          "titleZh": "自切",
+          "duration": "24:20",
+          "audioFile": "えーくんの遺書/Tr03_自切.mp3",
+          "subtitleFile": "えーくんの遺書/Tr03_自断.wav.vtt"
+        },
+        {
+          "id": 4,
+          "title": "蛹室",
+          "titleZh": "蛹室",
+          "duration": "43:10",
+          "audioFile": "えーくんの遺書/Tr04_蛹室.mp3",
+          "subtitleFile": "えーくんの遺書/Tr04_蛹穴.wav.vtt"
+        },
+        {
+          "id": 5,
+          "title": "寄生",
+          "titleZh": "寄生",
+          "duration": "30:32",
+          "audioFile": "えーくんの遺書/Tr05_寄生.mp3",
+          "subtitleFile": "えーくんの遺書/Tr05_寄生.wav.vtt"
+        },
+        {
+          "id": 6,
+          "title": "擬態",
+          "titleZh": "拟态",
+          "duration": "16:43",
+          "audioFile": "えーくんの遺書/Tr06_擬態.mp3",
+          "subtitleFile": "えーくんの遺書/Tr06_拟态.wav.vtt"
+        },
+        {
+          "id": 7,
+          "title": "夏眠",
+          "titleZh": "夏眠",
+          "duration": "34:32",
+          "audioFile": "えーくんの遺書/Tr07_夏眠.mp3",
+          "subtitleFile": "えーくんの遺書/Tr07_夏眠.wav.vtt"
+        },
+        {
+          "id": 8,
+          "title": "羽化",
+          "titleZh": "羽化",
+          "duration": "07:19",
+          "audioFile": "えーくんの遺書/Tr08_羽化.mp3",
+          "subtitleFile": "えーくんの遺書/Tr08_羽化.wav.vtt"
+        }
+      ]
     }
   ],
   "circles": {
@@ -433,6 +514,11 @@
       "id": "epinoir",
       "name": "EpinoiR",
       "nameEn": "EpinoiR"
+    },
+    "yugen-traum": {
+      "id": "yugen-traum",
+      "name": "幽玄トラオム",
+      "nameEn": "Yugen Traum"
     }
   },
   "cvs": {
@@ -455,6 +541,11 @@
       "id": "kawamura-masato",
       "name": "河村眞人",
       "nameEn": "Kawamura Masato"
+    },
+    "mitsuhashi-wataru": {
+      "id": "mitsuhashi-wataru",
+      "name": "三橋渡",
+      "nameEn": "Mitsuhashi Wataru"
     }
   }
 }
